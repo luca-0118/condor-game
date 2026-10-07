@@ -1,0 +1,14 @@
+0000000000000000000000000000000000000000 83198ce58570808a6ebc7160ddd98b6a82a0b438 Flits7 <Storm.Schifflers@student.hu.nl> 1790925149 +0200	checkout: moving from main to Google
+83198ce58570808a6ebc7160ddd98b6a82a0b438 83198ce58570808a6ebc7160ddd98b6a82a0b438 Flits7 <Storm.Schifflers@student.hu.nl> 1791297041 +0200	checkout: moving from Google to Google-prototype
+83198ce58570808a6ebc7160ddd98b6a82a0b438 4add0b6bdbd95cee89e7149a9562ece1afb003f4 Flits7 <Storm.Schifflers@student.hu.nl> 1791297053 +0200	commit: test
+4add0b6bdbd95cee89e7149a9562ece1afb003f4 83198ce58570808a6ebc7160ddd98b6a82a0b438 Flits7 <Storm.Schifflers@student.hu.nl> 1791297059 +0200	checkout: moving from Google-prototype to Google
+83198ce58570808a6ebc7160ddd98b6a82a0b438 0000000000000000000000000000000000000000 Flits7 <Storm.Schifflers@student.hu.nl> 1791297068 +0200	Branch: renamed refs/heads/Google to refs/heads/Main
+0000000000000000000000000000000000000000 83198ce58570808a6ebc7160ddd98b6a82a0b438 Flits7 <Storm.Schifflers@student.hu.nl> 1791297068 +0200	Branch: renamed refs/heads/Google to refs/heads/Main
+83198ce58570808a6ebc7160ddd98b6a82a0b438 4add0b6bdbd95cee89e7149a9562ece1afb003f4 Flits7 <Storm.Schifflers@student.hu.nl> 1791297069 +0200	checkout: moving from Main to Google-prototype
+4add0b6bdbd95cee89e7149a9562ece1afb003f4 4743ea32d173b24a49506961240a685c58835f1c Flits7 <Storm.Schifflers@student.hu.nl> 1791305241 +0200	commit: google html
+4743ea32d173b24a49506961240a685c58835f1c 03acbba296d7ee40773f13e1910c01e7a1dbc0c3 Flits7 <Storm.Schifflers@student.hu.nl> 1791308614 +0200	commit: onnodige tutorial dingen weg
+0000000000000000000000000000000000000000 3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 Flits7 <Storm.Schifflers@student.hu.nl> 1791356571 +0200	commit (initial): Images + begin css
+3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 83198ce58570808a6ebc7160ddd98b6a82a0b438 Flits7 <Storm.Schifflers@student.hu.nl> 1791356596 +0200	checkout: moving from Google-prototype to Main
+83198ce58570808a6ebc7160ddd98b6a82a0b438 3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 Flits7 <Storm.Schifflers@student.hu.nl> 1791356600 +0200	checkout: moving from Main to Google-prototype
+3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 Flits7 <Storm.Schifflers@student.hu.nl> 1791356762 +0200	checkout: moving from Google-prototype to Google-proto-2
+3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 3e4c1d2e7d70678e66d23e258bdc90a0766f0ec3 Flits7 <Storm.Schifflers@student.hu.nl> 1791356782 +0200	checkout: moving from Google-proto-2 to Google-prototype
