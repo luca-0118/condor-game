@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="GoogleStyles.css">
 </head>
 <body>
-    <div class="top-section">
+    <header class="top-section">
         <div class="left-side">
             <a href="./Pages/about.html">About</a>
             <a href="Notimportant.html">Store</a>
@@ -15,20 +15,10 @@
         <div class="right-side">
             <a href="Notimportant.html">Gmail</a>
             <a href="Notimportant.html">Images</a>
-            <img class="menu-icon" src="./Images/9dots.png" alt="dots">
-            <img class="profile-icon" src="./Images/profile-empty.jpg" alt="profile">
-        </div>
-    </div>
-    <div class="middle-section">
-        <img class="google-logo" src="./Images/Google-Logo.png" alt="Google Logo">
-        <form class="search-form">
-            
-            <div class="search-form-input">
-                <img 
-                class="search-icon" 
-                src="./Images/search-icon.png" alt="search icon">
-                <div class="dropdown">
-                <button class="button">Search</button>
+            <div class="apps-menu">
+                <button class="apps-button" type="button" aria-label="Google apps">
+                    <img class="menu-icon" src="./Images/9dots.png" alt="">
+                </button>
                 <div class="dropdown-content">
                     <a href="InstagramIndex.html">Instagram</a>
                     <a href="FacebookIndex.html">Facebook</a>
@@ -36,38 +26,39 @@
                     <a href="ReverseImageIndex.html">ReverseImage</a>
                 </div>
             </div>
-                
+            <img class="profile-icon" src="./Images/profile-empty.jpg" alt="Profile">
+        </div>
+    </header>
+    <main class="middle-section">
+        <img class="google-logo" src="./Images/Google-Logo.png" alt="Google">
+        <form class="search-form" role="search">
+            <div class="search-form-input">
+                <img class="search-icon" src="./Images/search-icon.png" alt="">
                 <label for="search">Search</label>
-                <input type="text" name="search" id="search">
-                <img 
-                class="mic-icon" 
-                src="./Images/mic-icon.png" alt="mic icon"
-                >
-                <img 
-                class="camera-icon" 
-                src="./Images/google-lens-logo-icon.png" alt="camera icon"
-                >
+                <input type="text" name="search" id="search" autocomplete="off">
+                <img class="mic-icon" src="./Images/mic-icon.png" alt="Voice search">
+                <img class="camera-icon" src="./Images/google-lens-logo-icon.png" alt="Search by image">
             </div>
             <div class="search-form-buttons">
-                <button type="submit">Search</button>
+                <button type="submit">Google Search</button>
                 <button type="submit">I'm Feeling Lucky</button>
             </div>
         </form>
-    </div>
-    <div class="bottom-section">
+    </main>
+    <footer class="bottom-section">
         <div class="bottom-left-side">
             <a href="Notimportant.html">Advertising</a>
             <a href="Notimportant.html">Business</a>
             <a href="Notimportant.html">How Search Works</a>
         </div>
         <div class="bottom-middle-side">
-            <a href="Notimportant.html">Nature preserving or something</a>
+            <a href="Notimportant.html">Carbon neutral since 2007</a>
         </div>
         <div class="bottom-right-side">
             <a href="Notimportant.html">Privacy</a>
             <a href="Notimportant.html">Terms</a>
             <a href="Notimportant.html">Settings</a>
         </div>
-    </div>
+    </footer>
 </body>
 </html>
