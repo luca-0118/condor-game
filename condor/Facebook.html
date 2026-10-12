@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Facebook Clone</title>
+  <link rel="stylesheet" href="Facebook%20styles.css">
+</head>
+<body>
+
+  <!-- Top bar -->
+  <header class="topbar">
+    <div class="topbar__left">
+      <a class="logo" href="#" aria-label="Home">f</a>
+      <button class="icon-btn" aria-label="Zoeken">🔍</button>
+    </div>
+
+    <nav class="topbar__nav" aria-label="Hoofdnavigatie">
+      <a class="nav-tab nav-tab--active" href="#" aria-label="Home">🏠</a>
+      <a class="nav-tab" href="#" aria-label="Video">🎬</a>
+      <a class="nav-tab" href="#" aria-label="Vrienden">👥</a>
+      <a class="nav-tab" href="#" aria-label="Marketplace">🏪</a>
+      <a class="nav-tab" href="#" aria-label="Gaming">🎮</a>
+    </nav>
+
+    <div class="topbar__right">
+      <button class="icon-btn" aria-label="Menu">⋮⋮⋮</button>
+      <button class="icon-btn" aria-label="Messenger">💬</button>
+      <button class="icon-btn icon-btn--badge" aria-label="Meldingen">🔔<span class="badge">0</span></button>
+      <button class="avatar avatar--md" aria-label="Account"></button>
+    </div>
+  </header>
+
+  <div class="layout">
+
+    <!-- Left sidebar -->
+    <aside class="sidebar sidebar--left">
+      <a class="sidebar__item" href="#"><span class="avatar avatar--sm"></span>Voornaam Achternaam</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">✨</span>Meta AI</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">👥</span>Vrienden</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">🕒</span>Herinneringen</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">🔖</span>Opgeslagen</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">🫂</span>Groepen</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">🎞️</span>Reels</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">🏪</span>Marketplace</a>
+      <a class="sidebar__item" href="#"><span class="sidebar__icon">📊</span>Overzichten</a>
+    </aside>
+
+    <!-- Feed -->
+    <main class="feed">
+      <div class="feed__tabs">
+        <button class="feed__tab feed__tab--active">Voor jou</button>
+        <button class="feed__tab">Volgend</button>
+      </div>
+
+      <section class="card composer">
+        <span class="avatar avatar--md"></span>
+        <button class="composer__input">Wat ben je aan het doen, Voornaam?</button>
+        <span class="composer__actions">🎥 🖼️ 😊</span>
+      </section>
+
+      <section class="card story-prompt">
+        <button class="story-prompt__add">+</button>
+        <div>
+          <strong>Verhaal maken</strong>
+          <p>Deel een foto of video, of schrijf iets</p>
+        </div>
+      </section>
+
+      <article class="card post">
+        <header class="post__header">
+          <span class="avatar avatar--md"></span>
+          <div class="post__meta">
+            <strong class="post__author">Paginanaam</strong>
+            <a class="post__follow" href="#">Volgen</a>
+            <span class="post__time">1 u</span>
+          </div>
+          <button class="icon-btn icon-btn--plain" aria-label="Meer opties">•••</button>
+          <button class="icon-btn icon-btn--plain" aria-label="Sluiten">✕</button>
+        </header>
+        <p class="post__text">Dit is een placeholder-bericht. Vervang deze tekst door je eigen content.</p>
+        <div class="post__media"></div>
+      </article>
+    </main>
+
+    <!-- Right sidebar -->
+    <aside class="sidebar sidebar--right">
+      <h3 class="sidebar__title">Gesponsord</h3>
+      <a class="ad" href="#">
+        <div class="ad__image"></div>
+        <div class="ad__text"><strong>Advertentietitel</strong><span>voorbeeld.com</span></div>
+      </a>
+      <a class="ad" href="#">
+        <div class="ad__image"></div>
+        <div class="ad__text"><strong>Advertentietitel</strong><span>voorbeeld.com</span></div>
+      </a>
+
+      <hr class="divider">
+
+      <div class="contacts__header">
+        <h3 class="sidebar__title">Contacten</h3>
+        <span>🔍 •••</span>
+      </div>
+      <a class="contact" href="#"><span class="avatar avatar--sm"></span>Meta AI</a>
+      <a class="contact" href="#"><span class="avatar avatar--sm"></span>Contactnaam</a>
+      <button class="fab" aria-label="Nieuw bericht">✎</button>
+    </aside>
+
+  </div>
+</body>
+</html>
