@@ -1,7 +1,15 @@
+import { Link } from 'react-router-dom'
 import './test.css'
 
 function Test() {
-  return <main className="test">Hier komt dummy omgeving pagina's</main>
+  return (
+    <main className="test">
+      Hier komt dummy omgeving pagina's
+      <Link to="/instagram" className="test-link">
+        Instagram
+      </Link>
+    </main>
+  )
 }
 
 export default Test
