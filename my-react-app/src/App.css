@@ -1,0 +1,29 @@
+.game-layout {
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr);
+  grid-template-rows: 56px minmax(0, 1fr);
+  min-height: 100vh;
+  background: #17212b;
+}
+
+.game-content {
+  grid-column: 2;
+  grid-row: 2;
+  display: grid;
+  min-width: 0;
+  padding: 24px;
+  place-items: center;
+}
+
+@media (max-width: 600px) {
+  .game-layout {
+    grid-template-columns: 1fr;
+    grid-template-rows: 56px auto minmax(0, 1fr);
+  }
+
+  .game-content {
+    grid-column: 1;
+    grid-row: 3;
+    padding: 16px;
+  }
+}
