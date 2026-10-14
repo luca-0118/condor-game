@@ -203,13 +203,13 @@ function RightSidebar() {
 /* ===== Page ===== */
 export default function Facebook() {
   return (
-    <>
+    <div className="facebook">
       <TopBar />
       <div className="layout">
         <LeftSidebar />
         <Feed />
         <RightSidebar />
       </div>
-    </>
+    </div>
   )
 }
