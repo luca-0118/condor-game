@@ -1,0 +1,19 @@
+.test {
+  min-height: 100%;
+  place-items: center;
+}
+
+.test-link {
+  display: inline-block;
+  margin: 12px;
+  padding: 10px 18px;
+  border: 1px solid #435160;
+  border-radius: 8px;
+  background: #202d39;
+  color: #f2f5f8;
+  text-decoration: none;
+}
+
+.test-link:hover {
+  background: #2b3b4a;
+}
