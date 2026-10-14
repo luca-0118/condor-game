@@ -2,7 +2,10 @@
   display: grid;
   grid-template-columns: 240px minmax(0, 1fr);
   grid-template-rows: 56px minmax(0, 1fr);
-  min-height: 100vh;
+  height: 100vh;
+  height: 100dvh;
+  min-height: 0;
+  overflow: hidden;
   background: #17212b;
 }
 
@@ -11,8 +14,12 @@
   grid-row: 2;
   display: grid;
   min-width: 0;
+  min-height: 0;
+  overflow: auto;
   padding: 24px;
-  place-items: center;
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: minmax(0, 1fr);
+  place-items: stretch;
 }
 
 @media (max-width: 600px) {
