@@ -1,0 +1,28 @@
+.top-bar {
+  grid-column: 1 / -1;
+  grid-row: 1;
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid #435160;
+  background: #202d39;
+  color: #f2f5f8;
+}
+
+.sidebar {
+  grid-column: 1;
+  grid-row: 2;
+  padding: 16px;
+  border-right: 1px solid #435160;
+  background: #202d39;
+  color: #f2f5f8;
+}
+
+@media (max-width: 600px) {
+  .sidebar {
+    grid-column: 1;
+    grid-row: 2;
+    border-right: 0;
+    border-bottom: 1px solid #435160;
+  }
+}

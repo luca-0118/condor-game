@@ -1,0 +1,5 @@
+.lol {
+  display: grid;
+  min-height: 100%;
+  place-items: center;
+}
