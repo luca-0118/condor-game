@@ -8,6 +8,9 @@ function Test() {
       <Link to="/instagram" className="test-link">
         Instagram
       </Link>
+      <Link to="/Facebook" className="test-link">
+        Facebook
+      </Link>
     </main>
   )
 }

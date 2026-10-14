@@ -1,10 +1,9 @@
 .game-layout {
   display: grid;
-  grid-template-columns: 240px minmax(0, 1fr);
-  grid-template-rows: 56px minmax(0, 1fr);
+  grid-template-columns: 10vw minmax(0, 1fr);
+  grid-template-rows: 7vh minmax(0, 1fr);
   height: 100vh;
   height: 100dvh;
-  min-height: 0;
   overflow: hidden;
   background: #17212b;
 }
@@ -12,20 +11,33 @@
 .game-content {
   grid-column: 2;
   grid-row: 2;
-  display: grid;
+  min-width: 0;
+  min-height: 0;
+  overflow: hidden;
+  padding: 24px;
+}
+
+.dummy-omgeving {
+  width: 100%;
+  height: 100%;
   min-width: 0;
   min-height: 0;
   overflow: auto;
-  padding: 24px;
-  grid-template-columns: minmax(0, 1fr);
-  grid-template-rows: minmax(0, 1fr);
-  place-items: stretch;
+  overscroll-behavior: contain;
+}
+
+.dummy-omgeving > .insta {
+  min-height: 100%;
+}
+
+.dummy-omgeving > .insta .layout {
+  min-height: 100%;
 }
 
 @media (max-width: 600px) {
   .game-layout {
     grid-template-columns: 1fr;
-    grid-template-rows: 56px auto minmax(0, 1fr);
+    grid-template-rows: 56px 56px minmax(0, 1fr);
   }
 
   .game-content {
