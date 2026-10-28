@@ -1,5 +1,12 @@
+import { useState } from 'react'
+import BookmarkIcon from '@mui/icons-material/Bookmark'
+import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
+import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
+import SendIcon from '@mui/icons-material/Send'
 import './instagram.css'
 
+// Sidebar entries; `path` is the SVG path data for each icon.
 const NAV_ITEMS = [
   { label: 'Home', active: true, path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' },
   {
@@ -22,13 +29,14 @@ const NAV_ITEMS = [
   },
 ]
 
+// A single feed post with placeholder content.
 function Post() {
   return (
     <article className="post">
       <header className="post-header">
         <div className="avatar"></div>
         <strong>username</strong>
-        <span className="dots">•••</span>
+        <MoreHorizIcon className="dots" aria-label="More options" />
       </header>
 
       <div className="photo">
@@ -36,10 +44,10 @@ function Post() {
       </div>
 
       <div className="actions">
-        <span>♡</span>
-        <span>○</span>
-        <span>➤</span>
-        <span className="bookmark">♧</span>
+        <FavoriteBorderOutlinedIcon className="like-icon" aria-label="Like" />
+        <ModeCommentOutlinedIcon className="comment-icon" aria-label="Comment" />
+        <SendIcon className="share-icon" aria-label="Share" />
+        <BookmarkIcon className="bookmark" aria-label="Bookmark" />
       </div>
 
       <div className="details">
@@ -58,6 +66,7 @@ function Post() {
   )
 }
 
+// One row in the "Suggested for you" list.
 function Suggestion() {
   return (
     <div className="suggestion">
@@ -70,12 +79,25 @@ function Suggestion() {
     </div>
   )
 }
-
+  // The sidebar expands on mouse hover or keyboard focus.
 function Instagram() {
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const expanded = hovered || focused
+
   return (
     <div className="insta">
-      <div className="layout">
-        <aside className="sidebar">
+      <div className={`layout${expanded ? ' sidebar-expanded' : ''}`}>
+        <aside
+          className="sidebar"
+          onMouseEnter={() => setHovered(true)}
+          onMouseLeave={() => setHovered(false)}
+          onFocus={() => setFocused(true)}
+          // Only collapse when focus leaves the sidebar entirely.
+          onBlur={(e) => {
+            if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false)
+          }}
+        >
           <h1 className="logo" aria-label="Instagram">
             <svg viewBox="0 0 24 24" aria-hidden="true">
               <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4zm4.4 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.5-3.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />

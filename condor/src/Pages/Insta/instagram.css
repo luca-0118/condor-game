@@ -4,12 +4,9 @@
     color: #f5f5f5;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    width: 100%;
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
-    overflow: auto;
+    min-width: 1000px;
 
+    /* Local reset so the global app styles don't affect this page. */
     * {
         margin: 0;
         padding: 0;
@@ -26,16 +23,19 @@
         display: grid;
         grid-template-columns: 80px minmax(470px, 1fr) 350px;
         width: 100%;
-        min-height: 100%;
-        position: relative;
+        min-height: 100vh;
+    }
+
+    /* Wider nav column while the sidebar is hovered or focused. */
+    .layout.sidebar-expanded {
+        grid-template-columns: 280px minmax(470px, 1fr) 350px;
     }
 
     /* Reset the global .sidebar rule from GameOverlay.css. */
     .sidebar {
         grid-column: auto;
         grid-row: auto;
-        width: 80px;
-        background: #000;
+        background: none;
         color: inherit;
         border-bottom: 0;
         z-index: 2;
@@ -43,16 +43,17 @@
         border-right: 1px solid #262626;
         padding: 25px 8px;
         height: 100vh;
-        height: 100dvh;
         position: sticky;
         top: 0;
         left: 0;
-        transition: width .2s ease;
     }
 
+    /* Expanded state: extra padding and a solid background over the feed. */
     .sidebar:hover,
     .sidebar:focus-within {
-        width: 280px;
+        padding-right: 18px;
+        padding-left: 18px;
+        background: #000;
     }
 
     .logo {
@@ -80,25 +81,25 @@
         display: flex;
         align-items: center;
         gap: 18px;
-        font-size: 15px;
+        font-size: 18px;
     }
 
+    /* Labels are hidden while collapsed and revealed when expanded. */
     .sidebar nav a .nav-label,
     .more-label {
         width: 0;
         overflow: hidden;
         opacity: 0;
-        transition: width .2s ease, opacity .15s ease;
     }
 
     .sidebar nav a .nav-label {
-        font-size: 15px;
+        font-size: 18px;
         text-align: left;
     }
 
     .sidebar:hover nav a .nav-label,
     .sidebar:focus-within nav a .nav-label {
-        width: 120px;
+        width: 140px;
         opacity: 1;
     }
 
@@ -120,6 +121,7 @@
         background: #1a1a1a;
     }
 
+    /* "More" button pinned to the bottom of the sidebar. */
     .more {
         position: absolute;
         bottom: 25px;
@@ -127,13 +129,18 @@
         display: flex;
         align-items: center;
         gap: 14px;
-        font-size: 15px;
+        font-size: 18px;
         white-space: nowrap;
+    }
+
+    .sidebar:hover .more,
+    .sidebar:focus-within .more {
+        left: 30px;
     }
 
     .sidebar:hover .more-label,
     .sidebar:focus-within .more-label {
-        width: 60px;
+        width: 70px;
         opacity: 1;
     }
 
@@ -143,6 +150,7 @@
         fill: currentColor;
     }
 
+    /* Center column: stories and posts. */
     .feed {
         padding: 32px 40px;
         min-width: 0;
@@ -159,13 +167,14 @@
     }
 
     .story {
-        flex: 0 0 54px;
+        flex: 0 0 80px;
         text-align: center;
     }
 
+    /* Gradient-style ring built from border, outline and box-shadow. */
     .story-ring {
-        width: 54px;
-        height: 54px;
+        width: 80px;
+        height: 80px;
         margin: 0 auto 9px;
         border-radius: 50%;
         background: #343a44;
@@ -190,6 +199,7 @@
         outline: 1px solid #555;
     }
 
+    /* A single feed post: header, photo, actions, details and comment box. */
     .post {
         width: 50%;
         border-bottom: 1px solid #262626;
@@ -213,15 +223,18 @@
         border: 1px solid #555d69;
     }
 
+    /* "More options" icon, pushed to the right of the post header. */
     .dots {
         margin-left: auto;
-        font-size: 18px;
+        font-size: 24px;
         color: #ddd;
+        cursor: pointer;
     }
 
+    /* Placeholder for the post image. */
     .photo {
-        height: 390px;
-        width: 100%;
+        height: 600px;
+        width: 500px;
         background: #20242c;
         border-radius: 4px;
         display: flex;
@@ -235,6 +248,7 @@
         font-size: 42px;
     }
 
+    /* Row of like, comment, share and bookmark icons. */
     .actions {
         display: flex;
         gap: 17px;
@@ -251,8 +265,37 @@
         color: #aaa;
     }
 
+    .actions .like-icon {
+        font-size: 29px;
+        cursor: pointer;
+    }
+
+    .actions .like-icon:hover {
+        color: #aaa;
+    }
+
+    .actions .comment-icon {
+        font-size: 29px;
+        cursor: pointer;
+    }
+
+    .actions .comment-icon:hover {
+        color: #aaa;
+    }
+
+    .actions .share-icon {
+        font-size: 29px;
+        cursor: pointer;
+    }
+
+    .actions .share-icon:hover {
+        color: #aaa;
+    }
+
+    /* Bookmark sits at the far right of the actions row. */
     .actions .bookmark {
         margin-left: auto;
+        font-size: 29px;
     }
 
     .details {
@@ -267,6 +310,7 @@
         color: #888;
     }
 
+    /* "Add a comment..." input row. */
     .comment {
         display: flex;
         align-items: center;
@@ -291,6 +335,7 @@
         cursor: pointer;
     }
 
+    /* Right column: own profile and suggestions. */
     .right-sidebar {
         padding: 30px 22px;
         border-left: 1px solid #262626;
@@ -345,16 +390,24 @@
         margin-top: 35px;
     }
 
+    /* Responsive: narrow the right column, then hide it on small screens. */
     @media (max-width: 1360px) {
         .layout {
             grid-template-columns: 80px minmax(470px, 1fr) 300px;
         }
 
+        .layout.sidebar-expanded {
+            grid-template-columns: 280px minmax(470px, 1fr) 300px;
+        }
     }
 
     @media (max-width: 1050px) {
         .layout {
             grid-template-columns: 80px minmax(470px, 1fr);
+        }
+
+        .layout.sidebar-expanded {
+            grid-template-columns: 280px minmax(470px, 1fr);
         }
 
         .right-sidebar {
