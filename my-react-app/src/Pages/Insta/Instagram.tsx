@@ -1,12 +1,6 @@
 import { useState } from 'react'
-import BookmarkIcon from '@mui/icons-material/Bookmark'
-import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
-import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
-import SendIcon from '@mui/icons-material/Send'
 import './instagram.css'
 
-// Sidebar entries; `path` is the SVG path data for each icon.
 const NAV_ITEMS = [
   { label: 'Home', active: true, path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' },
   {
@@ -36,7 +30,7 @@ function Post() {
       <header className="post-header">
         <div className="avatar"></div>
         <strong>username</strong>
-        <MoreHorizIcon className="dots" aria-label="More options" />
+        <span className="dots">•••</span>
       </header>
 
       <div className="photo">
@@ -44,10 +38,10 @@ function Post() {
       </div>
 
       <div className="actions">
-        <FavoriteBorderOutlinedIcon className="like-icon" aria-label="Like" />
-        <ModeCommentOutlinedIcon className="comment-icon" aria-label="Comment" />
-        <SendIcon className="share-icon" aria-label="Share" />
-        <BookmarkIcon className="bookmark" aria-label="Bookmark" />
+        <span>♡</span>
+        <span>○</span>
+        <span>➤</span>
+        <span className="bookmark">♧</span>
       </div>
 
       <div className="details">
@@ -66,7 +60,6 @@ function Post() {
   )
 }
 
-// One row in the "Suggested for you" list.
 function Suggestion() {
   return (
     <div className="suggestion">
@@ -79,7 +72,7 @@ function Suggestion() {
     </div>
   )
 }
-  // The sidebar expands on mouse hover or keyboard focus.
+
 function Instagram() {
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
@@ -93,7 +86,6 @@ function Instagram() {
           onMouseEnter={() => setHovered(true)}
           onMouseLeave={() => setHovered(false)}
           onFocus={() => setFocused(true)}
-          // Only collapse when focus leaves the sidebar entirely.
           onBlur={(e) => {
             if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false)
           }}
