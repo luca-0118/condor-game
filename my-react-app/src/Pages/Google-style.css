@@ -42,8 +42,9 @@ input {
 
 .google-page {
   display: flex;
-  min-height: 100vh;
+  min-height: 100%;
   flex-direction: column;
+  background-color: #fff;
 }
 
 a {

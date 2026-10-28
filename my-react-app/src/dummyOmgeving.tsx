@@ -1,5 +1,5 @@
 import { Route, Routes } from 'react-router-dom'
-import Test from './Pages/test'
+import Google from './Pages/Google'
 import Facebook from './Pages/Facebook/Facebook'
 import Instagram from './Pages/Insta/Instagram'
 
@@ -9,7 +9,7 @@ function DummyOmgeving() {
       <Routes>
         <Route path="/instagram" element={<Instagram />} />
         <Route path="/facebook" element={<Facebook />} />
-        <Route path="*" element={<Test />} />
+        <Route path="*" element={<Google />} />
       </Routes>
     </div>
   )

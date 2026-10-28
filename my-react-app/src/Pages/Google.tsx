@@ -1,4 +1,5 @@
 import './Google-style.css'
+import { Link } from 'react-router-dom'
 
 const leftLinks = [
   { label: 'About', href: '#about' },
@@ -81,6 +82,12 @@ function App() {
             <button type="submit">Google Search</button>
             <button type="submit">I'm Feeling Lucky</button>
           </div>
+          <Link to="/instagram" className="test-link">
+            Instagram
+          </Link>
+          <Link to="/Facebook" className="test-link">
+            Facebook
+          </Link>
         </form>
       </main>
 
