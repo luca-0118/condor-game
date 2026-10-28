@@ -1,0 +1,281 @@
+:root {
+  font-family: Arial, sans-serif;
+  color: #202124;
+  background: #fff;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  width: 100%;
+  min-height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+body,
+input,
+button {
+  font-family: Arial, sans-serif;
+  font-size: 14px;
+  color: #202124;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+  background: #fff;
+}
+
+button,
+input {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.google-page {
+  display: flex;
+  min-height: 100%;
+  flex-direction: column;
+  background-color: #fff;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+.top-section {
+  display: flex;
+  min-height: 60px;
+  justify-content: space-between;
+  align-items: center;
+  padding: 6px 24px;
+}
+
+.left-side,
+.right-side {
+  display: flex;
+  align-items: center;
+}
+
+.left-side {
+  gap: 18px;
+}
+
+.right-side {
+  gap: 20px;
+}
+
+.apps-menu {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.apps-button {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  padding: 8px;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+}
+
+.apps-button:hover,
+.apps-button:focus-visible {
+  background: #f0f0f0;
+}
+
+.menu-icon {
+  width: 24px;
+  height: 24px;
+  opacity: 0.65;
+}
+
+.profile-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.dropdown-content {
+  position: absolute;
+  z-index: 1;
+  top: calc(100% + 8px);
+  right: 0;
+  display: none;
+  min-width: 176px;
+  padding: 8px 0;
+  border: 1px solid #dadce0;
+  border-radius: 8px;
+  background: #fff;
+  box-shadow: 0 4px 12px rgb(60 64 67 / 24%);
+}
+
+.apps-menu:hover .dropdown-content,
+.apps-menu:focus-within .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  padding: 10px 16px;
+}
+
+.dropdown-content a:hover {
+  background: #f8f9fa;
+  text-decoration: none;
+}
+
+.middle-section {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0 20px 8vh;
+}
+
+.google-logo {
+  display: block;
+  width: min(272px, 70vw);
+  height: auto;
+  margin-bottom: 28px;
+}
+
+.search-form {
+  display: flex;
+  width: min(584px, 100%);
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.search-form-input {
+  display: flex;
+  width: 100%;
+  height: 46px;
+  align-items: center;
+  gap: 14px;
+  padding: 0 14px;
+  border: 1px solid #dfe1e5;
+  border-radius: 24px;
+}
+
+.search-form-input:hover,
+.search-form-input:focus-within {
+  border-color: transparent;
+  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
+}
+
+.search-form label {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+}
+
+.search-form input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  font-size: 16px;
+}
+
+.search-icon {
+  width: 18px;
+  height: 18px;
+  flex: 0 0 auto;
+  opacity: 0.65;
+}
+
+.mic-icon,
+.camera-icon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+.search-form-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+}
+
+.search-form-buttons button {
+  height: 36px;
+  padding: 0 16px;
+  border: 1px solid #f8f9fa;
+  border-radius: 4px;
+  background: #f8f9fa;
+  color: #3c4043;
+  cursor: pointer;
+}
+
+.search-form-buttons button:hover {
+  border-color: #dadce0;
+  box-shadow: 0 1px 1px rgb(0 0 0 / 10%);
+}
+
+.bottom-section {
+  display: flex;
+  min-height: 48px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 24px;
+  padding: 14px 30px;
+  border-top: 1px solid #dadce0;
+  background: #f2f2f2;
+  color: #70757a;
+}
+
+.bottom-left-side,
+.bottom-middle-side,
+.bottom-right-side {
+  display: flex;
+  gap: 24px;
+}
+
+@media (max-width: 640px) {
+  .top-section,
+  .bottom-section {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .right-side,
+  .left-side,
+  .bottom-left-side,
+  .bottom-middle-side,
+  .bottom-right-side {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+
+  .middle-section {
+    padding-bottom: 4vh;
+  }
+}

@@ -1,6 +1,6 @@
 .game-layout {
   display: grid;
-  grid-template-columns: 10vw minmax(0, 1fr);
+  grid-template-columns: 14vw minmax(0, 1fr);
   grid-template-rows: 7vh minmax(0, 1fr);
   height: 100vh;
   height: 100dvh;
