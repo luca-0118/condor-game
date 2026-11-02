@@ -66,11 +66,38 @@ function SearchNavigation() {
   )
 }
 
+function SearchResult() {
+  return (
+    <article className="google-result">
+      <div className="result-source">
+        <span className="result-favicon" aria-hidden="true">
+          e
+        </span>
+        <div className="result-source-text">
+          <div className="result-domain">example.com</div>
+          <div className="result-url">https://www.example.com › page</div>
+        </div>
+        <button className="result-options" type="button" aria-label="Result options">
+          ⋮
+        </button>
+      </div>
+      <a className="result-title" href="#example-result">
+        Example result
+      </a>
+      <p className="result-description">
+        This is a sample search result. Replace this text with your own content.
+      </p>
+    </article>
+  )
+}
+
 function GoogleResults() {
   return (
     <div className="google-results-page">
       <ResultsHeader />
-      <main className="google-results-content" aria-label="Search results" />
+      <main className="google-results-content" aria-label="Search results">
+        <SearchResult />
+      </main>
     </div>
   )
 }
