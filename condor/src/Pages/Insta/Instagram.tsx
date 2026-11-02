@@ -1,4 +1,5 @@
 import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
@@ -7,13 +8,17 @@ import SendIcon from '@mui/icons-material/Send'
 import './instagram.css'
 
 // Sidebar entries; `path` is the SVG path data for each icon.
-const NAV_ITEMS = [
-  { label: 'Home', active: true, path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z' },
+const NAV_ITEMS: { label: string; path: string; to?: string }[] = [
+  { label: 'Home', path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', to: '/instagram' },
   {
     label: 'Reels',
     path: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2 5-3-5-3v6z',
   },
-  { label: 'Messages', path: 'M2.01 21 23 12 2.01 3 2 10l15 2-15 2z' },
+  {
+    label: 'Messages',
+    path: 'M2.01 21 23 12 2.01 3 2 10l15 2-15 2z',
+    to: '/instagram/messages',
+  },
   {
     label: 'Search',
     path: 'M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.71.71l.27.28v.78l5 4.99L20.49 19l-4.99-5zm-5 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z',
@@ -84,6 +89,7 @@ function Instagram() {
   const [hovered, setHovered] = useState(false)
   const [focused, setFocused] = useState(false)
   const expanded = hovered || focused
+  const location = useLocation()
 
   return (
     <div className="insta">
@@ -105,14 +111,26 @@ function Instagram() {
           </h1>
 
           <nav>
-            {NAV_ITEMS.map((item) => (
-              <a key={item.label} className={item.active ? 'active' : undefined} href="#">
-                <svg className="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
-                  <path d={item.path} />
-                </svg>
-                <span className="nav-label">{item.label}</span>
-              </a>
-            ))}
+            {NAV_ITEMS.map((item) => {
+              const className = item.to === location.pathname ? 'active' : undefined
+              const content = (
+                <>
+                  <svg className="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                    <path d={item.path} />
+                  </svg>
+                  <span className="nav-label">{item.label}</span>
+                </>
+              )
+              return item.to ? (
+                <Link key={item.label} className={className} to={item.to}>
+                  {content}
+                </Link>
+              ) : (
+                <a key={item.label} className={className} href="#">
+                  {content}
+                </a>
+              )
+            })}
           </nav>
 
           <div className="more">
