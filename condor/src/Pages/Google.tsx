@@ -1,5 +1,5 @@
 import './Google-style.css'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 
 const leftLinks = [
   { label: 'About', href: '#about' },
@@ -23,8 +23,11 @@ const footerMiddle = ['Carbon neutral since 2007']
 const footerRight = ['Privacy', 'Terms', 'Settings']
 
 function App() {
+  const navigate = useNavigate()
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    navigate('/search')
   }
 
   return (
