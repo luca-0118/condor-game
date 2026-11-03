@@ -5,6 +5,8 @@ export type SearchResult = {
   description: string
 }
 
+//tijdelijke mockdata voor searches op google 
+
 export const mockSearchResults: SearchResult[] = [
   {
     title: 'Instagram',
@@ -23,6 +25,12 @@ export const mockSearchResults: SearchResult[] = [
     url: '/',
     domain: 'condor-game.local',
     description: 'Explore the web apps and interactive pages in Condor Game.',
+  },
+  {
+    title: 'Scamsite',
+    url: '/webshop/*',
+    domain: 'webshop.com',
+    description: 'Sieraden kopen ofzo.',
   },
   {
     title: 'Example search result',
