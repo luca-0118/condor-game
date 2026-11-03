@@ -10,25 +10,25 @@ export type SearchResult = {
 export const mockSearchResults: SearchResult[] = [
   {
     title: 'Instagram',
-    url: '/instagram',
+    url: '/sandbox/instagram',
     domain: 'instagram.com',
     description: 'Share photos and videos, and explore updates from friends.',
   },
   {
     title: 'Facebook',
-    url: '/facebook',
+    url: '/sandbox/facebook',
     domain: 'facebook.com',
     description: 'Connect with friends and discover what is happening.',
   },
   {
     title: 'Condor Game',
-    url: '/',
+    url: '/sandbox',
     domain: 'condor-game.local',
     description: 'Explore the web apps and interactive pages in Condor Game.',
   },
   {
     title: 'Scamsite',
-    url: '/webshop/*',
+    url: '/sandbox/webshop',
     domain: 'webshop.com',
     description: 'Sieraden kopen ofzo.',
   },

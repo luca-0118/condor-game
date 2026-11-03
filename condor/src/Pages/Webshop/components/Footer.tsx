@@ -14,8 +14,8 @@ function Footer() {
       </div>
       <div>
         <strong>Service</strong>
-        <Link to="/webshop/klantenservice">Klantenservice</Link>
-        <Link to="/webshop/klantenservice">Verzenden en retourneren</Link>
+        <Link to="/sandbox/webshop/klantenservice">Klantenservice</Link>
+        <Link to="/sandbox/webshop/klantenservice">Verzenden en retourneren</Link>
       </div>
       <div>
         <strong>Contact</strong>

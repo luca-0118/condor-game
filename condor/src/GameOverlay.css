@@ -1,31 +1,167 @@
 .top-bar {
-  grid-column: 1 / -1;
+  grid-column: 1;
   grid-row: 1;
   display: flex;
   align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid #435160;
-  background: #202d39;
-  color: #f2f5f8;
+  gap: 20px;
+  padding: 0 22px;
+  border-bottom: 1px solid #d5d9df;
+  background: #f1f3f4;
+  color: #202124;
   z-index: 1;
 }
 
-.sidebar {
-  grid-column: 1;
-  grid-row: 2;
-  min-height: 0;
-  overflow-y: auto;
-  padding: 16px;
-  border-right: 1px solid #435160;
-  background: #202d39;
-  color: #f2f5f8;
+.browser-controls {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: 4px;
+}
+
+.browser-control {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #3c4043;
+  cursor: pointer;
+}
+
+.browser-control:hover:not(:disabled) {
+  background: #e2e5e8;
+}
+
+.browser-control:disabled {
+  color: #aeb3b8;
+  cursor: default;
+}
+
+.browser-control svg,
+.browser-go svg {
+  width: 19px;
+  height: 19px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
+}
+
+.browser-home {
+  margin-left: 2px;
+}
+
+.browser-home svg {
+  width: 18px;
+  height: 18px;
+}
+
+.browser-address-form {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  max-width: 1000px;
+  height: 42px;
+  margin: 0 auto;
+  padding: 0 10px 0 15px;
+  border: 1px solid transparent;
+  border-radius: 24px;
+  background: #e7e9eb;
+  transition:
+    background-color 120ms ease,
+    border-color 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.browser-address-form:focus-within {
+  border-color: #d7dbe0;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(60 64 67 / 18%);
+}
+
+.browser-address-icon {
+  width: 17px;
+  height: 17px;
+  flex: 0 0 auto;
+  margin-right: 11px;
+  fill: none;
+  stroke: #5f6368;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.6;
+}
+
+.browser-address-form input {
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #3c4043;
+  font-size: 14px;
+}
+
+.browser-go {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  color: #5f6368;
+  cursor: pointer;
+}
+
+.browser-go:hover {
+  background: #f1f3f4;
+}
+
+.browser-profile {
+  display: grid;
+  width: 32px;
+  height: 32px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 50%;
+  background: #586e83;
+  color: #fff;
+  font-size: 14px;
+  font-weight: 600;
 }
 
 @media (max-width: 600px) {
-  .sidebar {
-    grid-column: 1;
-    grid-row: 2;
-    border-right: 0;
-    border-bottom: 1px solid #435160;
+  .top-bar {
+    gap: 8px;
+    padding: 0 10px;
+  }
+
+  .browser-controls {
+    gap: 0;
+  }
+
+  .browser-control {
+    width: 32px;
+    height: 32px;
+  }
+
+  .browser-home {
+    display: none;
+  }
+
+  .browser-address-form {
+    height: 38px;
+  }
+
+  .browser-profile {
+    width: 28px;
+    height: 28px;
   }
 }

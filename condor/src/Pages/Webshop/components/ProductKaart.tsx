@@ -14,7 +14,7 @@ function ProductKaart({ item }: { item: Product }) {
   const { ontgrendeld, zetPopup } = useWinkel()
   return (
     <article className="ws-kaart">
-      <Link to={`/webshop/product/${item.id}`}>
+      <Link to={`/sandbox/webshop/product/${item.id}`}>
         <span className="ws-kaart-foto"><img src={foto(item.foto)} alt={item.naam} loading="lazy" /></span>
         <p className="ws-merk">{MERK}</p>
         <h3>{item.naam}</h3>

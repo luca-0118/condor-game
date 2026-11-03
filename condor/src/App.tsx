@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import DummyOmgeving from './dummyOmgeving'
 import GameOverlay from './GameOverlay'
+import Challenges from './Pages/Challenges/Challenges'
 import './App.css'
 
 function GameLayout() {
@@ -18,7 +19,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="*" element={<GameLayout />} />
+        {/* De challenges vullen het hele scherm, zonder de sidebar van de sandbox */}
+        <Route path="/challenge/*" element={<Challenges />} />
+        <Route path="/sandbox/*" element={<GameLayout />} />
+        <Route path="*" element={<Challenges />} />
       </Routes>
     </BrowserRouter>
   )
