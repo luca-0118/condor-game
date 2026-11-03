@@ -10,7 +10,7 @@
     }
 
     /* Wider nav column while the sidebar is hovered or focused. */
-    .dm-layout.sidebar-expanded {
+    .dm-layout:has(.sidebar.sidebar-open) {
         grid-template-columns: 280px minmax(320px, 400px) 1fr;
     }
 
