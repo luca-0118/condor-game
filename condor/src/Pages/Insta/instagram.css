@@ -4,12 +4,9 @@
     color: #f5f5f5;
     font-family: Arial, sans-serif;
     font-size: 14px;
-    width: 100%;
-    height: 100%;
-    min-width: 0;
-    min-height: 0;
-    overflow: auto;
+    min-width: 1000px;
 
+    /* Local reset so the global app styles don't affect this page. */
     * {
         margin: 0;
         padding: 0;
@@ -26,8 +23,16 @@
         display: grid;
         grid-template-columns: 80px minmax(470px, 1fr) 350px;
         width: 100%;
-        min-height: 100%;
-        position: relative;
+        min-height: 100vh;
+    }
+
+    /* Wider nav column while the sidebar is hovered or focused. */
+    .layout:has(.sidebar.sidebar-open) {
+        grid-template-columns: 280px minmax(470px, 1fr) 350px;
+    }
+
+    .layout.search-open:has(.sidebar.sidebar-open) {
+        grid-template-columns: 280px 1fr;
     }
 
     /* Reset the global .sidebar rule from GameOverlay.css. */
@@ -43,13 +48,13 @@
         border-right: 1px solid #262626;
         padding: 25px 8px;
         height: 100vh;
-        height: 100dvh;
         position: sticky;
         top: 0;
         left: 0;
         transition: width .2s ease;
     }
 
+    /* Expanded state: extra padding and a solid background over the feed. */
     .sidebar:hover,
     .sidebar:focus-within {
         width: 280px;
@@ -80,9 +85,10 @@
         display: flex;
         align-items: center;
         gap: 18px;
-        font-size: 15px;
+        font-size: 18px;
     }
 
+    /* Labels are hidden while collapsed and revealed when expanded. */
     .sidebar nav a .nav-label,
     .more-label {
         width: 0;
@@ -92,13 +98,13 @@
     }
 
     .sidebar nav a .nav-label {
-        font-size: 15px;
+        font-size: 18px;
         text-align: left;
     }
 
     .sidebar:hover nav a .nav-label,
     .sidebar:focus-within nav a .nav-label {
-        width: 120px;
+        width: 140px;
         opacity: 1;
     }
 
@@ -120,6 +126,7 @@
         background: #1a1a1a;
     }
 
+    /* "More" button pinned to the bottom of the sidebar. */
     .more {
         position: absolute;
         bottom: 25px;
@@ -127,13 +134,13 @@
         display: flex;
         align-items: center;
         gap: 14px;
-        font-size: 15px;
+        font-size: 18px;
         white-space: nowrap;
     }
 
     .sidebar:hover .more-label,
     .sidebar:focus-within .more-label {
-        width: 60px;
+        width: 70px;
         opacity: 1;
     }
 
@@ -143,6 +150,79 @@
         fill: currentColor;
     }
 
+    /* Search view: sidebar + one wide content column (no right sidebar). */
+    .layout.search-open {
+        grid-template-columns: 80px 1fr;
+    }
+
+    /* Explore page shown when the Search nav item is clicked. */
+    .explore {
+        width: 100%;
+        margin: 0;
+        padding: 24px 32px 48px;
+        min-width: 0;
+    }
+
+    .explore-search {
+        max-width: 1000px;
+        margin: 0 auto 28px;
+    }
+
+    .explore-tabs {
+        display: flex;
+        gap: 28px;
+        margin-bottom: 14px;
+        font-size: 15px;
+
+        button {
+            padding: 0 0 6px;
+            border: 0;
+            background: none;
+            color: #a8a8a8;
+            font: inherit;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        button.active {
+            color: #f5f5f5;
+            box-shadow: inset 0 -1px 0 #f5f5f5;
+        }
+    }
+
+    .explore-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: 10px;
+    }
+
+    .explore-tile {
+        position: relative;
+        aspect-ratio: 1;
+        border-radius: 4px;
+    }
+
+    .explore-tile .tile-username {
+        position: absolute;
+        left: 10px;
+        bottom: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        color: #fff;
+        text-shadow: 0 1px 4px rgb(0 0 0 / 70%);
+    }
+
+    .explore-tile .tile-icon {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 22px;
+        height: 22px;
+        fill: #fff;
+        filter: drop-shadow(0 0 3px rgb(0 0 0 / 60%));
+    }
+
+    /* Center column: stories and posts. */
     .feed {
         padding: 32px 40px;
         min-width: 0;
@@ -159,19 +239,33 @@
     }
 
     .story {
-        flex: 0 0 54px;
+        flex: 0 0 80px;
         text-align: center;
     }
 
+    /* Gradient-style ring built from border, outline and box-shadow. */
     .story-ring {
-        width: 54px;
-        height: 54px;
+        width: 80px;
+        height: 80px;
         margin: 0 auto 9px;
         border-radius: 50%;
         background: #343a44;
         border: 2px solid #111;
         outline: 1px solid #e1306c;
         box-shadow: 0 0 0 2px #fd8d32;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 20px;
+        font-weight: 700;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
     }
 
     .story p {
@@ -190,6 +284,7 @@
         outline: 1px solid #555;
     }
 
+    /* A single feed post: header, photo, actions, details and comment box. */
     .post {
         width: 50%;
         border-bottom: 1px solid #262626;
@@ -211,17 +306,33 @@
         border-radius: 50%;
         background: #343a44;
         border: 1px solid #555d69;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        font-weight: 700;
+        color: #f5f5f5;
+        overflow: hidden;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     }
 
+    /* "More options" icon, pushed to the right of the post header. */
     .dots {
         margin-left: auto;
-        font-size: 18px;
+        font-size: 24px;
         color: #ddd;
+        cursor: pointer;
     }
 
+    /* Placeholder for the post image. */
     .photo {
-        height: 390px;
-        width: 100%;
+        height: 600px;
+        width: 500px;
         background: #20242c;
         border-radius: 4px;
         display: flex;
@@ -235,6 +346,14 @@
         font-size: 42px;
     }
 
+    .photo img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        border-radius: 4px;
+    }
+
+    /* Row of like, comment, share and bookmark icons. */
     .actions {
         display: flex;
         gap: 17px;
@@ -251,8 +370,37 @@
         color: #aaa;
     }
 
+    .actions .like-icon {
+        font-size: 29px;
+        cursor: pointer;
+    }
+
+    .actions .like-icon:hover {
+        color: #aaa;
+    }
+
+    .actions .comment-icon {
+        font-size: 29px;
+        cursor: pointer;
+    }
+
+    .actions .comment-icon:hover {
+        color: #aaa;
+    }
+
+    .actions .share-icon {
+        font-size: 29px;
+        cursor: pointer;
+    }
+
+    .actions .share-icon:hover {
+        color: #aaa;
+    }
+
+    /* Bookmark sits at the far right of the actions row. */
     .actions .bookmark {
         margin-left: auto;
+        font-size: 29px;
     }
 
     .details {
@@ -267,6 +415,7 @@
         color: #888;
     }
 
+    /* "Add a comment..." input row. */
     .comment {
         display: flex;
         align-items: center;
@@ -291,6 +440,7 @@
         cursor: pointer;
     }
 
+    /* Right column: own profile and suggestions. */
     .right-sidebar {
         padding: 30px 22px;
         border-left: 1px solid #262626;
@@ -345,16 +495,24 @@
         margin-top: 35px;
     }
 
+    /* Responsive: narrow the right column, then hide it on small screens. */
     @media (max-width: 1360px) {
         .layout {
             grid-template-columns: 80px minmax(470px, 1fr) 300px;
         }
 
+        .layout:has(.sidebar.sidebar-open) {
+            grid-template-columns: 280px minmax(470px, 1fr) 300px;
+        }
     }
 
     @media (max-width: 1050px) {
         .layout {
             grid-template-columns: 80px minmax(470px, 1fr);
+        }
+
+        .layout:has(.sidebar.sidebar-open) {
+            grid-template-columns: 280px minmax(470px, 1fr);
         }
 
         .right-sidebar {
