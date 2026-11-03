@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
@@ -6,8 +6,9 @@ import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import SendIcon from '@mui/icons-material/Send'
 import SearchBar from '../../../components/SearchBar'
-import { mockUsers, type MockUser } from '../../../data/mockUsers'
+import type { SocialUser } from '../../../data/socialUser'
 import InstaSidebar from './InstaSidebar'
+import { loadInstagramUsers } from '../Databases/instagramDatabase'
 import './instagram.css'
 
 // Initials shown inside avatar placeholders.
@@ -21,7 +22,7 @@ function initials(name: string) {
 }
 
 // Round avatar: the user's picture when available, otherwise their initials.
-function Avatar({ user, className = 'avatar' }: { user: MockUser; className?: string }) {
+function Avatar({ user, className = 'avatar' }: { user: SocialUser; className?: string }) {
   return (
     <div className={className}>
       {user.avatar ? <img src={user.avatar} alt={user.name} /> : initials(user.name)}
@@ -30,7 +31,7 @@ function Avatar({ user, className = 'avatar' }: { user: MockUser; className?: st
 }
 
 // A single feed post from a mock user.
-function Post({ user }: { user: MockUser }) {
+function Post({ user }: { user: SocialUser }) {
   return (
     <article className="post">
       <header className="post-header">
@@ -67,7 +68,7 @@ function Post({ user }: { user: MockUser }) {
 }
 
 // One row in the "Suggested for you" list.
-function Suggestion({ user }: { user: MockUser }) {
+function Suggestion({ user }: { user: SocialUser }) {
   return (
     <div className="suggestion">
       <Avatar user={user} />
@@ -80,18 +81,35 @@ function Suggestion({ user }: { user: MockUser }) {
   )
 }
 
-// Explore tiles built from the mock users; `video` tiles get a play badge.
-const EXPLORE_TILES = mockUsers.map((user, i) => ({
-  user,
-  video: i % 3 !== 2,
-  hue: (i * 47) % 360,
-}))
-
 function Instagram() {
   // The search view is driven by the URL (?search=true) so other pages can link to it.
   const [searchParams, setSearchParams] = useSearchParams()
   const searchOpen = searchParams.get('search') === 'true'
   const [exploreTab, setExploreTab] = useState<'foryou' | 'unpersonalized'>('foryou')
+  const [users, setUsers] = useState<SocialUser[]>([])
+  const [usersLoading, setUsersLoading] = useState(true)
+  const [databaseError, setDatabaseError] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadInstagramUsers().then(
+      (loadedUsers) => {
+        setUsers(loadedUsers)
+        setUsersLoading(false)
+      },
+      (error: unknown) => {
+        setDatabaseError(
+          error instanceof Error ? error.message : 'An unknown database error occurred.',
+        )
+        setUsersLoading(false)
+      },
+    )
+  }, [])
+
+  const exploreTiles = users.map((user, i) => ({
+    user,
+    video: i % 3 !== 2,
+    hue: (i * 47) % 360,
+  }))
 
   const setSearchOpen = (open: boolean) => {
     setSearchParams(open ? { search: 'true' } : {})
@@ -107,8 +125,10 @@ function Instagram() {
 
         {searchOpen ? (
           <main className="explore">
+            {usersLoading && <p role="status">Loading Instagram data…</p>}
+            {databaseError && <p role="alert">Could not load Instagram data: {databaseError}</p>}
             <div className="explore-search">
-              <SearchBar users={mockUsers} placeholder="Zoeken" />
+              <SearchBar users={users} placeholder="Zoeken" />
             </div>
 
             <div className="explore-tabs">
@@ -129,7 +149,7 @@ function Instagram() {
             </div>
 
             <div className="explore-grid">
-              {EXPLORE_TILES.map((tile) => (
+              {exploreTiles.map((tile) => (
                 <div
                   key={tile.user.id}
                   className="explore-tile"
@@ -158,12 +178,14 @@ function Instagram() {
         ) : (
           <>
             <main className="feed">
+              {usersLoading && <p role="status">Loading Instagram data…</p>}
+              {databaseError && <p role="alert">Could not load Instagram data: {databaseError}</p>}
               <section className="stories">
                 <div className="story">
                   <div className="story-ring add">+</div>
                   <p>Your story</p>
                 </div>
-                {mockUsers.slice(0, 5).map((user) => (
+                {users.slice(0, 5).map((user) => (
                   <div className="story" key={user.id}>
                     <Avatar user={user} className="story-ring" />
                     <p>{user.username}</p>
@@ -171,7 +193,7 @@ function Instagram() {
                 ))}
               </section>
 
-              {mockUsers.slice(0, 3).map((user) => (
+              {users.slice(0, 3).map((user) => (
                 <Post key={user.id} user={user} />
               ))}
             </main>
@@ -191,7 +213,7 @@ function Instagram() {
                 <a href="#">See all</a>
               </div>
 
-              {mockUsers.slice(3, 7).map((user) => (
+              {users.slice(3, 7).map((user) => (
                 <Suggestion key={user.id} user={user} />
               ))}
 

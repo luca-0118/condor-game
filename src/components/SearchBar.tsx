@@ -1,17 +1,15 @@
 import { useMemo, useState } from 'react'
-import type { MockUser } from '../data/mockUsers'
+import type { SocialUser } from '../data/socialUser'
 import './SearchBar.css'
 
 type SearchBarProps = {
-  // The list of users to search through (e.g. mockUsers).
-  users: MockUser[]
+  users: SocialUser[]
   placeholder?: string
   // Called when a result is clicked.
-  onSelect?: (user: MockUser) => void
+  onSelect?: (user: SocialUser) => void
 }
 
 // Reusable user search bar with a live results dropdown.
-// Works on any page: <SearchBar users={mockUsers} />
 function SearchBar({ users, placeholder = 'Search', onSelect }: SearchBarProps) {
   const [query, setQuery] = useState('')
 
