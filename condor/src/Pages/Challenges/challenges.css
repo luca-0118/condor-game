@@ -1,0 +1,435 @@
+/*
+  Stijl van de challenges. Alles hangt onder .ch, zodat het niet botst met de sandbox-pagina's.
+  Kleuren en lettertypes komen uit het Figma-ontwerp van Hajer. Pas een kleur aan via de variabelen hieronder.
+  Opbouw van dit bestand: basis, startscherm, keuzetegels, balk bovenaan, pagina's, vragen, kleine schermen.
+*/
+@import url('https://fonts.googleapis.com/css2?family=Archivo+Black&family=Sometype+Mono:wght@400;500;700&display=swap');
+
+.ch {
+  --zwart: #000;
+  --rood: #ff383c;
+  --rood-donker: #6e0c0e;
+  --rood-zacht: rgba(255, 56, 60, 0.08);
+  --vlak: #120808;
+  --knop-grijs: #141414;
+  --bruin: #ac7f5e;
+  --geel: #eeb65d;
+  --groen: #acd082;
+  --tekst: #e6e7eb;
+  --tekst-zacht: #9a9a9a;
+  --lijn: #1f1f1f;
+  --balk-leeg: #2e2e2e;
+  --kop: 'Archivo Black', system-ui, sans-serif;
+  --mono: 'Sometype Mono', ui-monospace, monospace;
+  /* Breedte van de inhoud. Alles wordt binnen deze breedte gecentreerd. */
+  --pagina: 1040px;
+  --pagina-breed: 1180px;
+
+  min-height: 100vh;
+  /* Zwart met een heel zachte rode gloed bovenaan: geeft diepte zonder af te leiden */
+  background:
+    radial-gradient(ellipse 70% 45% at 50% 0%, rgba(255, 56, 60, 0.07), transparent 70%),
+    var(--zwart);
+  background-attachment: fixed;
+  color: var(--tekst);
+  font-family: var(--mono);
+}
+
+.ch a { color: inherit; text-decoration: none; }
+.ch :focus-visible { outline: 2px solid var(--geel); outline-offset: 3px; }
+.ch button { cursor: pointer; }
+.ch button:disabled { cursor: not-allowed; }
+
+/* Inhoud schuift bij het laden zacht omhoog, met een kleine vertraging per onderdeel */
+@keyframes ch-in {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: none; }
+}
+
+/* ---------- Startscherm en keuzescherm ---------- */
+
+.ch-start {
+  min-height: 100vh;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  padding: 40px 16px 24px;
+}
+.ch-start-midden {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: clamp(24px, 4vh, 40px);
+}
+.ch-start-midden > * { animation: ch-in 0.5s ease both; }
+.ch-start-midden > :nth-child(2) { animation-delay: 0.12s; }
+.ch-start-midden > :nth-child(3) { animation-delay: 0.24s; }
+
+.ch-disclaimer {
+  margin: 0;
+  text-align: center;
+  font-size: 12px;
+  letter-spacing: 0.06em;
+  color: var(--tekst-zacht);
+}
+
+.ch-logo-groot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+/* min() met vh zorgt dat het logo kleiner wordt op lage schermen, zodat alles past */
+.ch-logo-groot img { width: min(170px, 13vw, 17vh); min-width: 90px; height: auto; margin-bottom: 24px; }
+.ch-logo-groot h1 { margin: 8px 0 16px; line-height: 1; font-weight: 400; }
+.ch-logo-groot h1 span { display: block; font-family: var(--kop); font-size: clamp(30px, 4.2vw, 46px); }
+.ch-logo-groot h1 strong {
+  display: block;
+  font-family: var(--kop);
+  font-weight: 400;
+  font-size: clamp(40px, 6.6vw, 70px);
+  color: var(--rood);
+  margin-top: 6px;
+}
+.ch-platform { margin: 0; font-size: 13px; letter-spacing: 0.24em; color: var(--tekst-zacht); }
+.ch-classificatie { margin: 0; font-size: 13px; letter-spacing: 0.08em; color: var(--bruin); }
+
+.ch-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  width: min(370px, 100%);
+}
+.ch-menuknop {
+  display: grid;
+  grid-template-columns: 24px 1fr 24px;
+  align-items: center;
+  gap: 12px;
+  height: 60px;
+  padding: 0 16px;
+  border: 1px solid var(--rood-donker);
+  background: var(--knop-grijs);
+  color: var(--tekst);
+  font: 400 18px var(--mono);
+  letter-spacing: 0.06em;
+  text-align: left;
+  transition: background-color 0.15s, border-color 0.15s;
+}
+.ch-menuknop:hover:not(:disabled) { border-color: var(--rood); background: #1d0d0d; }
+.ch-menuknop:disabled { opacity: 0.4; }
+/* .ch ervoor, anders wint de regel ".ch a" en wordt de tekst wit */
+.ch .ch-menuknop-rood { background: var(--rood); border-color: var(--rood); color: #000; }
+.ch .ch-menuknop-rood:hover { background: #ff5a5d; }
+.ch-menuknop img { width: 24px; height: 24px; }
+
+/* ---------- Keuzetegels (na START) ---------- */
+
+.ch-tegels {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 290px));
+  gap: 24px;
+}
+.ch-tegel {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  aspect-ratio: 1;
+  padding: 24px;
+  border: 1px solid var(--rood-donker);
+  background: linear-gradient(160deg, #160909, #0a0a0a 60%);
+  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+/* Hoekmarkeringen zoals op een dossier of zoeker */
+.ch-tegel::before,
+.ch-tegel::after {
+  content: '';
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  border-color: var(--rood);
+  border-style: solid;
+  transition: width 0.2s, height 0.2s;
+}
+.ch-tegel::before { top: -1px; left: -1px; border-width: 2px 0 0 2px; }
+.ch-tegel::after { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; }
+.ch-tegel:hover { border-color: var(--rood); transform: translateY(-3px); box-shadow: 0 16px 40px -20px rgba(255, 56, 60, 0.5); }
+.ch-tegel:hover::before,
+.ch-tegel:hover::after { width: 32px; height: 32px; }
+
+.ch-tegel-nummer { font-size: 13px; letter-spacing: 0.16em; color: var(--rood); }
+.ch-tegel-icoon { width: 52px; height: 52px; margin-top: 20px; }
+/* margin-top:auto duwt titel en uitleg naar onderen, zo staan ze in beide tegels op dezelfde hoogte */
+.ch-tegel-titel { margin-top: auto; }
+.ch-tegel-titel { font-family: var(--kop); font-size: 20px; white-space: nowrap; }
+.ch-tegel-uitleg { margin-top: 8px; min-height: 4.5em; font-size: 14px; line-height: 1.5; color: var(--tekst-zacht); }
+.ch-tegel-actie {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 20px;
+  padding-top: 14px;
+  border-top: 1px solid var(--lijn);
+  font-size: 13px;
+  letter-spacing: 0.16em;
+  color: var(--bruin);
+}
+.ch-tegel-actie img { width: 20px; height: 20px; transition: transform 0.2s; }
+.ch-tegel:hover .ch-tegel-actie { color: var(--tekst); }
+.ch-tegel:hover .ch-tegel-actie img { transform: translateX(4px); }
+
+/* ---------- Terugknop ---------- */
+
+.ch-terugknop {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  align-self: center;
+  padding: 6px 10px 6px 4px;
+  font-size: 14px;
+  color: var(--tekst-zacht);
+  transition: color 0.15s;
+}
+.ch-terugknop img { width: 20px; height: 20px; opacity: 0.7; }
+.ch-terugknop:hover { color: var(--tekst); }
+.ch-pagina > .ch-terugknop { align-self: flex-start; margin: 0 0 20px -4px; }
+
+/* ---------- Balk bovenaan tijdens het spel ---------- */
+
+.ch-balk-boven {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px 40px;
+  min-height: 78px;
+  padding: 12px 32px 12px 16px;
+  background: rgba(0, 0, 0, 0.92);
+  backdrop-filter: blur(6px);
+  border-bottom: 1px solid var(--rood-donker);
+}
+.ch-logo { display: flex; align-items: center; gap: 14px; }
+.ch-logo:not(.ch-logo-groot) img { width: 44px; height: 50px; object-fit: contain; }
+.ch-logo:not(.ch-logo-groot) p { margin: 0; font-family: var(--kop); font-size: 16px; line-height: 1.5; }
+.ch-logo:not(.ch-logo-groot) span { display: block; }
+.ch-logo:not(.ch-logo-groot) strong { display: block; font-weight: 400; color: var(--rood); }
+
+.ch-case-label { display: flex; flex-direction: column; gap: 4px; font-size: 13px; margin-left: 24px; padding-left: 24px; border-left: 1px solid var(--lijn); }
+.ch-case-label span:first-child { color: var(--rood); }
+.ch-case-label span:last-child { color: var(--tekst-zacht); }
+
+/* margin-left:auto duwt het hoofdstuk en alles erna naar rechts */
+.ch-hoofdstuk { margin-left: auto; font-size: 14px; letter-spacing: 0.08em; color: var(--groen); }
+
+.ch-stat { display: flex; flex-direction: column; gap: 4px; }
+.ch-stat-label { font-size: 12px; letter-spacing: 0.08em; color: var(--tekst-zacht); }
+.ch-stat-waarde { font-size: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
+.ch-voortgang { display: flex; align-items: center; gap: 16px; }
+.ch-balk { display: block; width: 156px; height: 8px; background: var(--balk-leeg); }
+.ch-balk span { display: block; height: 100%; background: var(--rood); transition: width 0.5s ease; }
+
+/* ---------- Pagina's tijdens het spel ---------- */
+
+.ch-inhoud { padding: 32px 32px 56px; min-width: 0; }
+/* De inhoud staat in een gecentreerde kolom, zodat niets tegen de linkerkant plakt */
+.ch-pagina {
+  display: flex;
+  flex-direction: column;
+  max-width: var(--pagina);
+  margin: 0 auto;
+  animation: ch-in 0.4s ease both;
+}
+.ch-pagina-breed { max-width: var(--pagina-breed); }
+
+.ch-casekop { margin-bottom: 32px; }
+.ch-casekop-code { margin: 0; font-family: var(--kop); font-size: 20px; color: var(--rood); }
+.ch-casekop h1 { margin: 6px 0 0; font-family: var(--kop); font-weight: 400; font-size: 16px; letter-spacing: 0.02em; color: var(--bruin); }
+.ch-casekop-opdracht {
+  margin: 16px 0 0;
+  max-width: 52ch;
+  font-family: var(--kop);
+  font-size: clamp(18px, 2vw, 22px);
+  line-height: 1.4;
+  color: var(--tekst);
+}
+
+/* Case-scherm: menu links, inhoud rechts */
+.ch-met-menu { display: grid; grid-template-columns: 220px 1fr; min-height: calc(100vh - 78px); }
+.ch-zijmenu { padding: 40px 24px 40px 40px; border-right: 1px solid var(--lijn); background: rgba(0, 0, 0, 0.6); }
+.ch-zijmenu ul { list-style: none; margin: 0 0 48px; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.ch-zijmenu a,
+.ch-zijmenu span {
+  display: block;
+  padding: 8px 12px;
+  margin-left: -12px;
+  border-left: 2px solid transparent;
+  font-size: 15px;
+  letter-spacing: 0.06em;
+  color: var(--tekst);
+}
+.ch-zijmenu span { opacity: 0.35; cursor: default; }
+.ch-zijmenu a:hover { color: var(--rood); }
+.ch-zijmenu a.active { color: var(--rood); border-left-color: var(--rood); background: var(--rood-zacht); }
+
+.ch-video {
+  position: relative;
+  display: grid;
+  place-items: center;
+  aspect-ratio: 16 / 7.5;
+  border: 1px solid var(--rood-donker);
+  background: radial-gradient(ellipse at center, #140909, #000 75%);
+}
+.ch-video-titel { text-align: center; }
+.ch-video-titel p:last-child { margin: 6px 0 0; font-family: var(--kop); font-size: 18px; color: var(--bruin); }
+.ch-video-titel .ch-casekop-code { font-family: var(--mono); font-size: 13px; letter-spacing: 0.08em; }
+.ch-video-leeg { position: absolute; left: 24px; bottom: 22px; margin: 0; font-size: 13px; color: var(--tekst-zacht); }
+.ch-rapportknop {
+  position: absolute;
+  right: 20px;
+  bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border: 1px solid var(--rood);
+  background: var(--rood-zacht);
+  font-size: 13px;
+  letter-spacing: 0.08em;
+  color: #f2f2f7;
+  transition: background-color 0.15s;
+}
+.ch-rapportknop:hover { background: var(--rood); color: #000; }
+.ch-rapportknop:hover img { filter: invert(1); }
+.ch-rapportknop img { width: 18px; height: 18px; }
+
+/* ---------- Vragen-scherm: rapport links, vragen rechts ---------- */
+
+.ch-vragen-raster { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: 40px; align-items: start; }
+.ch-rapport { position: sticky; top: 110px; margin: 0; }
+.ch-rapport img { display: block; width: 100%; height: auto; box-shadow: 0 20px 50px -25px rgba(0, 0, 0, 0.9); transition: outline-color 0.15s; outline: 1px solid transparent; }
+.ch-rapport a:hover img { outline-color: var(--rood); }
+.ch-rapport figcaption { margin-top: 10px; font-size: 12px; color: var(--tekst-zacht); text-align: center; }
+
+.ch-vragen {
+  display: flex;
+  flex-direction: column;
+  gap: 36px;
+  padding: 32px 32px 40px;
+  background: var(--vlak);
+  border: 1px solid var(--rood-donker);
+}
+.ch-vragen-teller { margin: 0 0 -8px; font-size: 12px; letter-spacing: 0.14em; color: var(--tekst-zacht); }
+.ch-vraag label { display: block; margin-bottom: 14px; font-family: var(--kop); font-size: 19px; line-height: 1.3; color: #fff; }
+.ch-vraag-rij { display: grid; grid-template-columns: 1fr 124px; gap: 12px; }
+.ch-vraag input {
+  height: 52px;
+  padding: 0 16px;
+  background: var(--zwart);
+  border: 1px solid var(--rood-donker);
+  color: var(--tekst);
+  font: 16px var(--mono);
+  transition: border-color 0.15s;
+}
+.ch-vraag input:focus { outline: none; border-color: var(--geel); }
+.ch-vraag input[aria-invalid='true'] { border-color: var(--rood); }
+.ch-vraag input:disabled { border-color: var(--groen); color: var(--groen); }
+.ch-vraag-rij button {
+  height: 52px;
+  border: 0;
+  background: var(--geel);
+  color: #000;
+  font: 19px var(--kop);
+  transition: background-color 0.15s;
+}
+.ch-vraag-rij button:hover:not(:disabled) { background: #f4c87f; }
+.ch-vraag-rij button:disabled { opacity: 0.45; }
+.ch-vraag-rij input:disabled + button { background: var(--groen); opacity: 1; }
+
+.ch-vraag-onder { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-top: 10px; min-height: 24px; }
+.ch-hintknop {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid var(--tekst-zacht);
+  background: none;
+  color: #c4c4c4;
+  font: 15px var(--kop);
+}
+.ch-hintknop:hover { color: var(--geel); border-color: var(--geel); }
+.ch-hint { font-family: var(--kop); font-size: 14px; color: var(--bruin); }
+.ch-melding { font-family: var(--kop); font-size: 14px; }
+.ch-goed { color: var(--groen); }
+.ch-fout { color: var(--rood); }
+
+.ch-onderbalk { display: flex; justify-content: flex-end; align-items: center; gap: 24px; margin-top: 28px; }
+.ch-onderbalk p { margin: 0; font-family: var(--kop); }
+.ch-volgende { height: 40px; padding: 0 24px; border: 0; background: var(--rood); color: #000; font: 18px var(--kop); letter-spacing: 0.04em; }
+.ch-volgende:disabled { opacity: 0.35; }
+
+/* ---------- Kleinere schermen ---------- */
+
+@media (max-width: 1000px) {
+  .ch-case-label { margin-left: 0; padding-left: 0; border-left: 0; }
+  .ch-hoofdstuk { margin-left: 0; }
+  .ch-vragen-raster { grid-template-columns: 1fr; }
+  .ch-rapport { position: static; max-width: 420px; }
+}
+@media (max-width: 700px) {
+  .ch-tegels { grid-template-columns: 1fr; width: min(320px, 100%); }
+  .ch-tegel { aspect-ratio: auto; min-height: 220px; }
+  .ch-met-menu { grid-template-columns: 1fr; }
+  .ch-zijmenu { padding: 12px 16px; border-right: 0; border-bottom: 1px solid var(--lijn); }
+  .ch-zijmenu ul { flex-direction: row; flex-wrap: wrap; margin: 0; gap: 0 12px; }
+  .ch-zijmenu ul + ul { display: none; }
+  .ch-inhoud { padding: 20px 16px 32px; }
+  .ch-balk-boven { padding: 12px 16px; gap: 12px 24px; }
+  .ch-balk { width: 90px; }
+  .ch-vragen { padding: 24px 16px; }
+  .ch-vraag-rij { grid-template-columns: 1fr 96px; gap: 10px; }
+  .ch-video { aspect-ratio: 4 / 3; }
+}
+
+/*
+  Vragen-pagina zonder scrollen (vanaf laptopformaat). De pagina is precies schermhoogte min de balk,
+  het rapport neemt de overgebleven hoogte en schaalt mee, de breedte volgt uit de verhouding van het plaatje.
+  Op kleine schermen geldt dit niet, daar scroll je gewoon.
+*/
+@media (min-width: 1001px) and (min-height: 620px) {
+  .ch-past-scherm { height: calc(100vh - 78px); padding-top: 16px; padding-bottom: 20px; overflow: hidden; }
+  .ch-past-scherm .ch-pagina { height: 100%; }
+  .ch-past-scherm .ch-pagina > .ch-terugknop { margin-bottom: 6px; }
+  .ch-past-scherm .ch-casekop { margin-bottom: 16px; }
+  .ch-past-scherm .ch-vragen-raster {
+    flex: 1;
+    min-height: 0;
+    /* Hoogte die over is voor het rapport: schermhoogte min balk, kop, terugknop en onderschrift.
+       Het rapport is 2:3, dus de breedte is die hoogte keer 0,667. Zo past het altijd precies. */
+    --rapport-hoogte: calc(100vh - 290px);
+    grid-template-columns: min(calc(var(--rapport-hoogte) * 0.667), 40vw) minmax(0, 1fr);
+    grid-template-rows: 100%;
+    gap: 32px;
+  }
+  .ch-past-scherm .ch-rapport { position: static; min-height: 0; }
+  .ch-past-scherm .ch-rapport img { width: 100%; height: auto; }
+  .ch-past-scherm .ch-vragen-kolom { display: flex; flex-direction: column; min-height: 0; overflow-y: auto; }
+  .ch-past-scherm .ch-vragen { gap: clamp(16px, 3vh, 32px); padding: clamp(18px, 3vh, 32px) 28px; }
+  .ch-past-scherm .ch-vraag label { margin-bottom: 10px; font-size: 18px; }
+  .ch-past-scherm .ch-vraag input,
+  .ch-past-scherm .ch-vraag-rij button { height: clamp(42px, 5.5vh, 52px); }
+  .ch-past-scherm .ch-onderbalk { margin-top: 14px; }
+}
+
+/* Lage schermen (laptops): alles iets compacter, zodat het keuzescherm zonder scrollen past */
+@media (max-height: 860px) and (min-width: 701px) {
+  .ch-start { padding: 24px 16px 16px; }
+  .ch-logo-groot img { width: 13vh; margin-bottom: 14px; }
+  .ch-logo-groot h1 { margin: 6px 0 10px; }
+  .ch-logo-groot h1 span { font-size: 34px; }
+  .ch-logo-groot h1 strong { font-size: 54px; }
+  .ch-tegels { grid-template-columns: repeat(2, minmax(0, 260px)); }
+  .ch-tegel { padding: 20px; aspect-ratio: auto; min-height: 250px; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .ch * { transition: none !important; animation: none !important; }
+}
