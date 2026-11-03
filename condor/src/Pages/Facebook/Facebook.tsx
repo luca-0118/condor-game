@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import './Facebook.css'
+import FacebookProfiel from './facebook-profiel'
 
 /* ===== Placeholder data (edit content here) ===== */
 const user = { firstName: 'Voornaam', fullName: 'Voornaam Achternaam' }
@@ -43,13 +44,15 @@ const contacts = ['Meta AI', 'Contactnaam']
 type PostData = (typeof initialPosts)[number]
 
 /* ===== Top bar ===== */
-function TopBar() {
+type Page = 'home' | 'profile'
+
+function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
   const [activeTab, setActiveTab] = useState('home')
 
   return (
     <header className="topbar">
       <div className="topbar__left">
-        <a className="logo" href="#" aria-label="Home">f</a>
+        <a className="logo" href="#" aria-label="Home" onClick={(e) => { e.preventDefault(); onNavigate('home') }}>f</a>
         <button className="icon-btn" aria-label="Zoeken">🔍</button>
       </div>
 
@@ -59,7 +62,7 @@ function TopBar() {
             key={tab.id}
             className={`nav-tab ${activeTab === tab.id ? 'nav-tab--active' : ''}`}
             aria-label={tab.label}
-            onClick={() => setActiveTab(tab.id)}
+            onClick={() => { setActiveTab(tab.id); if (tab.id === 'home') onNavigate('home') }}
           >
             {tab.icon}
           </button>
@@ -73,7 +76,7 @@ function TopBar() {
           🔔
           {notificationCount > 0 && <span className="badge">{notificationCount}</span>}
         </button>
-        <button className="avatar avatar--md" aria-label="Account" />
+        <button className="avatar avatar--md" aria-label="Profiel" onClick={() => onNavigate('profile')} />
       </div>
     </header>
   )
@@ -202,14 +205,20 @@ function RightSidebar() {
 
 /* ===== Page ===== */
 export default function Facebook() {
+  const [page, setPage] = useState<Page>('home')
+
   return (
     <div className="facebook">
-      <TopBar />
-      <div className="layout">
-        <LeftSidebar />
-        <Feed />
-        <RightSidebar />
-      </div>
+      <TopBar onNavigate={setPage} />
+      {page === 'profile' ? (
+        <FacebookProfiel />
+      ) : (
+        <div className="layout">
+          <LeftSidebar />
+          <Feed />
+          <RightSidebar />
+        </div>
+      )}
     </div>
   )
 }
