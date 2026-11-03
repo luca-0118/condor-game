@@ -1,10 +1,12 @@
 import { useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
+import SearchIcon from '@mui/icons-material/Search'
 import {
   findBrowserSiteByDomain,
   findBrowserSiteByPath,
   mockBrowserSites,
-} from './browserData'
+} from '../../data/browserData'
+import { getSearchUrl } from '../../utils/search'
 import './GameOverlay.css'
 
 function GameOverlay() {
@@ -56,7 +58,7 @@ function TopBar() {
       // Text that is not a recognized in-game address is treated as a search query.
     }
 
-    navigate(`/sandbox/search?q=${encodeURIComponent(enteredAddress)}`)
+    navigate(getSearchUrl(enteredAddress))
   }
 
   return (
@@ -116,10 +118,7 @@ function TopBar() {
           spellCheck={false}
         />
         <button type="submit" className="browser-go" aria-label="Search or go">
-          <svg viewBox="0 0 24 24" aria-hidden="true">
-            <circle cx="10.8" cy="10.8" r="6.8" />
-            <path d="m16 16 5 5" />
-          </svg>
+          <SearchIcon aria-hidden="true" />
         </button>
       </form>
     </header>

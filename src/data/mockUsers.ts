@@ -1,3 +1,15 @@
+import daanVisser from '../Pages/Sandbox/Insta/assets/daan-visser.png'
+import emmaDeVries from '../Pages/Sandbox/Insta/assets/emma-de-vries.png'
+import finnDeBoer from '../Pages/Sandbox/Insta/assets/finn-de-boer.png'
+import liamJansen from '../Pages/Sandbox/Insta/assets/liam-jansen.png'
+import milaVanDijk from '../Pages/Sandbox/Insta/assets/mila-van-dijk.png'
+import noahBakker from '../Pages/Sandbox/Insta/assets/noah-bakker.png'
+import oliviaSmit from '../Pages/Sandbox/Insta/assets/olivia-smit.png'
+import sofiaNovak from '../Pages/Sandbox/Insta/assets/sofia-novak.png'
+import sofiaVale from '../Pages/Sandbox/Insta/assets/sofia-vale.png'
+import tessWillems from '../Pages/Sandbox/Insta/assets/tess-willems.png'
+import yaraElAmrani from '../Pages/Sandbox/Insta/assets/yara-el-amrani.png'
+
 // Mock user data shared by the social-media simulations (Instagram, Facebook, ...).
 export type MockUser = {
   id: number
@@ -18,7 +30,7 @@ export const mockUsers: MockUser[] = [
     bio: 'Photographer 📸 | Travel lover',
     followers: 12840,
     verified: true,
-    avatar: '/sofia-vale.png',
+    avatar: sofiaVale,
   },
   {
     id: 2,
@@ -26,7 +38,7 @@ export const mockUsers: MockUser[] = [
     username: 'sofianovak',
     bio: 'Coffee first ☕',
     followers: 863,
-    avatar: '/sofia-novak.png',
+    avatar: sofiaNovak,
   },
   {
     id: 3,
@@ -34,7 +46,7 @@ export const mockUsers: MockUser[] = [
     username: 'liamj',
     bio: 'Football & fitness',
     followers: 2310,
-    avatar: '/liam-jansen.png',
+    avatar: liamJansen,
   },
   {
     id: 4,
@@ -42,7 +54,7 @@ export const mockUsers: MockUser[] = [
     username: 'emma.devries',
     bio: 'Art student 🎨',
     followers: 5421,
-    avatar: '/emma-de-vries.png',
+    avatar: emmaDeVries,
   },
   {
     id: 5,
@@ -50,7 +62,7 @@ export const mockUsers: MockUser[] = [
     username: 'noahbkr',
     bio: 'Gaming 🎮',
     followers: 312,
-    avatar: '/noah-bakker.png',
+    avatar: noahBakker,
   },
   {
     id: 6,
@@ -59,7 +71,7 @@ export const mockUsers: MockUser[] = [
     bio: 'Music & concerts 🎶',
     followers: 19087,
     verified: true,
-    avatar: '/olivia-smit.png',
+    avatar: oliviaSmit,
   },
   {
     id: 7,
@@ -75,7 +87,7 @@ export const mockUsers: MockUser[] = [
     username: 'milavdijk',
     bio: 'Foodie 🍕 recipes every week',
     followers: 7654,
-    avatar: '/mila-van-dijk.png',
+    avatar: milaVanDijk,
   },
   {
     id: 9,
@@ -83,7 +95,7 @@ export const mockUsers: MockUser[] = [
     username: 'daanvisser',
     bio: 'Coder by day, gamer by night',
     followers: 954,
-    avatar: '/daan-visser.png',
+    avatar: daanVisser,
   },
   {
     id: 10,
@@ -92,7 +104,7 @@ export const mockUsers: MockUser[] = [
     bio: 'Fashion & design ✂️',
     followers: 15230,
     verified: true,
-    avatar: '/yara-el-amrani.png',
+    avatar: yaraElAmrani,
   },
   {
     id: 11,
@@ -100,7 +112,7 @@ export const mockUsers: MockUser[] = [
     username: 'finndb',
     bio: 'Cycling 🚴',
     followers: 421,
-    avatar: '/finn-de-boer.png',
+    avatar: finnDeBoer,
   },
   {
     id: 12,
@@ -108,6 +120,6 @@ export const mockUsers: MockUser[] = [
     username: 'tessw',
     bio: 'Dog mom 🐶',
     followers: 2087,
-    avatar: '/tess-willems.png',
+    avatar: tessWillems,
   },
 ]

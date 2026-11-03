@@ -5,8 +5,8 @@ import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlin
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import SendIcon from '@mui/icons-material/Send'
-import SearchBar from '../../components/SearchBar'
-import { mockUsers, type MockUser } from '../../data/mockUsers'
+import SearchBar from '../../../components/SearchBar'
+import { mockUsers, type MockUser } from '../../../data/mockUsers'
 import InstaSidebar from './InstaSidebar'
 import './instagram.css'
 

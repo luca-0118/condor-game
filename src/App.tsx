@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import DummyOmgeving from './dummyOmgeving'
-import GameOverlay from './GameOverlay'
+import DummyOmgeving from './Pages/Sandbox/dummyOmgeving'
+import GameOverlay from './Pages/Sandbox/GameOverlay'
 import Challenges from './Pages/Challenges/Challenges'
 import './App.css'
 
