@@ -1,6 +1,14 @@
 import './Google.css'
+import SearchIcon from '@mui/icons-material/Search'
 import { Link, useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
+import { getSearchUrl } from '../../../utils/search'
+import {
+  appsMenuIcon,
+  googleLensIcon,
+  googleLogo,
+  profilePlaceholder,
+} from './imageAssets'
 
 const leftLinks = [
   { label: 'About', href: '#about' },
@@ -30,7 +38,7 @@ function App() {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const query = formData.get('q')?.toString().trim() ?? ''
-    navigate(`/sandbox/search?q=${encodeURIComponent(query)}`)
+    navigate(getSearchUrl(query))
   }
 
   return (
@@ -53,7 +61,7 @@ function App() {
 
           <div className="apps-menu">
             <button className="apps-button" type="button" aria-label="Google apps">
-              <img className="menu-icon" src="/9dots.png" alt="" />
+              <img className="menu-icon" src={appsMenuIcon} alt="" />
             </button>
             <div className="dropdown-content">
               {appLinks.map((link) =>
@@ -70,22 +78,21 @@ function App() {
             </div>
           </div>
 
-          <img className="profile-icon" src="/profile-empty.jpg" alt="Profile" />
+          <img className="profile-icon" src={profilePlaceholder} alt="Profile" />
         </nav>
       </header>
 
       <main className="middle-section">
-        <img className="google-logo" src="/Google-Logo.png" alt="Google" />
+        <img className="google-logo" src={googleLogo} alt="Google" />
 
         <form className="search-form" role="search" onSubmit={handleSubmit}>
           <div className="search-form-input">
-            <img className="search-icon" src="/search-icon.png" alt="" />
+            <SearchIcon className="search-icon" aria-hidden="true" />
             <label htmlFor="search">Search</label>
             <input type="text" name="q" id="search" autoComplete="off" />
-            <img className="mic-icon" src="/mic-icon.png" alt="Voice search" />
             <img
               className="camera-icon"
-              src="/google-lens-logo-icon.png"
+              src={googleLensIcon}
               alt="Search by image"
             />
           </div>

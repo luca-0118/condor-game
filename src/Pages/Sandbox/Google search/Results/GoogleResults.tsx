@@ -1,7 +1,15 @@
 import './GoogleResults.css'
+import SearchIcon from '@mui/icons-material/Search'
 import { useState, type FormEvent } from 'react'
-import { Link, useSearchParams } from 'react-router-dom'
-import { mockSearchResults, searchResults, type SearchResult as SearchResultData } from '../searchData'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { mockSearchResults, searchResults, type SearchResult as SearchResultData } from '../../../../data/searchData'
+import { getSearchUrl } from '../../../../utils/search'
+import {
+  appsMenuIcon,
+  googleLensIcon,
+  googleLogo,
+  profilePlaceholder,
+} from '../imageAssets'
 
 const searchTypes = ['All', 'Images', 'Videos', 'Maps', 'News', 'Shopping', 'More']
 
@@ -31,14 +39,11 @@ function SearchBox({ query, onSearch }: SearchBoxProps) {
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-      <button className="results-icon-button" type="button" aria-label="Voice search">
-        <img src="/mic-icon.png" alt="" />
-      </button>
       <button className="results-icon-button" type="button" aria-label="Search by image">
-        <img src="/google-lens-logo-icon.png" alt="" />
+        <img src={googleLensIcon} alt="" />
       </button>
       <button className="results-search-button" type="submit" aria-label="Search">
-        <img src="/search-icon.png" alt="" />
+        <SearchIcon aria-hidden="true" />
       </button>
     </form>
   )
@@ -49,14 +54,14 @@ function ResultsHeader({ query, onSearch }: SearchBoxProps) {
     <header className="google-results-header">
       <div className="google-results-header-main">
         <Link className="results-logo-link" to="/sandbox" aria-label="Google home">
-          <img src="/Google-Logo.png" alt="Google" />
+          <img src={googleLogo} alt="Google" />
         </Link>
         <SearchBox key={query} query={query} onSearch={onSearch} />
         <nav className="results-user-nav" aria-label="Google account">
           <button className="results-apps-button" type="button" aria-label="Google apps">
-            <img src="/9dots.png" alt="" />
+            <img src={appsMenuIcon} alt="" />
           </button>
-          <img className="results-profile" src="/profile-empty.jpg" alt="Profile" />
+          <img className="results-profile" src={profilePlaceholder} alt="Profile" />
         </nav>
       </div>
       <SearchNavigation />
@@ -112,12 +117,13 @@ function SearchResult({ result }: { result: SearchResultData }) {
 }
 
 function GoogleResults() {
-  const [searchParams, setSearchParams] = useSearchParams()
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
   const query = searchParams.get('q') ?? ''
   const results = searchResults(query, mockSearchResults)
 
   const handleSearch = (nextQuery: string) => {
-    setSearchParams(nextQuery ? { q: nextQuery } : {})
+    navigate(getSearchUrl(nextQuery))
   }
 
   return (

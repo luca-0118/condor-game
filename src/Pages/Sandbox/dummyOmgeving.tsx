@@ -1,10 +1,10 @@
 import { Route, Routes } from 'react-router-dom'
-import Google from './Pages/Google search/Google'
-import GoogleResults from './Pages/Google search/Results/GoogleResults'
-import Facebook from './Pages/Facebook/Facebook'
-import Instagram from './Pages/Insta/Instagram'
-import InstaDM from './Pages/Insta/insta-dm'
-import Webshop from './Pages/Webshop/Webshop'
+import Google from './Google search/Google'
+import GoogleResults from './Google search/Results/GoogleResults'
+import Facebook from './Facebook/Facebook'
+import Instagram from './Insta/Instagram'
+import InstaDM from './Insta/insta-dm'
+import Webshop from './Webshop/Webshop'
 
 function DummyOmgeving() {
   return (

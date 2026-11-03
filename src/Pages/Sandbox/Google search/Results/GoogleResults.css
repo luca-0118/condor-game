@@ -90,10 +90,10 @@
   padding-left: 12px;
 }
 
-.results-search-button img {
+.results-search-button .MuiSvgIcon-root {
   width: 20px;
   height: 20px;
-  opacity: 0.75;
+  color: #5f6368;
 }
 
 .results-user-nav {

@@ -40,8 +40,7 @@
   cursor: default;
 }
 
-.browser-control svg,
-.browser-go svg {
+.browser-control svg {
   width: 19px;
   height: 19px;
   fill: none;
@@ -118,6 +117,10 @@
   background: transparent;
   color: #5f6368;
   cursor: pointer;
+}
+
+.browser-go .MuiSvgIcon-root {
+  font-size: 19px;
 }
 
 .browser-go:hover {
