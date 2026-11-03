@@ -8,7 +8,7 @@ function Startscherm() {
     <StartLayout>
       <Logo groot />
       <div className="ch-menu">
-        <MenuKnop icoonNaam="play" naar="/challenge/kies" opvallend>
+        <MenuKnop icoonNaam="play" naar="/kies" opvallend>
           START
         </MenuKnop>
         <MenuKnop icoonNaam="instellingen">SETTINGS</MenuKnop>

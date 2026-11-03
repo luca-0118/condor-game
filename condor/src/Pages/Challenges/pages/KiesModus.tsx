@@ -29,7 +29,7 @@ function KiesModus() {
           icoonNaam="zoek"
           titel="SANDBOX"
           uitleg="Zoek zelf naar sporen op social media en websites."
-          naar="/"
+          naar="/sandbox"
           bijKlik={startSessie}
         />
       </div>

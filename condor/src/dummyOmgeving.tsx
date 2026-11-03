@@ -8,9 +8,9 @@ function DummyOmgeving() {
   return (
     <div className="dummy-omgeving">
       <Routes>
-        <Route path="/instagram" element={<Instagram />} />
-        <Route path="/instagram/messages" element={<InstaDM />} />
-        <Route path="/facebook" element={<Facebook />} />
+        <Route path="instagram" element={<Instagram />} />
+        <Route path="instagram/messages" element={<InstaDM />} />
+        <Route path="facebook" element={<Facebook />} />
         <Route path="*" element={<Google />} />
       </Routes>
     </div>

@@ -21,7 +21,8 @@ function App() {
       <Routes>
         {/* De challenges vullen het hele scherm, zonder de sidebar van de sandbox */}
         <Route path="/challenge/*" element={<Challenges />} />
-        <Route path="*" element={<GameLayout />} />
+        <Route path="/sandbox/*" element={<GameLayout />} />
+        <Route path="*" element={<Challenges />} />
       </Routes>
     </BrowserRouter>
   )
