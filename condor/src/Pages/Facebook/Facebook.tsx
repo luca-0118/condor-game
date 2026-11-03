@@ -1,19 +1,33 @@
 import { useState } from 'react'
+import FacebookProfiel from './facebook-profiel'
 import './Facebook.css'
 
-/* ===== Placeholder data (edit content here) ===== */
-const user = { firstName: 'Voornaam', fullName: 'Voornaam Achternaam' }
-const notificationCount = 0
+type Page = 'home' | 'profile'
 
-const navTabs = [
-  { id: 'home', label: 'Home', icon: '🏠' },
+interface PostData {
+  id: number
+  author: string
+  time: string
+  text: string
+}
+
+// Placeholder user shown in the left menu and the composer.
+const USER = { firstName: 'Voornaam', fullName: 'Voornaam Achternaam' }
+
+// Number on the notification badge; the badge is hidden when it is 0.
+const NOTIFICATION_COUNT = 0
+
+// Tabs in the top bar; `page` is the page that opens when the tab is clicked.
+const NAV_TABS: { id: string; label: string; icon: string; page?: Page }[] = [
+  { id: 'home', label: 'Home', icon: '🏠', page: 'home' },
   { id: 'video', label: 'Video', icon: '🎬' },
   { id: 'friends', label: 'Vrienden', icon: '👥' },
   { id: 'marketplace', label: 'Marketplace', icon: '🏪' },
   { id: 'gaming', label: 'Gaming', icon: '🎮' },
 ]
 
-const sidebarItems = [
+// Entries in the left menu.
+const SIDEBAR_ITEMS: { label: string; icon: string }[] = [
   { label: 'Meta AI', icon: '✨' },
   { label: 'Vrienden', icon: '👥' },
   { label: 'Herinneringen', icon: '🕒' },
@@ -24,7 +38,14 @@ const sidebarItems = [
   { label: 'Overzichten', icon: '📊' },
 ]
 
-const initialPosts = [
+// Tabs above the feed.
+const FEED_TABS: { id: string; label: string }[] = [
+  { id: 'foryou', label: 'Voor jou' },
+  { id: 'following', label: 'Volgend' },
+]
+
+// Placeholder posts for the feed.
+const INITIAL_POSTS: PostData[] = [
   {
     id: 1,
     author: 'Paginanaam',
@@ -33,36 +54,69 @@ const initialPosts = [
   },
 ]
 
-const ads = [
+// Placeholder ads and contacts for the right column.
+const ADS: { id: number; title: string; domain: string }[] = [
   { id: 1, title: 'Advertentietitel', domain: 'voorbeeld.com' },
   { id: 2, title: 'Advertentietitel', domain: 'voorbeeld.com' },
 ]
+const CONTACTS: string[] = ['Meta AI', 'Contactnaam']
 
-const contacts = ['Meta AI', 'Contactnaam']
+// One tab in the top bar.
+function NavTab({
+  label,
+  icon,
+  active,
+  onClick,
+}: {
+  label: string
+  icon: string
+  active: boolean
+  onClick: () => void
+}) {
+  return (
+    <button
+      className={`nav-tab${active ? ' nav-tab--active' : ''}`}
+      aria-label={label}
+      onClick={onClick}
+    >
+      {icon}
+    </button>
+  )
+}
 
-type PostData = (typeof initialPosts)[number]
-
-/* ===== Top bar ===== */
-function TopBar() {
+// Top bar with logo, tabs and account buttons; `onNavigate` switches between the feed and the profile.
+function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
   const [activeTab, setActiveTab] = useState('home')
 
   return (
     <header className="topbar">
       <div className="topbar__left">
-        <a className="logo" href="#" aria-label="Home">f</a>
+        <a
+          className="logo"
+          href="#"
+          aria-label="Home"
+          onClick={(e) => {
+            e.preventDefault()
+            onNavigate('home')
+          }}
+        >
+          f
+        </a>
         <button className="icon-btn" aria-label="Zoeken">🔍</button>
       </div>
 
       <nav className="topbar__nav" aria-label="Hoofdnavigatie">
-        {navTabs.map((tab) => (
-          <button
+        {NAV_TABS.map((tab) => (
+          <NavTab
             key={tab.id}
-            className={`nav-tab ${activeTab === tab.id ? 'nav-tab--active' : ''}`}
-            aria-label={tab.label}
-            onClick={() => setActiveTab(tab.id)}
-          >
-            {tab.icon}
-          </button>
+            label={tab.label}
+            icon={tab.icon}
+            active={activeTab === tab.id}
+            onClick={() => {
+              setActiveTab(tab.id)
+              if (tab.page) onNavigate(tab.page)
+            }}
+          />
         ))}
       </nav>
 
@@ -71,33 +125,44 @@ function TopBar() {
         <button className="icon-btn" aria-label="Messenger">💬</button>
         <button className="icon-btn icon-btn--badge" aria-label="Meldingen">
           🔔
-          {notificationCount > 0 && <span className="badge">{notificationCount}</span>}
+          {NOTIFICATION_COUNT > 0 && <span className="badge">{NOTIFICATION_COUNT}</span>}
         </button>
-        <button className="avatar avatar--md" aria-label="Account" />
+        <button
+          className="avatar avatar--md"
+          aria-label="Profiel"
+          onClick={() => onNavigate('profile')}
+        />
       </div>
     </header>
   )
 }
 
-/* ===== Left sidebar ===== */
+// One row in the left menu.
+function SidebarItem({ label, icon }: { label: string; icon: string }) {
+  return (
+    <a className="sidebar__item" href="#">
+      <span className="sidebar__icon">{icon}</span>
+      {label}
+    </a>
+  )
+}
+
+// Left column: the user and the menu entries.
 function LeftSidebar() {
   return (
     <aside className="sidebar sidebar--left">
       <a className="sidebar__item" href="#">
         <span className="avatar avatar--sm" />
-        {user.fullName}
+        {USER.fullName}
       </a>
-      {sidebarItems.map((item) => (
-        <a key={item.label} className="sidebar__item" href="#">
-          <span className="sidebar__icon">{item.icon}</span>
-          {item.label}
-        </a>
+      {SIDEBAR_ITEMS.map((item) => (
+        <SidebarItem key={item.label} label={item.label} icon={item.icon} />
       ))}
     </aside>
   )
 }
 
-/* ===== Post ===== */
+// A single feed post with placeholder content.
 function Post({ post, onDismiss }: { post: PostData; onDismiss: (id: number) => void }) {
   return (
     <article className="card post">
@@ -123,33 +188,31 @@ function Post({ post, onDismiss }: { post: PostData; onDismiss: (id: number) => 
   )
 }
 
-/* ===== Feed ===== */
+// Center column: tabs, composer, story prompt and posts.
 function Feed() {
-  const [tab, setTab] = useState<'foryou' | 'following'>('foryou')
-  const [posts, setPosts] = useState(initialPosts)
+  const [tab, setTab] = useState('foryou')
+  const [posts, setPosts] = useState(INITIAL_POSTS)
 
+  // Remove a post from the feed.
   const dismissPost = (id: number) => setPosts((prev) => prev.filter((p) => p.id !== id))
 
   return (
     <main className="feed">
       <div className="feed__tabs">
-        <button
-          className={`feed__tab ${tab === 'foryou' ? 'feed__tab--active' : ''}`}
-          onClick={() => setTab('foryou')}
-        >
-          Voor jou
-        </button>
-        <button
-          className={`feed__tab ${tab === 'following' ? 'feed__tab--active' : ''}`}
-          onClick={() => setTab('following')}
-        >
-          Volgend
-        </button>
+        {FEED_TABS.map((t) => (
+          <button
+            key={t.id}
+            className={`feed__tab${tab === t.id ? ' feed__tab--active' : ''}`}
+            onClick={() => setTab(t.id)}
+          >
+            {t.label}
+          </button>
+        ))}
       </div>
 
       <section className="card composer">
         <span className="avatar avatar--md" />
-        <button className="composer__input">Wat ben je aan het doen, {user.firstName}?</button>
+        <button className="composer__input">Wat ben je aan het doen, {USER.firstName}?</button>
         <span className="composer__actions">🎥 🖼️ 😊</span>
       </section>
 
@@ -168,19 +231,36 @@ function Feed() {
   )
 }
 
-/* ===== Right sidebar ===== */
+// One sponsored ad in the right column.
+function Ad({ title, domain }: { title: string; domain: string }) {
+  return (
+    <a className="ad" href="#">
+      <div className="ad__image" />
+      <div className="ad__text">
+        <strong>{title}</strong>
+        <span>{domain}</span>
+      </div>
+    </a>
+  )
+}
+
+// One row in the contacts list.
+function Contact({ name }: { name: string }) {
+  return (
+    <a className="contact" href="#">
+      <span className="avatar avatar--sm" />
+      {name}
+    </a>
+  )
+}
+
+// Right column: sponsored ads and contacts.
 function RightSidebar() {
   return (
     <aside className="sidebar sidebar--right">
       <h3 className="sidebar__title">Gesponsord</h3>
-      {ads.map((ad) => (
-        <a key={ad.id} className="ad" href="#">
-          <div className="ad__image" />
-          <div className="ad__text">
-            <strong>{ad.title}</strong>
-            <span>{ad.domain}</span>
-          </div>
-        </a>
+      {ADS.map((ad) => (
+        <Ad key={ad.id} title={ad.title} domain={ad.domain} />
       ))}
 
       <hr className="divider" />
@@ -189,27 +269,33 @@ function RightSidebar() {
         <h3 className="sidebar__title">Contacten</h3>
         <span>🔍 •••</span>
       </div>
-      {contacts.map((name) => (
-        <a key={name} className="contact" href="#">
-          <span className="avatar avatar--sm" />
-          {name}
-        </a>
+      {CONTACTS.map((name) => (
+        <Contact key={name} name={name} />
       ))}
+
       <button className="fab" aria-label="Nieuw bericht">✎</button>
     </aside>
   )
 }
 
-/* ===== Page ===== */
-export default function Facebook() {
+// The page switches between the feed and the profile without a router.
+function Facebook() {
+  const [page, setPage] = useState<Page>('home')
+
   return (
     <div className="facebook">
-      <TopBar />
-      <div className="layout">
-        <LeftSidebar />
-        <Feed />
-        <RightSidebar />
-      </div>
+      <TopBar onNavigate={setPage} />
+      {page === 'profile' ? (
+        <FacebookProfiel />
+      ) : (
+        <div className="layout">
+          <LeftSidebar />
+          <Feed />
+          <RightSidebar />
+        </div>
+      )}
     </div>
   )
 }
+
+export default Facebook
