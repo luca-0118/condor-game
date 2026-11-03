@@ -1,6 +1,6 @@
 import { Route, Routes } from 'react-router-dom'
-import Google from './Pages/Google'
-import GoogleResults from './Pages/Google search/GoogleResults'
+import Google from './Pages/Google search/Google'
+import GoogleResults from './Pages/Google search/Results/GoogleResults'
 import Facebook from './Pages/Facebook/Facebook'
 import Instagram from './Pages/Insta/Instagram'
 

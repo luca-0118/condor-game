@@ -1,5 +1,6 @@
-import './Google-style.css'
+import './Google.css'
 import { Link, useNavigate } from 'react-router-dom'
+import type { FormEvent } from 'react'
 
 const leftLinks = [
   { label: 'About', href: '#about' },
@@ -25,9 +26,11 @@ const footerRight = ['Privacy', 'Terms', 'Settings']
 function App() {
   const navigate = useNavigate()
 
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
-    navigate('/search')
+    const formData = new FormData(event.currentTarget)
+    const query = formData.get('q')?.toString().trim() ?? ''
+    navigate(`/search?q=${encodeURIComponent(query)}`)
   }
 
   return (
@@ -72,7 +75,7 @@ function App() {
           <div className="search-form-input">
             <img className="search-icon" src="/search-icon.png" alt="" />
             <label htmlFor="search">Search</label>
-            <input type="text" name="search" id="search" autoComplete="off" />
+            <input type="text" name="q" id="search" autoComplete="off" />
             <img className="mic-icon" src="/mic-icon.png" alt="Voice search" />
             <img
               className="camera-icon"
