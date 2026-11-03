@@ -3,7 +3,7 @@ import { Link, useLocation } from 'react-router-dom'
 
 // Sidebar entries; `path` is the SVG path data for each icon.
 const NAV_ITEMS: { label: string; path: string; to?: string }[] = [
-  { label: 'Home', path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', to: '/instagram' },
+  { label: 'Home', path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', to: '/sandbox/instagram' },
   {
     label: 'Reels',
     path: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2 5-3-5-3v6z',
@@ -11,7 +11,7 @@ const NAV_ITEMS: { label: string; path: string; to?: string }[] = [
   {
     label: 'Messages',
     path: 'M2.01 21 23 12 2.01 3 2 10l15 2-15 2z',
-    to: '/instagram/messages',
+    to: '/sandbox/instagram/messages',
   },
   {
     label: 'Search',
@@ -86,7 +86,7 @@ function InstaSidebar({ onSearchClick, onNavigate }: InstaSidebarProps) {
                 {content}
               </a>
             ) : (
-              <Link key={item.label} className={className} to="/instagram?search=true">
+              <Link key={item.label} className={className} to="/sandbox/instagram?search=true">
                 {content}
               </Link>
             )

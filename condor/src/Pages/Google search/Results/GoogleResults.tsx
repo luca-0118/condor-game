@@ -1,6 +1,6 @@
 import './GoogleResults.css'
 import { useState, type FormEvent } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import { mockSearchResults, searchResults, type SearchResult as SearchResultData } from '../searchData'
 
 const searchTypes = ['All', 'Images', 'Videos', 'Maps', 'News', 'Shopping', 'More']
@@ -48,9 +48,9 @@ function ResultsHeader({ query, onSearch }: SearchBoxProps) {
   return (
     <header className="google-results-header">
       <div className="google-results-header-main">
-        <a className="results-logo-link" href="/" aria-label="Google home">
+        <Link className="results-logo-link" to="/sandbox" aria-label="Google home">
           <img src="/Google-Logo.png" alt="Google" />
-        </a>
+        </Link>
         <SearchBox key={query} query={query} onSearch={onSearch} />
         <nav className="results-user-nav" aria-label="Google account">
           <button className="results-apps-button" type="button" aria-label="Google apps">
@@ -103,9 +103,9 @@ function SearchResult({ result }: { result: SearchResultData }) {
           ⋮
         </button>
       </div>
-      <a className="result-title" href={result.url}>
+      <Link className="result-title" to={result.url}>
         {result.title}
-      </a>
+      </Link>
       <p className="result-description">{result.description}</p>
     </article>
   )

@@ -15,7 +15,7 @@ function Home() {
         <div>
           <p className="ws-oog">Al ruim 60 jaar uw juwelier</p>
           <h1>Bekijk de hele collectie</h1>
-          <Link to="/webshop/alle-sieraden" className="ws-hero-knop">HIER <span aria-hidden="true">→</span></Link>
+          <Link to="/sandbox/webshop/alle-sieraden" className="ws-hero-knop">HIER <span aria-hidden="true">→</span></Link>
         </div>
         <img src={foto('hero')} alt="Vitrine met gouden sieraden" />
       </section>
@@ -23,14 +23,14 @@ function Home() {
       <section className="ws-sectie">
         <div className="ws-sectiekop">
           <h2>Topproducten in sieraden</h2>
-          <Link to="/webshop/alle-sieraden">Alles bekijken <span aria-hidden="true">→</span></Link>
+          <Link to="/sandbox/webshop/alle-sieraden">Alles bekijken <span aria-hidden="true">→</span></Link>
         </div>
         <ProductRaster items={top} />
       </section>
 
       <section className="ws-sectie ws-categorieen">
         {categorieen.map((c) => (
-          <Link key={c.pad} to={`/webshop/${c.pad}`}>
+          <Link key={c.pad} to={`/sandbox/webshop/${c.pad}`}>
             <span className="ws-cat-foto"><img src={foto(c.foto)} alt="" loading="lazy" /></span>
             <span className="ws-cat-naam">{c.naam} <span aria-hidden="true">→</span></span>
           </Link>

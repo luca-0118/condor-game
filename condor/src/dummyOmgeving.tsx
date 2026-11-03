@@ -10,12 +10,12 @@ function DummyOmgeving() {
   return (
     <div className="dummy-omgeving">
       <Routes>
-        <Route path="/search" element={<GoogleResults />} />
-        <Route path="/instagram" element={<Instagram />} />
-        <Route path="/instagram/messages" element={<InstaDM />} />
-        <Route path="/facebook" element={<Facebook />} />
-        <Route path="/webshop/*" element={<Webshop />} />
-        <Route path="*" element={<Google />} />
+        <Route path="search" element={<GoogleResults />} />
+        <Route path="instagram" element={<Instagram />} />
+        <Route path="instagram/messages" element={<InstaDM />} />
+        <Route path="facebook" element={<Facebook />} />
+        <Route path="webshop/*" element={<Webshop />} />
+        <Route index element={<Google />} />
       </Routes>
     </div>
   )

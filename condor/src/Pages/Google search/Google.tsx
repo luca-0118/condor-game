@@ -12,10 +12,10 @@ const rightLinks = [
   { label: 'Images', href: '#images' },
 ]
 
-const appLinks = [
-  { label: 'Instagram', href: '#instagram' },
-  { label: 'Facebook', href: '#facebook' },
-  { label: 'Scamwebsite', href: '#scamwebsite' },
+const appLinks: { label: string; to?: string; href?: string }[] = [
+  { label: 'Instagram', to: '/sandbox/instagram' },
+  { label: 'Facebook', to: '/sandbox/facebook' },
+  { label: 'Scamwebsite', to: '/sandbox/webshop' },
   { label: 'ReverseImage', href: '#reverse-image' },
 ]
 
@@ -30,7 +30,7 @@ function App() {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const query = formData.get('q')?.toString().trim() ?? ''
-    navigate(`/search?q=${encodeURIComponent(query)}`)
+    navigate(`/sandbox/search?q=${encodeURIComponent(query)}`)
   }
 
   return (
@@ -56,11 +56,17 @@ function App() {
               <img className="menu-icon" src="/9dots.png" alt="" />
             </button>
             <div className="dropdown-content">
-              {appLinks.map((link) => (
-                <a key={link.label} href={link.href}>
-                  {link.label}
-                </a>
-              ))}
+              {appLinks.map((link) =>
+                link.to ? (
+                  <Link key={link.label} to={link.to}>
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a key={link.label} href={link.href}>
+                    {link.label}
+                  </a>
+                ),
+              )}
             </div>
           </div>
 
@@ -88,12 +94,6 @@ function App() {
             <button type="submit">Google Search</button>
             <button type="submit">I'm Feeling Lucky</button>
           </div>
-          <Link to="/instagram" className="test-link">
-            Instagram
-          </Link>
-          <Link to="/Facebook" className="test-link">
-            Facebook
-          </Link>
         </form>
       </main>
 

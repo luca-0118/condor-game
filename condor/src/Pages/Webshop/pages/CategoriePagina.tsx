@@ -16,7 +16,7 @@ function CategoriePagina({ pad }: { pad: string }) {
 
   return (
     <>
-      <p className="ws-kruimel"><Link to="/webshop">Home</Link> / {categorie.naam}</p>
+      <p className="ws-kruimel"><Link to="/sandbox/webshop">Home</Link> / {categorie.naam}</p>
       <section className="ws-banner">
         <div>
           <h1>{categorie.naam}</h1>

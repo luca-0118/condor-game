@@ -23,7 +23,7 @@ function ProductPagina() {
   const toevoegen = () => {
     if (!ontgrendeld) return zetPopup(true)
     zetAantal(item.id, (mandje[item.id] ?? 0) + 1)
-    navigate('/webshop/winkelmandje')
+    navigate('/sandbox/webshop/winkelmandje')
   }
 
   return (
