@@ -1,5 +1,6 @@
-import './Google-style.css'
-import { Link } from 'react-router-dom'
+import './Google.css'
+import { Link, useNavigate } from 'react-router-dom'
+import type { FormEvent } from 'react'
 
 const leftLinks = [
   { label: 'About', href: '#about' },
@@ -11,10 +12,10 @@ const rightLinks = [
   { label: 'Images', href: '#images' },
 ]
 
-const appLinks = [
-  { label: 'Instagram', href: '#instagram' },
-  { label: 'Facebook', href: '#facebook' },
-  { label: 'Scamwebsite', href: '#scamwebsite' },
+const appLinks: { label: string; to?: string; href?: string }[] = [
+  { label: 'Instagram', to: '/sandbox/instagram' },
+  { label: 'Facebook', to: '/sandbox/facebook' },
+  { label: 'Scamwebsite', to: '/sandbox/webshop' },
   { label: 'ReverseImage', href: '#reverse-image' },
 ]
 
@@ -23,8 +24,13 @@ const footerMiddle = ['Carbon neutral since 2007']
 const footerRight = ['Privacy', 'Terms', 'Settings']
 
 function App() {
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const navigate = useNavigate()
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
+    const formData = new FormData(event.currentTarget)
+    const query = formData.get('q')?.toString().trim() ?? ''
+    navigate(`/sandbox/search?q=${encodeURIComponent(query)}`)
   }
 
   return (
@@ -50,11 +56,17 @@ function App() {
               <img className="menu-icon" src="/9dots.png" alt="" />
             </button>
             <div className="dropdown-content">
-              {appLinks.map((link) => (
-                <a key={link.label} href={link.href}>
-                  {link.label}
-                </a>
-              ))}
+              {appLinks.map((link) =>
+                link.to ? (
+                  <Link key={link.label} to={link.to}>
+                    {link.label}
+                  </Link>
+                ) : (
+                  <a key={link.label} href={link.href}>
+                    {link.label}
+                  </a>
+                ),
+              )}
             </div>
           </div>
 
@@ -69,7 +81,7 @@ function App() {
           <div className="search-form-input">
             <img className="search-icon" src="/search-icon.png" alt="" />
             <label htmlFor="search">Search</label>
-            <input type="text" name="search" id="search" autoComplete="off" />
+            <input type="text" name="q" id="search" autoComplete="off" />
             <img className="mic-icon" src="/mic-icon.png" alt="Voice search" />
             <img
               className="camera-icon"
@@ -82,12 +94,6 @@ function App() {
             <button type="submit">Google Search</button>
             <button type="submit">I'm Feeling Lucky</button>
           </div>
-          <Link to="/instagram" className="test-link">
-            Instagram
-          </Link>
-          <Link to="/Facebook" className="test-link">
-            Facebook
-          </Link>
         </form>
       </main>
 

@@ -1,0 +1,124 @@
+import { useState } from 'react'
+import { Link, useLocation } from 'react-router-dom'
+
+// Sidebar entries; `path` is the SVG path data for each icon.
+const NAV_ITEMS: { label: string; path: string; to?: string }[] = [
+  { label: 'Home', path: 'M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z', to: '/sandbox/instagram' },
+  {
+    label: 'Reels',
+    path: 'M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 14H4V6h16v12zm-9-2 5-3-5-3v6z',
+  },
+  {
+    label: 'Messages',
+    path: 'M2.01 21 23 12 2.01 3 2 10l15 2-15 2z',
+    to: '/sandbox/instagram/messages',
+  },
+  {
+    label: 'Search',
+    path: 'M15.5 14h-.79l-.28-.27a6.5 6.5 0 1 0-.71.71l.27.28v.78l5 4.99L20.49 19l-4.99-5zm-5 0a4.5 4.5 0 1 1 0-9 4.5 4.5 0 0 1 0 9z',
+  },
+  {
+    label: 'Notifications',
+    path: 'M12 21.35 10.55 20C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09A5.98 5.98 0 0 1 16.5 3C19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.51L12 21.35zM7.5 5C5.5 5 4 6.5 4 8.5c0 2.54 2.7 5.02 8 9.81 5.3-4.79 8-7.27 8-9.81 0-2-1.5-3.5-3.5-1.54 0-3.04.99-3.57 2.36h-1.87C10.54 5.99 9.04 5 7.5 5z',
+  },
+  { label: 'Create', path: 'M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z' },
+  {
+    label: 'Profile',
+    path: 'M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3a3.5 3.5 0 1 1 0 7 3.5 3.5 0 0 1 0-7zm0 15a7.96 7.96 0 0 1-6.32-3.12C6.4 14.93 9 14 12 14s5.6.93 6.32 2.88A7.96 7.96 0 0 1 12 20z',
+  },
+]
+
+type InstaSidebarProps = {
+  // Called when the Search item is clicked; when set, Search toggles instead of navigating.
+  onSearchClick?: () => void
+  // Called when any other nav item is clicked (e.g. to close the search view).
+  onNavigate?: () => void
+}
+
+// Shared Instagram sidebar: expands on hover/focus and links every page the same way.
+function InstaSidebar({ onSearchClick, onNavigate }: InstaSidebarProps) {
+  const [hovered, setHovered] = useState(false)
+  const [focused, setFocused] = useState(false)
+  const location = useLocation()
+  const expanded = hovered || focused
+
+  return (
+    <aside
+      className={`sidebar${expanded ? ' sidebar-open' : ''}`}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      onFocus={() => setFocused(true)}
+      // Only collapse when focus leaves the sidebar entirely.
+      onBlur={(e) => {
+        if (!e.currentTarget.contains(e.relatedTarget)) setFocused(false)
+      }}
+    >
+      <h1 className="logo" aria-label="Instagram">
+        <svg viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M7.8 2h8.4A5.8 5.8 0 0 1 22 7.8v8.4a5.8 5.8 0 0 1-5.8 5.8H7.8A5.8 5.8 0 0 1 2 16.2V7.8A5.8 5.8 0 0 1 7.8 2zm-.2 2A3.6 3.6 0 0 0 4 7.6v8.8A3.6 3.6 0 0 0 7.6 20h8.8a3.6 3.6 0 0 0 3.6-3.6V7.6A3.6 3.6 0 0 0 16.4 4zm4.4 2a6 6 0 1 1 0 12 6 6 0 0 1 0-12zm0 2a4 4 0 1 0 0 8 4 4 0 0 0 0-8zm5.5-3.5a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3z" />
+        </svg>
+      </h1>
+
+      <nav>
+        {NAV_ITEMS.map((item) => {
+          const className = item.to === location.pathname ? 'active' : undefined
+          const content = (
+            <>
+              <svg className="nav-icon" viewBox="0 0 24 24" aria-hidden="true">
+                <path d={item.path} />
+              </svg>
+              <span className="nav-label">{item.label}</span>
+            </>
+          )
+          if (item.label === 'Search') {
+            // With a handler the page toggles its search view; without one we
+            // navigate to the home page's search view.
+            return onSearchClick ? (
+              <a
+                key={item.label}
+                className={className}
+                href="#"
+                onClick={(e) => {
+                  e.preventDefault()
+                  onSearchClick()
+                }}
+              >
+                {content}
+              </a>
+            ) : (
+              <Link key={item.label} className={className} to="/sandbox/instagram?search=true">
+                {content}
+              </Link>
+            )
+          }
+          return item.to ? (
+            <Link key={item.label} className={className} to={item.to} onClick={onNavigate}>
+              {content}
+            </Link>
+          ) : (
+            <a
+              key={item.label}
+              className={className}
+              href="#"
+              onClick={(e) => {
+                e.preventDefault()
+                onNavigate?.()
+              }}
+            >
+              {content}
+            </a>
+          )
+        })}
+      </nav>
+
+      <div className="more">
+        <svg className="more-icon" viewBox="0 0 24 24" aria-hidden="true">
+          <path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z" />
+        </svg>
+        <span className="more-label">More</span>
+      </div>
+    </aside>
+  )
+}
+
+export default InstaSidebar
