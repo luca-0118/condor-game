@@ -1,10 +1,9 @@
 import './Google.css'
 import SearchIcon from '@mui/icons-material/Search'
-import { Link, useNavigate } from 'react-router-dom'
+import { useNavigate } from 'react-router-dom'
 import type { FormEvent } from 'react'
 import { getSearchUrl } from '../../../utils/search'
 import {
-  appsMenuIcon,
   googleLensIcon,
   googleLogo,
   profilePlaceholder,
@@ -20,13 +19,6 @@ const rightLinks = [
   { label: 'Images', href: '#images' },
 ]
 
-const appLinks: { label: string; to?: string; href?: string }[] = [
-  { label: 'Instagram', to: '/sandbox/instagram' },
-  { label: 'Facebook', to: '/sandbox/facebook' },
-  { label: 'Scamwebsite', to: '/sandbox/webshop' },
-  { label: 'ReverseImage', href: '#reverse-image' },
-]
-
 const footerLeft = ['Advertising', 'Business', 'How Search Works']
 const footerMiddle = ['Carbon neutral since 2007']
 const footerRight = ['Privacy', 'Terms', 'Settings']
@@ -38,6 +30,8 @@ function App() {
     event.preventDefault()
     const formData = new FormData(event.currentTarget)
     const query = formData.get('q')?.toString().trim() ?? ''
+    if (!query) return
+
     navigate(getSearchUrl(query))
   }
 
@@ -58,25 +52,6 @@ function App() {
               {link.label}
             </a>
           ))}
-
-          <div className="apps-menu">
-            <button className="apps-button" type="button" aria-label="Google apps">
-              <img className="menu-icon" src={appsMenuIcon} alt="" />
-            </button>
-            <div className="dropdown-content">
-              {appLinks.map((link) =>
-                link.to ? (
-                  <Link key={link.label} to={link.to}>
-                    {link.label}
-                  </Link>
-                ) : (
-                  <a key={link.label} href={link.href}>
-                    {link.label}
-                  </a>
-                ),
-              )}
-            </div>
-          </div>
 
           <img className="profile-icon" src={profilePlaceholder} alt="Profile" />
         </nav>

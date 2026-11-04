@@ -61,7 +61,7 @@ export const huidigeCase: Case = {
           id: 'webshop',
           vraag: 'Which webshop is the influencer promoting?',
           hint: 'Read the caption of the latest posts.',
-          antwoorden: ['Mona Juweliers', 'Mona'],
+          antwoorden: ['Mona Jewelry', 'Mona'],
           punten: 10,
         },
         {

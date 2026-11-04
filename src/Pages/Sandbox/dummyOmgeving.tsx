@@ -14,7 +14,7 @@ function DummyOmgeving() {
         <Route path="instagram" element={<Instagram />} />
         <Route path="instagram/messages" element={<InstaDM />} />
         <Route path="facebook" element={<Facebook />} />
-        <Route path="webshop/*" element={<Webshop />} />
+        <Route path="monajewelry/*" element={<Webshop />} />
         <Route index element={<Google />} />
       </Routes>
     </div>

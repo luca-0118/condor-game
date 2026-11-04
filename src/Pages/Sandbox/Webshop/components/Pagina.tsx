@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom'
 function Pagina({ kruimel, children }: { kruimel: string; children: ReactNode }) {
   return (
     <>
-      <p className="ws-kruimel"><Link to="/sandbox/webshop">Home</Link> / {kruimel}</p>
+      <p className="ws-kruimel"><Link to="/sandbox/monajewelry">Home</Link> / {kruimel}</p>
       <div className="ws-sectie">{children}</div>
     </>
   )

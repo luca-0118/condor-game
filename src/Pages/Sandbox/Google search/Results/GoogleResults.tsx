@@ -1,9 +1,9 @@
 import './GoogleResults.css'
 import SearchIcon from '@mui/icons-material/Search'
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useNavigate, useSearchParams } from 'react-router-dom'
-import { mockSearchResults, searchResults, type SearchResult as SearchResultData } from '../../../../data/searchData'
 import { getSearchUrl } from '../../../../utils/search'
+import { searchGoogleSites, type GoogleSearchResult } from '../../Databases/googleDatabase'
 import {
   appsMenuIcon,
   googleLensIcon,
@@ -93,7 +93,7 @@ function SearchNavigation() {
   )
 }
 
-function SearchResult({ result }: { result: SearchResultData }) {
+function SearchResult({ result }: { result: GoogleSearchResult }) {
   return (
     <article className="google-result">
       <div className="result-source">
@@ -102,7 +102,7 @@ function SearchResult({ result }: { result: SearchResultData }) {
         </span>
         <div className="result-source-text">
           <div className="result-domain">{result.domain}</div>
-          <div className="result-url">{result.url}</div>
+          <div className="result-url">{result.displayurl}</div>
         </div>
         <button className="result-options" type="button" aria-label="Result options">
           ⋮
@@ -120,7 +120,38 @@ function GoogleResults() {
   const [searchParams] = useSearchParams()
   const navigate = useNavigate()
   const query = searchParams.get('q') ?? ''
-  const results = searchResults(query, mockSearchResults)
+  const [searchState, setSearchState] = useState<{
+    query: string
+    results: GoogleSearchResult[]
+    error: string | null
+  }>({ query: '', results: [], error: null })
+
+  useEffect(() => {
+    let active = true
+
+    if (query.trim()) {
+      searchGoogleSites(query)
+        .then((results) => {
+          if (active) {
+            setSearchState({ query, results, error: null })
+          }
+        })
+        .catch((error: unknown) => {
+          console.error('Failed to search the Google database.', error)
+          if (active) {
+            setSearchState({
+              query,
+              results: [],
+              error: 'Search results could not be loaded.',
+            })
+          }
+        })
+    }
+
+    return () => {
+      active = false
+    }
+  }, [query])
 
   const handleSearch = (nextQuery: string) => {
     navigate(getSearchUrl(nextQuery))
@@ -131,8 +162,12 @@ function GoogleResults() {
       <ResultsHeader query={query} onSearch={handleSearch} />
       <main className="google-results-content" aria-label="Search results">
         {query.trim() ? (
-          results.length > 0 ? (
-            results.map((result) => <SearchResult key={result.url} result={result} />)
+          searchState.query !== query ? (
+            <p role="status">Loading search results...</p>
+          ) : searchState.error ? (
+            <p role="alert">{searchState.error}</p>
+          ) : searchState.results.length > 0 ? (
+            searchState.results.map((result) => <SearchResult key={result.url} result={result} />)
           ) : (
             <p role="status">No results found for “{query}”.</p>
           )

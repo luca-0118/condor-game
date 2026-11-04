@@ -34,7 +34,7 @@ export const MERK = 'COSMOS'
 export const SCORE = '4,9 (275)'
 export const VOORRAAD = 3
 export const AFTELKLOK_SECONDEN = 14 * 60 + 32
-export const CONTACT_MAIL = 'klantenservice.monajuweliers@gmail.com'
+export const CONTACT_MAIL = 'klantenservice.monajewelry@gmail.com'
 export const REKENING = {
   iban: 'LT00 0000 0000 0000 0000',
   naam: 'MJ Global Trading Ltd',

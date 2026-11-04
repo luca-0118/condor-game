@@ -1,11 +1,11 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import SearchIcon from '@mui/icons-material/Search'
 import {
   findBrowserSiteByDomain,
   findBrowserSiteByPath,
-  mockBrowserSites,
-} from '../../data/browserData'
+  type BrowserSite,
+} from './Databases/googleDatabase'
 import { getSearchUrl } from '../../utils/search'
 import './GameOverlay.css'
 
@@ -17,48 +17,86 @@ function TopBar() {
   const navigate = useNavigate()
   const { pathname, search } = useLocation()
   const [editedAddress, setEditedAddress] = useState<{ location: string; value: string } | null>(null)
+  const [siteAddress, setSiteAddress] = useState<{ location: string; value: string } | null>(null)
+  const [addressError, setAddressError] = useState<string | null>(null)
   const location = `${pathname}${search}`
+  useEffect(() => {
+    let active = true
+    findBrowserSiteByPath(pathname)
+      .then((site) => {
+        if (active) {
+          setSiteAddress({
+            location,
+            value: site
+              ? `${site.displayurl}${pathname.slice(site.route.length)}${search}`
+              : `condor.local${pathname}${search}`,
+          })
+        }
+      })
+      .catch((error: unknown) => {
+        console.error('Failed to resolve the in-game browser address.', error)
+        if (active) {
+          setAddressError('Could not load the in-game website database.')
+        }
+      })
+
+    return () => {
+      active = false
+    }
+  }, [location, pathname, search])
   const address = editedAddress?.location === location
     ? editedAddress.value
-    : getDisplayAddress(pathname, search)
+    : siteAddress?.location === location
+      ? siteAddress.value
+      : ''
+  const [addressFocused, setAddressFocused] = useState(false)
+  const displayedAddress = addressFocused ? address : getAddressWithoutProtocol(address)
   const historyIndex = window.history.state?.idx
   const canGoBack = typeof historyIndex === 'number' && historyIndex > 0
   const canGoForward =
     typeof historyIndex === 'number' && historyIndex < window.history.length - 1
 
-  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
     const enteredAddress = address.trim()
     if (!enteredAddress) return
+    setAddressError(null)
 
     if (enteredAddress.startsWith('/')) {
       navigate(enteredAddress.startsWith('/sandbox') ? enteredAddress : `/sandbox${enteredAddress}`)
+      setAddressFocused(false)
       return
     }
 
+    let url: URL
     try {
-      const url = new URL(
+      url = new URL(
         /^https?:\/\//i.test(enteredAddress) ? enteredAddress : `https://${enteredAddress}`,
       )
-      const host = url.hostname.toLowerCase()
-      const site = findBrowserSiteByDomain(host)
-
-      if (site) {
-        const path = url.pathname === '/' ? '' : url.pathname
-        navigate(`${site.route}${path}${url.search}${url.hash}`)
-        return
-      }
-
-      if (host === 'condor.local') {
-        const path = url.pathname === '/' ? '' : url.pathname
-        navigate(`${path.startsWith('/sandbox') ? path : `/sandbox${path}`}${url.search}${url.hash}`)
-        return
-      }
     } catch {
-      // Text that is not a recognized in-game address is treated as a search query.
+      navigate(getSearchUrl(enteredAddress))
+      setAddressFocused(false)
+      return
+    }
+
+    let site: BrowserSite | undefined
+    try {
+      site = await findBrowserSiteByDomain(url.hostname)
+    } catch (error) {
+      console.error('Failed to look up the in-game website.', error)
+      setAddressError('Could not load the in-game website database.')
+      return
+    }
+
+    if (site) {
+      const path = url.pathname === '/' ? '' : url.pathname
+      navigate(`${site.route}${path}${url.search}${url.hash}`)
+      setAddressFocused(false)
+      return
     }
 
     navigate(getSearchUrl(enteredAddress))
+    setAddressFocused(false)
   }
 
   return (
@@ -112,26 +150,27 @@ function TopBar() {
         </svg>
         <input
           aria-label="Search or enter an address"
-          value={address}
+          value={displayedAddress}
           onChange={(event) => setEditedAddress({ location, value: event.target.value })}
-          onFocus={(event) => event.currentTarget.select()}
+          onFocus={(event) => {
+            const input = event.currentTarget
+            setAddressFocused(true)
+            requestAnimationFrame(() => input.select())
+          }}
+          onBlur={() => setAddressFocused(false)}
           spellCheck={false}
         />
         <button type="submit" className="browser-go" aria-label="Search or go">
           <SearchIcon aria-hidden="true" />
         </button>
       </form>
+      {addressError && <p className="browser-address-error" role="alert">{addressError}</p>}
     </header>
   )
 }
 
-function getDisplayAddress(pathname: string, search: string) {
-  const site = findBrowserSiteByPath(pathname, mockBrowserSites)
-
-  if (!site) return `condor.local${pathname}${search}`
-
-  const path = pathname.slice(site.route.length)
-  return `${site.domain}${path}${search}`
+function getAddressWithoutProtocol(address: string) {
+  return address.replace(/^https?:\/\//i, '')
 }
 
 export default GameOverlay

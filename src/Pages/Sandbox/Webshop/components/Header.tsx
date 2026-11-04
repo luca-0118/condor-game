@@ -19,7 +19,7 @@ function Header() {
   // Zoeken stuurt je naar Alle sieraden met ?zoek=... in de url. CategoriePagina filtert daarop.
   const zoeken = (e: FormEvent) => {
     e.preventDefault()
-    navigate(`/sandbox/webshop/alle-sieraden?zoek=${encodeURIComponent(zoek.trim())}`)
+    navigate(`/sandbox/monajewelry/alle-sieraden?zoek=${encodeURIComponent(zoek.trim())}`)
   }
 
   return (
@@ -39,9 +39,9 @@ function Header() {
         </div>
       </div>
       <div className="ws-kop">
-        <Link to="/sandbox/webshop" className="ws-logo">MONA<small>JUWELIERS</small></Link>
+        <Link to="/sandbox/monajewelry" className="ws-logo">MONA<small>JEWELRY</small></Link>
         <nav className="ws-menu" aria-label="Categorieën">
-          {categorieen.map((c) => <NavLink key={c.pad} to={`/sandbox/webshop/${c.pad}`}>{c.naam}</NavLink>)}
+          {categorieen.map((c) => <NavLink key={c.pad} to={`/sandbox/monajewelry/${c.pad}`}>{c.naam}</NavLink>)}
         </nav>
         <form className="ws-zoek" onSubmit={zoeken} role="search">
           <img src={icoon('zoek')} alt="" />
@@ -50,7 +50,7 @@ function Header() {
         {/* Favorieten en account hebben geen eigen pagina: ze openen de registratie-popup. */}
         <nav className="ws-iconen" aria-label="Account">
           <button type="button" onClick={() => zetPopup(true)} aria-label="Favorieten"><img src={icoon('hart')} alt="" /></button>
-          <Link to="/sandbox/webshop/winkelmandje" aria-label={`Winkelmandje, ${aantal} artikelen`}>
+          <Link to="/sandbox/monajewelry/winkelmandje" aria-label={`Winkelmandje, ${aantal} artikelen`}>
             <img src={icoon('mand')} alt="" />
             {aantal > 0 && <span className="ws-teller">{aantal}</span>}
           </Link>

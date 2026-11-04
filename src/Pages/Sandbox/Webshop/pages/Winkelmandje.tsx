@@ -14,7 +14,7 @@ function Winkelmandje() {
       <Pagina kruimel="Winkelmandje">
         <h1>Winkelmandje</h1>
         <p>Je winkelmandje is leeg.</p>
-        <Link to="/sandbox/webshop/alle-sieraden" className="ws-knop">Verder winkelen</Link>
+        <Link to="/sandbox/monajewelry/alle-sieraden" className="ws-knop">Verder winkelen</Link>
       </Pagina>
     )
   }
@@ -26,7 +26,7 @@ function Winkelmandje() {
         {regels.map(({ item, aantal }) => (
           <li key={item.id}>
             <img src={foto(item.foto)} alt="" />
-            <Link to={`/sandbox/webshop/product/${item.id}`}>{item.naam}</Link>
+            <Link to={`/sandbox/monajewelry/product/${item.id}`}>{item.naam}</Link>
             <span className="ws-aantal">
               <button type="button" onClick={() => zetAantal(item.id, aantal - 1)} aria-label={`Eén ${item.naam} minder`}>−</button>
               {aantal}
@@ -37,7 +37,7 @@ function Winkelmandje() {
         ))}
       </ul>
       <p className="ws-totaal">Totaal <strong>{euro(totaal)}</strong></p>
-      <Link to="/sandbox/webshop/afrekenen" className="ws-knop">Afrekenen</Link>
+      <Link to="/sandbox/monajewelry/afrekenen" className="ws-knop">Afrekenen</Link>
     </Pagina>
   )
 }
