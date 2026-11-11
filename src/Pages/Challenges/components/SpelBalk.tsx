@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom'
 import { huidigeCase } from '../data'
+import AdminKnop from './AdminKnop'
 import Hoofdstuk from './Hoofdstuk'
 import Logo from './Logo'
 import Score from './Score'
@@ -24,6 +25,7 @@ function SpelBalk() {
       <Voortgang />
       <Score />
       <Timer />
+      <AdminKnop />
     </header>
   )
 }

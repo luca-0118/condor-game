@@ -226,6 +226,37 @@
 .ch-stat-label { font-size: 12px; letter-spacing: 0.08em; color: var(--tekst-zacht); }
 .ch-stat-waarde { font-size: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .ch-voortgang { display: flex; align-items: center; gap: 16px; }
+.ch-admin-knop {
+  margin-left: auto;
+  padding: 8px 12px;
+  border: 1px solid var(--rood-donker);
+  background: var(--knop-grijs);
+  color: var(--tekst);
+  font: 500 13px var(--mono);
+}
+.ch-admin-knop:hover { border-color: var(--rood); background: #1d0d0d; }
+.ch .ch-admin-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(420px, calc(100% - 32px));
+  margin: auto;
+  padding: 24px;
+  border: 1px solid var(--rood-donker);
+  background: var(--vlak);
+  color: var(--tekst);
+  font-family: var(--mono);
+}
+.ch-admin-dialog h2 { margin: 0 0 16px; font-family: var(--kop); font-size: 20px; }
+.ch-admin-dialog p { margin: 0 0 20px; color: var(--tekst-zacht); }
+.ch-admin-dialog button {
+  padding: 8px 12px;
+  border: 1px solid var(--rood);
+  background: var(--rood-zacht);
+  color: var(--tekst);
+  font: 500 13px var(--mono);
+}
+.ch-admin-dialog button:hover { background: var(--rood); color: var(--zwart); }
+.ch-admin-dialog::backdrop { background: rgb(0 0 0 / 70%); }
 .ch-balk { display: block; width: 156px; height: 8px; background: var(--balk-leeg); }
 .ch-balk span { display: block; height: 100%; background: var(--rood); transition: width 0.5s ease; }
 
