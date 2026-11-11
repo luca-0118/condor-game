@@ -1,0 +1,182 @@
+import './GoogleResults.css'
+import SearchIcon from '@mui/icons-material/Search'
+import { useEffect, useState, type FormEvent } from 'react'
+import { Link, useNavigate, useSearchParams } from 'react-router-dom'
+import { getSearchUrl } from '../../../../utils/search'
+import { searchGoogleSites, type GoogleSearchResult } from '../../Databases/googleDatabase'
+import {
+  appsMenuIcon,
+  googleLensIcon,
+  googleLogo,
+  profilePlaceholder,
+} from '../imageAssets'
+
+const searchTypes = ['All', 'Images', 'Videos', 'Maps', 'News', 'Shopping', 'More']
+
+type SearchBoxProps = {
+  query: string
+  onSearch: (query: string) => void
+}
+
+function SearchBox({ query, onSearch }: SearchBoxProps) {
+  const [value, setValue] = useState(query)
+
+  const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+    onSearch(value.trim())
+  }
+
+  return (
+    <form className="google-results-search" role="search" onSubmit={handleSubmit}>
+      <label className="visually-hidden" htmlFor="google-results-query">
+        Search
+      </label>
+      <input
+        id="google-results-query"
+        name="q"
+        type="search"
+        autoComplete="off"
+        value={value}
+        onChange={(event) => setValue(event.target.value)}
+      />
+      <button className="results-icon-button" type="button" aria-label="Search by image">
+        <img src={googleLensIcon} alt="" />
+      </button>
+      <button className="results-search-button" type="submit" aria-label="Search">
+        <SearchIcon aria-hidden="true" />
+      </button>
+    </form>
+  )
+}
+
+function ResultsHeader({ query, onSearch }: SearchBoxProps) {
+  return (
+    <header className="google-results-header">
+      <div className="google-results-header-main">
+        <Link className="results-logo-link" to="/sandbox" aria-label="Google home">
+          <img src={googleLogo} alt="Google" />
+        </Link>
+        <SearchBox key={query} query={query} onSearch={onSearch} />
+        <nav className="results-user-nav" aria-label="Google account">
+          <button className="results-apps-button" type="button" aria-label="Google apps">
+            <img src={appsMenuIcon} alt="" />
+          </button>
+          <img className="results-profile" src={profilePlaceholder} alt="Profile" />
+        </nav>
+      </div>
+      <SearchNavigation />
+    </header>
+  )
+}
+
+function SearchNavigation() {
+  return (
+    <nav className="google-results-navigation" aria-label="Search categories">
+      <div className="results-navigation-spacer" />
+      <div className="results-navigation-items">
+        {searchTypes.map((type, index) => (
+          <button
+            className={`results-navigation-item${index === 0 ? ' is-active' : ''}`}
+            key={type}
+            type="button"
+            aria-current={index === 0 ? 'page' : undefined}
+          >
+            {type}
+          </button>
+        ))}
+        <span className="results-navigation-divider" aria-hidden="true" />
+        <button className="results-navigation-item" type="button">
+          Tools
+        </button>
+      </div>
+    </nav>
+  )
+}
+
+function SearchResult({ result }: { result: GoogleSearchResult }) {
+  return (
+    <article className="google-result">
+      <div className="result-source">
+        <span className="result-favicon" aria-hidden="true">
+          {result.domain.charAt(0)}
+        </span>
+        <div className="result-source-text">
+          <div className="result-domain">{result.domain}</div>
+          <div className="result-url">{result.displayurl}</div>
+        </div>
+        <button className="result-options" type="button" aria-label="Result options">
+          ⋮
+        </button>
+      </div>
+      <Link className="result-title" to={result.url}>
+        {result.title}
+      </Link>
+      <p className="result-description">{result.description}</p>
+    </article>
+  )
+}
+
+function GoogleResults() {
+  const [searchParams] = useSearchParams()
+  const navigate = useNavigate()
+  const query = searchParams.get('q') ?? ''
+  const [searchState, setSearchState] = useState<{
+    query: string
+    results: GoogleSearchResult[]
+    error: string | null
+  }>({ query: '', results: [], error: null })
+
+  useEffect(() => {
+    let active = true
+
+    if (query.trim()) {
+      searchGoogleSites(query)
+        .then((results) => {
+          if (active) {
+            setSearchState({ query, results, error: null })
+          }
+        })
+        .catch((error: unknown) => {
+          console.error('Failed to search the Google database.', error)
+          if (active) {
+            setSearchState({
+              query,
+              results: [],
+              error: 'Search results could not be loaded.',
+            })
+          }
+        })
+    }
+
+    return () => {
+      active = false
+    }
+  }, [query])
+
+  const handleSearch = (nextQuery: string) => {
+    navigate(getSearchUrl(nextQuery))
+  }
+
+  return (
+    <div className="google-results-page">
+      <ResultsHeader query={query} onSearch={handleSearch} />
+      <main className="google-results-content" aria-label="Search results">
+        {query.trim() ? (
+          searchState.query !== query ? (
+            <p role="status">Loading search results...</p>
+          ) : searchState.error ? (
+            <p role="alert">{searchState.error}</p>
+          ) : searchState.results.length > 0 ? (
+            searchState.results.map((result) => <SearchResult key={result.url} result={result} />)
+          ) : (
+            <p role="status">No results found for “{query}”.</p>
+          )
+        ) : (
+          <p role="status">Enter a search term to see results.</p>
+        )}
+      </main>
+    </div>
+  )
+}
+
+export default GoogleResults

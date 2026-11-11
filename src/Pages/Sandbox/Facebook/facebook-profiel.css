@@ -1,0 +1,374 @@
+/* Profile page styles. Loaded after Facebook.css, so the variables, top bar and cards come from there.
+   All rules are scoped under .facebook (CSS nesting) so they don't leak into the rest of the app. */
+.facebook {
+    /* Small shared helpers used on the profile page. */
+    .muted {
+        color: var(--text-muted);
+        font-size: 13px;
+    }
+
+    .link {
+        color: var(--blue);
+        font-size: 14px;
+    }
+
+    .btn {
+        padding: 8px 12px;
+        border-radius: 6px;
+        background: var(--surface-hover);
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .btn:hover {
+        filter: brightness(1.15);
+    }
+
+    .btn--primary {
+        background: var(--blue);
+        color: #fff;
+    }
+
+    .btn--soft {
+        background: var(--blue-soft);
+        color: var(--blue);
+    }
+
+    .btn--block {
+        display: block;
+        width: 100%;
+        margin-top: 12px;
+    }
+
+    .profile {
+        width: 100%;
+        max-width: 1000px;
+        min-width: 0;
+        margin: 0 auto;
+        padding: 0 16px 32px;
+    }
+
+    /* Header: large avatar, name, friend count and action buttons. */
+    .profile__header {
+        display: flex;
+        align-items: flex-end;
+        flex-wrap: wrap;
+        gap: 16px;
+        padding: 24px 0 16px;
+    }
+
+    .profile__avatar {
+        width: 168px;
+        height: 168px;
+    }
+
+    .profile__id {
+        flex: 1;
+        min-width: 200px;
+        padding-bottom: 12px;
+    }
+
+    .profile__name {
+        font-size: 32px;
+    }
+
+    .profile__friends {
+        color: var(--text-muted);
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    .profile__actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        padding-bottom: 12px;
+    }
+
+    /* "People you may know": horizontally scrolling row of cards. */
+    .people {
+        padding: 16px;
+    }
+
+    .people__header {
+        display: flex;
+        justify-content: space-between;
+        gap: 8px;
+        margin-bottom: 12px;
+    }
+
+    .people__header a {
+        color: var(--blue);
+    }
+
+    .people__row {
+        display: flex;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 4px;
+    }
+
+    .person-card {
+        position: relative;
+        flex: 0 0 160px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+    }
+
+    .person-card__photo {
+        height: 160px;
+        background: #3a3b3c;
+    }
+
+    .person-card__body {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        padding: 8px;
+    }
+
+    .person-card__body span {
+        color: var(--text-muted);
+        font-size: 13px;
+    }
+
+    .person-card__body .btn {
+        margin-top: 8px;
+    }
+
+    .person-card__close {
+        position: absolute;
+        top: 6px;
+        right: 6px;
+        z-index: 1;
+        width: 24px;
+        height: 24px;
+        border-radius: 50%;
+        background: rgba(0, 0, 0, .6);
+        font-size: 12px;
+    }
+
+    /* Tab bar under the header. */
+    .profile__tabs {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+        margin-bottom: 16px;
+        padding-top: 4px;
+        border-top: 1px solid var(--border);
+    }
+
+    .profile__tab {
+        flex: none;
+        padding: 14px 16px;
+        font-weight: 600;
+        color: var(--text-muted);
+        border-bottom: 3px solid transparent;
+    }
+
+    .profile__tab:hover {
+        background: var(--surface-hover);
+        border-radius: 6px;
+    }
+
+    .profile__tab--active {
+        color: var(--blue);
+        border-bottom-color: var(--blue);
+    }
+
+    .profile__more {
+        flex: none;
+        margin-left: auto;
+    }
+
+    /* Two columns: info cards on the left (sticky), posts on the right. */
+    .profile__columns {
+        display: grid;
+        grid-template-columns: minmax(0, 360px) minmax(0, 1fr);
+        gap: 16px;
+        align-items: start;
+    }
+
+    .profile__side {
+        position: sticky;
+        top: calc(var(--topbar-h) + 16px);
+        min-width: 0;
+    }
+
+    .profile__main {
+        min-width: 0;
+    }
+
+    .side-card__head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .side-card__row {
+        margin: 8px 0;
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .friend-tile {
+        width: 100px;
+        margin-top: 8px;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .friend-tile__photo {
+        width: 100px;
+        height: 100px;
+        margin-bottom: 4px;
+        border-radius: var(--radius);
+        background: #3a3b3c;
+    }
+
+    .profile__footer {
+        padding: 0 8px;
+        color: var(--text-muted);
+        font-size: 12px;
+    }
+
+    /* Posts header with the list/grid switch, and the extra post parts. */
+    .posts-head__buttons {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+
+    .view-toggle {
+        display: flex;
+        margin: 8px -16px 0;
+        border-top: 1px solid var(--border);
+    }
+
+    .view-toggle__btn {
+        flex: 1;
+        padding: 12px;
+        font-weight: 600;
+        color: var(--text-muted);
+        border-bottom: 3px solid transparent;
+    }
+
+    .view-toggle__btn--active {
+        color: var(--blue);
+        border-bottom-color: var(--blue);
+    }
+
+    .profile__posts--grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 16px;
+    }
+
+    .profile__posts--grid .card {
+        margin-bottom: 0;
+    }
+
+    .link-preview {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        padding: 12px 16px;
+        background: var(--surface-hover);
+    }
+
+    .link-preview span {
+        color: var(--text-muted);
+        font-size: 12px;
+    }
+
+    .post__actions {
+        display: flex;
+        margin: 0 16px;
+        padding: 4px 0;
+        border-top: 1px solid var(--border);
+    }
+
+    .post__actions button {
+        flex: 1;
+        padding: 8px;
+        border-radius: 6px;
+        font-weight: 600;
+        color: var(--text-muted);
+    }
+
+    .post__actions button:hover {
+        background: var(--surface-hover);
+    }
+
+    .post__comment {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        padding: 8px 16px 12px;
+    }
+
+    .post__comment .composer__input {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+
+    /* Responsive: container queries follow the width of .facebook, not the window. */
+    @container (max-width: 900px) {
+        .profile__columns {
+            grid-template-columns: minmax(0, 1fr);
+        }
+
+        .profile__side {
+            position: static;
+        }
+
+        .profile__avatar {
+            width: 120px;
+            height: 120px;
+        }
+    }
+
+    @container (max-width: 600px) {
+        .profile__header {
+            align-items: center;
+        }
+
+        .profile__tabs {
+            overflow-x: auto;
+        }
+
+        .profile__posts--grid {
+            grid-template-columns: minmax(0, 1fr);
+        }
+    }
+
+    @container (max-width: 520px) {
+        .profile {
+            padding: 0 8px 24px;
+        }
+
+        .profile__avatar {
+            width: 96px;
+            height: 96px;
+        }
+
+        .profile__name {
+            font-size: 24px;
+        }
+
+        .profile__tab {
+            padding: 12px;
+        }
+
+        .person-card {
+            flex-basis: 140px;
+        }
+
+        .person-card__photo {
+            height: 140px;
+        }
+    }
+}

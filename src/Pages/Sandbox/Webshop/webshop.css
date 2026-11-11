@@ -1,0 +1,336 @@
+@import url('https://fonts.googleapis.com/css2?family=Barrio&family=Cormorant:wght@500;600&family=Montserrat:wght@400;500;600&display=swap');
+
+/*
+  De shop staat in het game-paneel, niet schermvullend. Daarom reageert alles op de
+  breedte van dat paneel (@container), niet op de breedte van het scherm (@media).
+*/
+.dummy-omgeving:has(> .webshop) {
+  container: shop / size;
+}
+
+.webshop {
+  --beige: #eed3a6;
+  --beige-licht: #f8f1e4;
+  --bruin: #6c4d1a;
+  --bruin-donker: #4d3610;
+  --inkt: #1c1917;
+  --grijs: #57534e;
+  --lijn: #e4ddd1;
+  --rood: #9f1d1d;
+  --rand: clamp(16px, 4cqw, 48px);
+  --kop: 'Cormorant', Georgia, serif;
+  --tekst: 'Montserrat', 'Segoe UI', sans-serif;
+  --zacht: 200ms ease;
+
+  position: relative;
+  min-height: 100%;
+  background: #ffffff;
+  color: var(--inkt);
+  font: 400 15px/1.6 var(--tekst);
+}
+
+.webshop *, .webshop *::before, .webshop *::after { box-sizing: border-box; }
+.webshop a { color: inherit; text-decoration: none; }
+.webshop img { display: block; max-width: 100%; }
+.webshop h1, .webshop h2, .webshop h3 { margin: 0; font-family: var(--kop); font-weight: 500; line-height: 1.1; letter-spacing: -0.01em; }
+.webshop h1 { font-size: clamp(36px, 5cqw, 52px); }
+.webshop h2 { font-size: clamp(28px, 3.4cqw, 36px); }
+.webshop p { margin: 0 0 12px; }
+.webshop button { cursor: pointer; font-family: inherit; }
+.webshop :focus-visible { outline: 2px solid var(--bruin); outline-offset: 2px; }
+
+/* Kop: blijft bovenin staan tijdens scrollen */
+.ws-header { position: sticky; top: 0; z-index: 20; background: #ffffff; border-bottom: 1px solid var(--lijn); }
+
+.ws-bovenbalk { overflow: hidden; background: var(--beige); font-size: 13px; font-weight: 500; }
+.ws-strook { display: flex; width: max-content; animation: ws-loop 40s linear infinite; }
+.ws-strook:hover { animation-play-state: paused; }
+.ws-strook > div { display: flex; align-items: center; gap: 48px; padding: 9px 24px; white-space: nowrap; }
+.ws-sterren { display: inline-flex; align-items: center; gap: 1px; }
+.ws-sterren img { width: 14px; height: 14px; }
+.ws-sterren img:last-of-type { margin-right: 8px; }
+@keyframes ws-loop { to { transform: translateX(-50%); } }
+
+.ws-kop { display: flex; align-items: center; gap: 28px; padding: 10px var(--rand); }
+.ws-logo { display: inline-flex; flex: none; flex-direction: column; align-items: flex-start; font: 400 34px/0.95 'Barrio', serif; }
+.ws-logo small { font-size: 10px; letter-spacing: 2px; }
+
+.ws-menu { display: flex; flex: 1; gap: 24px; font-size: 14px; font-weight: 500; }
+.ws-menu a { position: relative; display: inline-flex; align-items: center; min-height: 44px; white-space: nowrap; }
+.ws-menu a::after {
+  content: '';
+  position: absolute;
+  right: 0;
+  bottom: 8px;
+  left: 0;
+  height: 1px;
+  background: var(--bruin);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform var(--zacht);
+}
+.ws-menu a:hover::after, .ws-menu a.active::after { transform: scaleX(1); }
+
+.ws-zoek {
+  display: flex;
+  flex: 0 1 220px;
+  align-items: center;
+  gap: 8px;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--inkt);
+}
+.ws-zoek img { width: 18px; height: 18px; }
+.ws-zoek input { flex: 1; min-width: 0; border: 0; outline: 0; background: none; color: var(--inkt); font: inherit; font-size: 13px; letter-spacing: 0.04em; }
+.ws-zoek input::placeholder { color: var(--grijs); }
+.ws-zoek:focus-within { outline: 2px solid var(--bruin); outline-offset: 2px; }
+
+.ws-iconen { display: flex; flex: none; align-items: center; gap: 4px; margin-left: auto; }
+.ws-iconen a, .ws-iconen button {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  background: none;
+  transition: background var(--zacht);
+}
+.ws-iconen a:hover, .ws-iconen button:hover { background: var(--beige-licht); }
+.ws-iconen img { width: 22px; height: 22px; }
+.ws-teller {
+  position: absolute;
+  top: 2px;
+  right: 0;
+  min-width: 18px;
+  border-radius: 9px;
+  background: var(--bruin);
+  color: #ffffff;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 18px;
+  text-align: center;
+}
+
+/* Algemeen */
+.ws-sectie { padding: clamp(32px, 5cqw, 56px) var(--rand); }
+.ws-kruimel { margin: 0 !important; padding: 16px var(--rand) 0; color: var(--grijs); font-size: 13px; }
+.ws-kruimel a:hover { color: var(--inkt); text-decoration: underline; }
+
+.ws-sectiekop { display: flex; flex-wrap: wrap; align-items: baseline; justify-content: space-between; gap: 8px 24px; margin-bottom: 24px; }
+.ws-sectiekop a { font-size: 14px; font-weight: 500; border-bottom: 1px solid var(--bruin); }
+
+.ws-oog { margin-bottom: 0 !important; color: var(--beige); font-size: 12px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; }
+
+.webshop .ws-knop {
+  display: inline-block;
+  width: 100%;
+  max-width: 380px;
+  min-height: 48px;
+  margin-top: 8px;
+  padding: 13px 20px;
+  border: 1px solid var(--inkt);
+  background: var(--inkt);
+  color: #ffffff;
+  font: 500 14px/1.4 var(--tekst);
+  letter-spacing: 0.02em;
+  text-align: center;
+  transition: background var(--zacht), border-color var(--zacht), color var(--zacht);
+}
+.webshop .ws-knop:hover { border-color: var(--bruin); background: var(--bruin); }
+.webshop .ws-knop-licht { background: #ffffff; color: var(--inkt); }
+.webshop .ws-knop-licht:hover { border-color: var(--inkt); background: var(--beige-licht); color: var(--inkt); }
+
+/* Hero */
+.ws-hero { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: minmax(0, 1fr); height: clamp(340px, 42cqw, 480px); background: var(--bruin); }
+.ws-hero > div { display: flex; flex-direction: column; align-items: flex-start; justify-content: center; gap: 20px; padding: 32px var(--rand); color: #ffffff; }
+.webshop .ws-hero h1 { font-size: clamp(38px, 5.4cqw, 60px); }
+.webshop .ws-hero-knop {
+  display: inline-flex;
+  align-items: center;
+  gap: 16px;
+  min-height: 48px;
+  margin-top: 8px;
+  padding: 10px 28px;
+  background: var(--beige);
+  color: var(--inkt);
+  font-size: 14px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  transition: background var(--zacht);
+}
+.webshop .ws-hero-knop:hover { background: #ffffff; }
+.ws-hero img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Categoriekop */
+.ws-banner { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); grid-template-rows: minmax(0, 1fr); height: clamp(200px, 26cqw, 280px); margin-top: 16px; background: var(--beige); }
+.ws-banner > div { display: flex; flex-direction: column; justify-content: center; padding: 24px var(--rand); }
+.ws-banner p { margin: 8px 0 0 !important; color: var(--bruin-donker); font-size: 14px; }
+.ws-banner img { width: 100%; height: 100%; object-fit: cover; }
+
+/* Productraster */
+.ws-raster { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 36px 20px; }
+.ws-kaart { display: flex; flex-direction: column; animation: ws-in 420ms ease both; }
+.ws-kaart:nth-child(2) { animation-delay: 50ms; }
+.ws-kaart:nth-child(3) { animation-delay: 100ms; }
+.ws-kaart:nth-child(4) { animation-delay: 150ms; }
+@keyframes ws-in { from { opacity: 0; transform: translateY(10px); } }
+.ws-kaart > a { display: flex; flex: 1; flex-direction: column; }
+.ws-kaart-foto { display: block; aspect-ratio: 4 / 5; margin-bottom: 12px; overflow: hidden; background: var(--beige-licht); }
+.ws-kaart-foto img { width: 100%; height: 100%; object-fit: cover; transition: transform 500ms ease; }
+.ws-kaart:hover .ws-kaart-foto img { transform: scale(1.04); }
+.webshop .ws-kaart h3 { margin-bottom: 4px; font: 500 15px/1.35 var(--tekst); letter-spacing: 0; }
+.ws-kaart:hover h3 { text-decoration: underline; text-underline-offset: 3px; }
+
+.webshop .ws-merk { margin: 0 0 2px; color: var(--grijs); font-size: 12px; font-weight: 500; letter-spacing: 0.12em; }
+.webshop .ws-score { display: flex; align-items: center; gap: 4px; margin: 0 0 8px; color: var(--grijs); font-size: 13px; }
+.ws-score img { width: 13px; height: 13px; }
+.webshop .ws-prijs { margin: auto 0 0; font-size: 16px; font-weight: 600; }
+.ws-prijs s { margin-left: 4px; color: var(--grijs); font-size: 13px; font-weight: 400; }
+.webshop .ws-prijs-dicht { display: flex; align-items: center; gap: 6px; color: var(--grijs); font-size: 13px; font-weight: 500; }
+
+.ws-ontgrendel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  min-height: 44px;
+  margin-top: 10px;
+  padding: 6px 10px;
+  border: 1px solid var(--lijn);
+  background: #ffffff;
+  color: var(--inkt);
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.25;
+  text-align: left;
+  transition: border-color var(--zacht), background var(--zacht);
+}
+.ws-ontgrendel:hover { border-color: var(--inkt); background: var(--beige-licht); }
+
+/* Categorieën */
+.ws-categorieen { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; padding-top: 0; }
+.ws-categorieen a { display: block; font-weight: 500; }
+.ws-cat-foto { display: block; aspect-ratio: 1; padding: 12%; background: var(--beige-licht); }
+.ws-categorieen img { width: 100%; height: 100%; object-fit: contain; mix-blend-mode: multiply; transition: transform 300ms ease; }
+.ws-categorieen a:hover img { transform: scale(1.06); }
+.ws-cat-naam { display: flex; justify-content: space-between; padding: 12px 2px; border-bottom: 1px solid var(--inkt); }
+
+/* Over Mona */
+.ws-over { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 32px 56px; padding: clamp(32px, 5cqw, 56px) var(--rand); background: var(--beige); }
+.ws-over h2 { margin-bottom: 16px; }
+.ws-over ul { display: grid; align-content: center; gap: 10px; margin: 0; padding: 0; list-style: none; font-weight: 500; }
+.ws-over li { padding-bottom: 10px; border-bottom: 1px solid rgba(77, 54, 16, 0.25); }
+
+/* Productpagina */
+.ws-product { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(24px, 5cqw, 56px); align-items: start; }
+.ws-product-foto { display: block; overflow: hidden; aspect-ratio: 1; background: var(--beige-licht); }
+.ws-product-foto img { width: 100%; height: 100%; object-fit: cover; }
+.ws-product-info h1 { margin: 4px 0 8px; }
+.webshop .ws-product-info .ws-prijs { margin: 16px 0; font-size: 22px; }
+.ws-product-info .ws-prijs s { font-size: 15px; }
+.ws-product-info ul { margin: 20px 0; padding-left: 18px; }
+.webshop .ws-actie { margin: 0 0 8px; padding: 10px 14px; background: var(--beige-licht); border-left: 3px solid var(--bruin); }
+.webshop .ws-voorraad { color: var(--rood); font-weight: 500; }
+
+.ws-reviews { margin-top: 48px; }
+.ws-reviews h2 { margin-bottom: 16px; }
+.ws-reviews article { padding: 14px 0; border-top: 1px solid var(--lijn); }
+.ws-reviews span { margin-left: 8px; color: var(--grijs); font-size: 13px; }
+.webshop .ws-reviews article p { margin-bottom: 4px; }
+
+/* Mandje en afrekenen */
+.ws-regels { margin: 24px 0; padding: 0; list-style: none; }
+.ws-regels li {
+  display: grid;
+  grid-template-columns: 80px minmax(0, 1fr) auto 96px;
+  align-items: center;
+  gap: 16px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--lijn);
+}
+.ws-regels li > span:last-child { text-align: right; }
+.ws-regels img { width: 80px; height: 80px; object-fit: cover; }
+.ws-aantal { display: inline-flex; align-items: center; gap: 10px; }
+.ws-aantal button { width: 44px; height: 44px; border: 1px solid var(--lijn); background: #ffffff; color: var(--inkt); font-size: 18px; }
+.ws-aantal button:hover { border-color: var(--inkt); }
+.ws-totaal { display: flex; justify-content: space-between; max-width: 380px; font-size: 18px; }
+
+.ws-afrekenen { display: grid; gap: 14px; max-width: 480px; margin-top: 20px; }
+.ws-afrekenen > label { display: grid; gap: 4px; font-size: 14px; font-weight: 500; }
+.ws-afrekenen input:not([type='radio']) { height: 46px; padding: 0 12px; border: 1px solid var(--inkt); background: #ffffff; color: var(--inkt); font: inherit; }
+.ws-afrekenen fieldset { display: grid; gap: 8px; margin: 0; padding: 14px; border: 1px solid var(--lijn); }
+.ws-afrekenen legend { padding: 0 6px; font-size: 14px; font-weight: 500; }
+.ws-afrekenen fieldset label { display: flex; align-items: center; gap: 10px; min-height: 28px; }
+.ws-uit { color: var(--grijs); }
+
+.ws-rekening { display: grid; grid-template-columns: max-content 1fr; gap: 6px 24px; max-width: 520px; margin-top: 16px; padding: 18px; background: var(--beige-licht); }
+.ws-rekening dt { color: var(--grijs); }
+.ws-rekening dd { margin: 0; font-weight: 500; }
+
+.ws-sectie > h2 { margin: 24px 0 8px; }
+
+/* Popup: blijft binnen het paneel van de shop */
+.ws-laag { position: sticky; top: 0; z-index: 50; height: 0; }
+.ws-popup-achter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  display: grid;
+  place-items: center;
+  width: 100%;
+  height: 100cqh;
+  padding: 16px;
+  overflow: auto;
+  background: rgba(28, 25, 23, 0.55);
+  animation: ws-vervaag 180ms ease both;
+}
+@keyframes ws-vervaag { from { opacity: 0; } }
+.ws-popup { position: relative; width: 100%; max-width: 420px; padding: 36px 32px 20px; background: #ffffff; color: var(--inkt); animation: ws-in 220ms ease both; }
+.webshop .ws-popup h2 { margin-bottom: 24px; text-align: center; }
+.ws-popup label { display: block; margin-bottom: 4px; font-size: 14px; font-weight: 500; }
+.ws-popup input { width: 100%; height: 46px; padding: 0 12px; border: 1px solid var(--inkt); background: #ffffff; color: var(--inkt); font: inherit; }
+.webshop .ws-popup .ws-knop { max-width: none; }
+.webshop .ws-popup .ws-klein { margin-top: 14px; color: var(--grijs); font-size: 13px; }
+.ws-popup > p:last-child { margin-bottom: 0; font-size: 14px; }
+.ws-sluit { position: absolute; top: 4px; right: 4px; width: 44px; height: 44px; padding: 0; border: 0; background: none; color: var(--inkt); font-size: 26px; line-height: 1; }
+.ws-link { padding: 0; border: 0; background: none; color: inherit; font: inherit; font-weight: 500; text-decoration: underline; }
+
+/* Voet */
+.ws-footer { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; padding: 40px var(--rand) 24px; background: var(--inkt); color: #e7e5e4; font-size: 14px; }
+.ws-footer strong { color: #ffffff; font-weight: 600; }
+.ws-footer > div { display: flex; flex-direction: column; gap: 6px; }
+.ws-footer a:hover { text-decoration: underline; }
+.ws-footer p { margin: 0; overflow-wrap: anywhere; }
+.webshop .ws-copyright { grid-column: 1 / -1; padding-top: 16px; border-top: 1px solid #44403c; color: #d6d3d1; font-size: 13px; }
+
+/* Kleinere paneelbreedtes */
+@container shop (max-width: 1040px) {
+  .ws-raster { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+
+@container shop (max-width: 900px) {
+  .ws-kop { flex-wrap: wrap; gap: 4px 20px; }
+  .ws-zoek { flex: 1 1 200px; }
+  .ws-menu { order: 3; flex-basis: 100%; }
+  .ws-raster { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+
+@container shop (max-width: 640px) {
+  .ws-hero, .ws-banner, .ws-over, .ws-product, .ws-footer { grid-template-columns: minmax(0, 1fr); }
+  .ws-hero, .ws-banner { grid-template-rows: auto; height: auto; }
+  .ws-hero img { height: 220px; }
+  .ws-banner img { height: 160px; }
+  .ws-raster, .ws-categorieen { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ws-menu { gap: 16px; overflow-x: auto; }
+  .ws-zoek { order: 4; flex-basis: 100%; }
+  .ws-regels li { grid-template-columns: 64px minmax(0, 1fr); }
+  .ws-regels img { width: 64px; height: 64px; }
+  .ws-aantal { grid-column: 2; }
+  .ws-regels li > span:last-child { grid-column: 2; text-align: left; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .webshop *, .webshop *::before, .webshop *::after { animation: none !important; transition: none !important; }
+}
