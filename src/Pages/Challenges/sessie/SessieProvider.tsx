@@ -12,10 +12,18 @@ import type { Sessie } from './sessieContext'
 */
 function SessieProvider({ children }: { children: ReactNode }) {
   const [startTijd, zetStartTijd] = useState<number | null>(null)
+  const [timerDuur, zetTimerDuur] = useState(60*60)
   const [goed, zetGoed] = useState<Record<string, string>>({})
 
   // Starten doet maar één keer: wie terugkomt op het startscherm reset de timer niet.
   const startSessie = useCallback(() => zetStartTijd((t) => t ?? Date.now()), [])
+
+  const voegTimerTijdToe = useCallback((seconden: number) => {
+    const verstrekenSeconden = startTijd === null
+      ? 0
+      : Math.floor((Date.now() - startTijd) / 1000)
+    zetTimerDuur((duur) => Math.max(duur, verstrekenSeconden) + seconden)
+  }, [startTijd])
 
   // We onthouden alleen welke vragen goed zijn. De score rekenen we daaruit uit, zo kan hij nooit dubbel tellen.
   const vraagGoed = useCallback((vraagId: string, antwoord: string) => {
@@ -32,6 +40,9 @@ function SessieProvider({ children }: { children: ReactNode }) {
       sessieId: 'lokaal',
       teamId: 'team-1',
       startTijd,
+      timerDuur,
+      zetTimerDuur,
+      voegTimerTijdToe,
       score,
       voortgang: Math.round((aantalGoed / alleVragen.length) * 100),
       hoofdstuk: open?.nummer ?? huidigeCase.hoofdstukken.length,
@@ -39,7 +50,7 @@ function SessieProvider({ children }: { children: ReactNode }) {
       startSessie,
       vraagGoed,
     }
-  }, [startTijd, goed, startSessie, vraagGoed])
+  }, [startTijd, timerDuur, voegTimerTijdToe, goed, startSessie, vraagGoed])
 
   return <SessieContext.Provider value={waarde}>{children}</SessieContext.Provider>
 }
