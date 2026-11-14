@@ -15,6 +15,10 @@ export type Sessie = {
   teamId: string
   // Moment waarop de case begon (Date.now()), of null als het team nog niet gestart is
   startTijd: number | null
+  // Totale timerduur in seconden; kan vanuit elk component binnen de provider worden aangepast
+  timerDuur: number
+  zetTimerDuur: (seconden: number) => void
+  voegTimerTijdToe: (seconden: number) => void
   score: number
   // Percentage van 0 tot 100
   voortgang: number

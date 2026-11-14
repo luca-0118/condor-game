@@ -226,6 +226,52 @@
 .ch-stat-label { font-size: 12px; letter-spacing: 0.08em; color: var(--tekst-zacht); }
 .ch-stat-waarde { font-size: 16px; white-space: nowrap; font-variant-numeric: tabular-nums; }
 .ch-voortgang { display: flex; align-items: center; gap: 16px; }
+.ch-admin-knop {
+  margin-left: auto;
+  padding: 8px 12px;
+  border: 1px solid var(--rood-donker);
+  background: var(--knop-grijs);
+  color: var(--tekst);
+  font: 500 13px var(--mono);
+}
+.ch-admin-knop:hover { border-color: var(--rood); background: #1d0d0d; }
+.ch .ch-admin-dialog {
+  position: fixed;
+  inset: 0;
+  width: min(420px, calc(100% - 32px));
+  margin: auto;
+  padding: 24px;
+  border: 1px solid var(--rood-donker);
+  background: var(--vlak);
+  color: var(--tekst);
+  font-family: var(--mono);
+}
+.ch-admin-dialog h2 { margin: 0 0 16px; font-family: var(--kop); font-size: 20px; }
+.ch-admin-dialog p { margin: 0 0 20px; color: var(--tekst-zacht); }
+.ch-admin-dialog label,
+.ch-admin-dialog input { display: block; margin-bottom: 12px; }
+.ch-admin-dialog input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 8px;
+  border: 1px solid var(--rood-donker);
+  background: var(--zwart);
+  color: var(--tekst);
+  font: 500 13px var(--mono);
+}
+.ch-admin-dialog form > p { margin: 0 0 12px; }
+.ch-admin-dialog button {
+  margin-right: 8px;
+  padding: 8px 12px;
+  border: 1px solid var(--rood);
+  background: var(--rood-zacht);
+  color: var(--tekst);
+  font: 500 13px var(--mono);
+}
+.ch-admin-dialog button:hover { background: var(--rood); color: var(--zwart); }
+.ch-admin-dialog input:focus-visible,
+.ch-admin-dialog button:focus-visible { outline: 2px solid var(--rood); outline-offset: 2px; }
+.ch-admin-dialog::backdrop { background: rgb(0 0 0 / 70%); }
 .ch-balk { display: block; width: 156px; height: 8px; background: var(--balk-leeg); }
 .ch-balk span { display: block; height: 100%; background: var(--rood); transition: width 0.5s ease; }
 
