@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import SearchBar from '../../../components/SearchBar'
+import type { SocialUser } from '../../../data/socialUser'
+import { loadInstagramUsers } from '../Databases/instagramDatabase'
 import FacebookProfiel from './facebook-profiel'
+import FacebookTemporaryProfile from './facebook-temporary-profile'
 import './Facebook.css'
 
-type Page = 'home' | 'profile'
+type Page = 'home' | 'profile' | 'search-profile'
 
 interface PostData {
   id: number
@@ -85,7 +89,23 @@ function NavTab({
 }
 
 // Top bar with logo, tabs and account buttons; `onNavigate` switches between the feed and the profile.
-function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
+function TopBar({
+  onNavigate,
+  searchOpen,
+  onSearchClick,
+  users,
+  usersLoading,
+  databaseError,
+  onSelectUser,
+}: {
+  onNavigate: (page: Page) => void
+  searchOpen: boolean
+  onSearchClick: () => void
+  users: SocialUser[]
+  usersLoading: boolean
+  databaseError: string | null
+  onSelectUser: (user: SocialUser) => void
+}) {
   const [activeTab, setActiveTab] = useState('home')
 
   return (
@@ -102,7 +122,21 @@ function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
         >
           f
         </a>
-        <button className="icon-btn" aria-label="Search">🔍</button>
+        <button
+          className="icon-btn"
+          aria-label="Search"
+          aria-expanded={searchOpen}
+          onClick={onSearchClick}
+        >
+          🔍
+        </button>
+        {searchOpen && (
+          <div className="facebook-search">
+            {usersLoading && <p role="status">Loading search data…</p>}
+            {databaseError && <p role="alert">Could not load search data: {databaseError}</p>}
+            <SearchBar users={users} placeholder="Search Facebook" onSelect={onSelectUser} />
+          </div>
+        )}
       </div>
 
       <nav className="topbar__nav" aria-label="Main navigation">
@@ -281,11 +315,45 @@ function RightSidebar() {
 // The page switches between the feed and the profile without a router.
 function Facebook() {
   const [page, setPage] = useState<Page>('home')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<SocialUser | null>(null)
+  const [users, setUsers] = useState<SocialUser[]>([])
+  const [usersLoading, setUsersLoading] = useState(true)
+  const [databaseError, setDatabaseError] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadInstagramUsers().then(
+      (loadedUsers) => {
+        setUsers(loadedUsers)
+        setUsersLoading(false)
+      },
+      (error: unknown) => {
+        setDatabaseError(
+          error instanceof Error ? error.message : 'An unknown database error occurred.',
+        )
+        setUsersLoading(false)
+      },
+    )
+  }, [])
 
   return (
     <div className="facebook">
-      <TopBar onNavigate={setPage} />
-      {page === 'profile' ? (
+      <TopBar
+        onNavigate={setPage}
+        searchOpen={searchOpen}
+        onSearchClick={() => setSearchOpen((open) => !open)}
+        users={users}
+        usersLoading={usersLoading}
+        databaseError={databaseError}
+        onSelectUser={(user) => {
+          setSelectedUser(user)
+          setPage('search-profile')
+          setSearchOpen(false)
+        }}
+      />
+      {page === 'search-profile' && selectedUser ? (
+        <FacebookTemporaryProfile user={selectedUser} onBack={() => setPage('home')} />
+      ) : page === 'profile' ? (
         <FacebookProfiel />
       ) : (
         <div className="layout">
