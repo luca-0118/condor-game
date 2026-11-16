@@ -7,10 +7,10 @@
   2. Elk product heeft dezelfde score: 4,9 uit 275 reviews.
   3. Reviews lijken op elkaar en zijn dicht bij elkaar geplaatst.
   4. Korting van rond de 70% met een aftelklok die bij herladen opnieuw begint.
-  5. Altijd "nog maar 3 op voorraad".
-  6. "5 winkels in Zuid-Holland" maar nergens een adres, KvK- of btw-nummer.
+  5. Altijd "only 3 left in stock".
+  6. "5 stores in South Holland" maar nergens een adres, KvK- of btw-nummer.
   7. Contact loopt via een gmail-adres.
-  8. "14 dagen bedenktijd" terwijl retour alleen op eigen kosten buiten de EU kan.
+  8. "14-day cooling-off period" terwijl retour alleen op eigen kosten buiten de EU kan.
   9. iDEAL en creditcard staan uit, alleen overboeking en crypto werken.
   10. Betalen gaat naar een buitenlandse rekening van een onbekend bedrijf.
   11. Een dollarteken in de bovenbalk naast euro's in de rest van de shop.
@@ -19,7 +19,8 @@
   opgeslagen of verstuurd, en de IBAN is expres ongeldig.
 */
 
-export type Categorie = 'kettingen' | 'ringen' | 'armbanden' | 'oorbellen'
+// De waarden zijn Engels omdat de zoekbalk ook op de categorie zoekt (zoek je 'necklace', dan vind je kettingen)
+export type Categorie = 'necklaces' | 'rings' | 'bracelets' | 'earrings'
 
 export type Product = {
   id: string
@@ -31,7 +32,7 @@ export type Product = {
 }
 
 export const MERK = 'COSMOS'
-export const SCORE = '4,9 (275)'
+export const SCORE = '4.9 (275)'
 export const VOORRAAD = 3
 export const AFTELKLOK_SECONDEN = 14 * 60 + 32
 export const CONTACT_MAIL = 'klantenservice.monajewelry@gmail.com'
@@ -41,10 +42,10 @@ export const REKENING = {
 }
 
 export const bovenbalk = [
-  'Gratis verzending boven 50$',
-  'Niet goed? GELD TERUG',
-  'Klantenservice',
-  '5 winkels in Zuid-Holland',
+  'Free shipping over 50$',
+  'Not happy? MONEY BACK',
+  'Customer service',
+  '5 stores in South Holland',
 ]
 
 type CategorieLink = {
@@ -56,57 +57,57 @@ type CategorieLink = {
 }
 
 export const categorieen: CategorieLink[] = [
-  { pad: 'alle-sieraden', naam: 'Alle sieraden', foto: 'cat-alle', banner: 'banner-alle' },
-  { pad: 'kettingen', naam: 'Kettingen', foto: 'cat-ketting', banner: 'banner-ketting', filter: 'kettingen' },
-  { pad: 'ringen', naam: 'Ringen', foto: 'cat-ring', banner: 'banner-alle', filter: 'ringen' },
-  { pad: 'armbanden', naam: 'Armbanden', foto: 'cat-armband', banner: 'banner-armband', filter: 'armbanden' },
+  { pad: 'all-jewelry', naam: 'All jewelry', foto: 'cat-alle', banner: 'banner-alle' },
+  { pad: 'necklaces', naam: 'Necklaces', foto: 'cat-ketting', banner: 'banner-ketting', filter: 'necklaces' },
+  { pad: 'rings', naam: 'Rings', foto: 'cat-ring', banner: 'banner-alle', filter: 'rings' },
+  { pad: 'bracelets', naam: 'Bracelets', foto: 'cat-armband', banner: 'banner-armband', filter: 'bracelets' },
 ]
 
 export const producten: Product[] = [
-  { id: 'lumi-ring', naam: 'Lumi ring gestapeld', categorie: 'ringen', foto: 'ring-goud', prijs: 39.95, oudePrijs: 129.95 },
-  { id: 'nora-creolen', naam: 'Nora creolen goudkleurig', categorie: 'oorbellen', foto: 'oorbel-hoops', prijs: 24.95, oudePrijs: 89.95 },
-  { id: 'golf-oorbellen', naam: 'Golf oorbellen', categorie: 'oorbellen', foto: 'oorbel-golf', prijs: 27.95, oudePrijs: 94.95 },
-  { id: 'ava-hangers', naam: 'Ava oorhangers met zirkonia', categorie: 'oorbellen', foto: 'oorbel-pave', prijs: 34.95, oudePrijs: 119.95 },
-  { id: 'pearl-ketting', naam: 'Pearl ketting met hanger', categorie: 'kettingen', foto: 'ketting-schaal', prijs: 32.95, oudePrijs: 109.95 },
-  { id: 'steen-ringen', naam: 'Steen ringen set van drie', categorie: 'ringen', foto: 'ring-steen', prijs: 44.95, oudePrijs: 149.95 },
-  { id: 'wikkel-armband', naam: 'Wikkel armband leer', categorie: 'armbanden', foto: 'armband-stapel', prijs: 29.95, oudePrijs: 99.95 },
-  { id: 'bloem-oorbellen', naam: 'Bloem oorbellen', categorie: 'oorbellen', foto: 'oorbel-bloem', prijs: 22.95, oudePrijs: 79.95 },
-  { id: 'ovaal-oorbellen', naam: 'Ovaal oorbellen', categorie: 'oorbellen', foto: 'oorbel-ovaal', prijs: 26.95, oudePrijs: 89.95 },
-  { id: 'pave-oorbellen', naam: 'Pavé schakel oorbellen', categorie: 'oorbellen', foto: 'oorbel-pave2', prijs: 36.95, oudePrijs: 124.95 },
-  { id: 'schakel-set', naam: 'Schakelarmband set', categorie: 'armbanden', foto: 'armband-set', prijs: 49.95, oudePrijs: 169.95 },
-  { id: 'schakel-doos', naam: 'Grove schakelarmband', categorie: 'armbanden', foto: 'armband-doos', prijs: 37.95, oudePrijs: 124.95 },
-  { id: 'duo-armband', naam: 'Duo armband fijn', categorie: 'armbanden', foto: 'armband-pols', prijs: 24.95, oudePrijs: 84.95 },
-  { id: 'klaver-armband', naam: 'Klaver armband', categorie: 'armbanden', foto: 'armband-wit', prijs: 19.95, oudePrijs: 69.95 },
-  { id: 'solitair-ring', naam: 'Solitair ring', categorie: 'ringen', foto: 'ring-diamant', prijs: 59.95, oudePrijs: 199.95 },
-  { id: 'infinity-ring', naam: 'Infinity ring', categorie: 'ringen', foto: 'cat-ring', prijs: 29.95, oudePrijs: 99.95 },
-  { id: 'lina-ketting', naam: 'Lina ketting met muntje', categorie: 'kettingen', foto: 'ketting-1', prijs: 28.95, oudePrijs: 94.95 },
-  { id: 'layer-ketting', naam: 'Layer ketting drielaags', categorie: 'kettingen', foto: 'ketting-2', prijs: 42.95, oudePrijs: 139.95 },
-  { id: 'platte-ketting', naam: 'Platte schakelketting', categorie: 'kettingen', foto: 'ketting-3', prijs: 34.95, oudePrijs: 114.95 },
-  { id: 'madelief-ketting', naam: 'Madelief ketting', categorie: 'kettingen', foto: 'ketting-4', prijs: 31.95, oudePrijs: 104.95 },
-  { id: 'hart-ketting', naam: 'Twee harten ketting', categorie: 'kettingen', foto: 'ketting-5', prijs: 36.95, oudePrijs: 119.95 },
-  { id: 'gourmet-ketting', naam: 'Gourmet ketting', categorie: 'kettingen', foto: 'ketting-6', prijs: 39.95, oudePrijs: 129.95 },
-  { id: 'cuban-ketting', naam: 'Cuban ketting', categorie: 'kettingen', foto: 'ketting-7', prijs: 46.95, oudePrijs: 159.95 },
-  { id: 'hartje-ketting', naam: 'Open hartje ketting', categorie: 'kettingen', foto: 'ketting-8', prijs: 26.95, oudePrijs: 89.95 },
-  { id: 'lagen-armband', naam: 'Lagen armband', categorie: 'armbanden', foto: 'armband-groen', prijs: 33.95, oudePrijs: 109.95 },
-  { id: 'duo-set', naam: 'Duo set met klaver', categorie: 'armbanden', foto: 'armband-armen', prijs: 44.95, oudePrijs: 149.95 },
-  { id: 'trio-armband', naam: 'Trio armband goud', categorie: 'armbanden', foto: 'armband-goud', prijs: 38.95, oudePrijs: 129.95 },
-  { id: 'fijne-armband', naam: 'Fijne armband met bedel', categorie: 'armbanden', foto: 'armband-fijn', prijs: 23.95, oudePrijs: 79.95 },
-  { id: 'mix-armband', naam: 'Mix armbanden set', categorie: 'armbanden', foto: 'armband-mix', prijs: 41.95, oudePrijs: 139.95 },
+  { id: 'lumi-ring', naam: 'Lumi stacking ring', categorie: 'rings', foto: 'ring-goud', prijs: 39.95, oudePrijs: 129.95 },
+  { id: 'nora-hoops', naam: 'Nora gold-tone hoop earrings', categorie: 'earrings', foto: 'oorbel-hoops', prijs: 24.95, oudePrijs: 89.95 },
+  { id: 'wave-earrings', naam: 'Wave earrings', categorie: 'earrings', foto: 'oorbel-golf', prijs: 27.95, oudePrijs: 94.95 },
+  { id: 'ava-drops', naam: 'Ava drop earrings with zirconia', categorie: 'earrings', foto: 'oorbel-pave', prijs: 34.95, oudePrijs: 119.95 },
+  { id: 'pearl-necklace', naam: 'Pearl necklace with pendant', categorie: 'necklaces', foto: 'ketting-schaal', prijs: 32.95, oudePrijs: 109.95 },
+  { id: 'stone-rings', naam: 'Set of three stone rings', categorie: 'rings', foto: 'ring-steen', prijs: 44.95, oudePrijs: 149.95 },
+  { id: 'wrap-bracelet', naam: 'Leather wrap bracelet', categorie: 'bracelets', foto: 'armband-stapel', prijs: 29.95, oudePrijs: 99.95 },
+  { id: 'flower-earrings', naam: 'Flower earrings', categorie: 'earrings', foto: 'oorbel-bloem', prijs: 22.95, oudePrijs: 79.95 },
+  { id: 'oval-earrings', naam: 'Oval earrings', categorie: 'earrings', foto: 'oorbel-ovaal', prijs: 26.95, oudePrijs: 89.95 },
+  { id: 'pave-earrings', naam: 'Pavé link earrings', categorie: 'earrings', foto: 'oorbel-pave2', prijs: 36.95, oudePrijs: 124.95 },
+  { id: 'link-set', naam: 'Link bracelet set', categorie: 'bracelets', foto: 'armband-set', prijs: 49.95, oudePrijs: 169.95 },
+  { id: 'chunky-link', naam: 'Chunky link bracelet', categorie: 'bracelets', foto: 'armband-doos', prijs: 37.95, oudePrijs: 124.95 },
+  { id: 'duo-bracelet', naam: 'Fine duo bracelet', categorie: 'bracelets', foto: 'armband-pols', prijs: 24.95, oudePrijs: 84.95 },
+  { id: 'clover-bracelet', naam: 'Clover bracelet', categorie: 'bracelets', foto: 'armband-wit', prijs: 19.95, oudePrijs: 69.95 },
+  { id: 'solitaire-ring', naam: 'Solitaire ring', categorie: 'rings', foto: 'ring-diamant', prijs: 59.95, oudePrijs: 199.95 },
+  { id: 'infinity-ring', naam: 'Infinity ring', categorie: 'rings', foto: 'cat-ring', prijs: 29.95, oudePrijs: 99.95 },
+  { id: 'lina-necklace', naam: 'Lina coin necklace', categorie: 'necklaces', foto: 'ketting-1', prijs: 28.95, oudePrijs: 94.95 },
+  { id: 'layer-necklace', naam: 'Three-layer necklace', categorie: 'necklaces', foto: 'ketting-2', prijs: 42.95, oudePrijs: 139.95 },
+  { id: 'flat-chain', naam: 'Flat link chain', categorie: 'necklaces', foto: 'ketting-3', prijs: 34.95, oudePrijs: 114.95 },
+  { id: 'daisy-necklace', naam: 'Daisy necklace', categorie: 'necklaces', foto: 'ketting-4', prijs: 31.95, oudePrijs: 104.95 },
+  { id: 'two-hearts', naam: 'Double heart necklace', categorie: 'necklaces', foto: 'ketting-5', prijs: 36.95, oudePrijs: 119.95 },
+  { id: 'curb-chain', naam: 'Curb chain necklace', categorie: 'necklaces', foto: 'ketting-6', prijs: 39.95, oudePrijs: 129.95 },
+  { id: 'cuban-chain', naam: 'Cuban chain necklace', categorie: 'necklaces', foto: 'ketting-7', prijs: 46.95, oudePrijs: 159.95 },
+  { id: 'open-heart', naam: 'Open heart necklace', categorie: 'necklaces', foto: 'ketting-8', prijs: 26.95, oudePrijs: 89.95 },
+  { id: 'layered-bracelet', naam: 'Layered bracelet', categorie: 'bracelets', foto: 'armband-groen', prijs: 33.95, oudePrijs: 109.95 },
+  { id: 'duo-clover-set', naam: 'Clover duo bracelet set', categorie: 'bracelets', foto: 'armband-armen', prijs: 44.95, oudePrijs: 149.95 },
+  { id: 'trio-bracelet', naam: 'Gold trio bracelet', categorie: 'bracelets', foto: 'armband-goud', prijs: 38.95, oudePrijs: 129.95 },
+  { id: 'charm-bracelet', naam: 'Dainty charm bracelet', categorie: 'bracelets', foto: 'armband-fijn', prijs: 23.95, oudePrijs: 79.95 },
+  { id: 'mix-set', naam: 'Mixed bracelet set', categorie: 'bracelets', foto: 'armband-mix', prijs: 41.95, oudePrijs: 139.95 },
 ]
 
-export const topproducten = ['lumi-ring', 'nora-creolen', 'golf-oorbellen', 'ava-hangers', 'pearl-ketting']
+export const topproducten = ['lumi-ring', 'nora-hoops', 'wave-earrings', 'ava-drops', 'pearl-necklace']
 
 export const reviews = [
-  { naam: 'Sanne V.', datum: '2 dagen geleden', tekst: 'Prachtig product en snelle levering, echt een aanrader!' },
-  { naam: 'Linda B.', datum: '2 dagen geleden', tekst: 'Prachtig sieraad en snelle levering, zeker een aanrader!' },
-  { naam: 'Kim de J.', datum: '3 dagen geleden', tekst: 'Mooi product, snelle levering. Echt een aanrader voor iedereen!' },
+  { naam: 'Sanne V.', datum: '2 days ago', tekst: 'Beautiful product and fast delivery, highly recommended!' },
+  { naam: 'Linda B.', datum: '2 days ago', tekst: 'Beautiful jewelry and fast delivery, definitely recommended!' },
+  { naam: 'Kim de J.', datum: '3 days ago', tekst: 'Lovely product, fast delivery. Highly recommended to everyone!' },
 ]
 
 export const voordelen = [
-  'Gratis verzending vanaf €50',
-  '14 dagen bedenktijd',
-  'Veilig betalen',
-  'Persoonlijk advies',
-  'Vakkundige service',
-  '5 winkels in Zuid-Holland',
+  'Free shipping from €50',
+  '14-day cooling-off period',
+  'Secure payment',
+  'Personal advice',
+  'Expert service',
+  '5 stores in South Holland',
 ]

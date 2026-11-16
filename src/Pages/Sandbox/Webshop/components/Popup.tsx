@@ -27,16 +27,16 @@ function Popup() {
     <div className="ws-laag">
       <div className="ws-popup-achter" onClick={() => zetPopup(false)}>
         <div className="ws-popup" role="dialog" aria-modal="true" aria-labelledby="ws-popup-titel" onClick={(e) => e.stopPropagation()}>
-          <button type="button" className="ws-sluit" onClick={() => zetPopup(false)} aria-label="Sluiten">×</button>
-          <h2 id="ws-popup-titel">Ontgrendel wholesaleprijzen</h2>
+          <button type="button" className="ws-sluit" onClick={() => zetPopup(false)} aria-label="Close">×</button>
+          <h2 id="ws-popup-titel">Unlock wholesale prices</h2>
           <form onSubmit={klaar}>
-            <label htmlFor="ws-mail">E-mailadres</label>
+            <label htmlFor="ws-mail">Email address</label>
             <input id="ws-mail" ref={eersteVeld} type="email" required autoComplete="off" />
-            <button type="submit" className="ws-knop">Registreer gratis</button>
+            <button type="submit" className="ws-knop">Register for free</button>
           </form>
-          <button type="button" className="ws-knop ws-knop-licht" onClick={() => klaar()}>Doorgaan met Google</button>
-          <p className="ws-klein">Door verder te gaan, ga je akkoord met onze Voorwaarden en ons Privacybeleid.</p>
-          <p>Heb je al een account? <button type="button" className="ws-link" onClick={() => klaar()}>Aanmelden</button></p>
+          <button type="button" className="ws-knop ws-knop-licht" onClick={() => klaar()}>Continue with Google</button>
+          <p className="ws-klein">By continuing, you agree to our Terms and our Privacy Policy.</p>
+          <p>Already have an account? <button type="button" className="ws-link" onClick={() => klaar()}>Sign in</button></p>
         </div>
       </div>
     </div>
