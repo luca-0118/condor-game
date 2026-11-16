@@ -43,6 +43,19 @@
         cursor: pointer;
     }
 
+    .dm-user span {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 2px;
+    }
+
+    .dm-user small {
+        color: #a8a8a8;
+        font-size: 11px;
+        font-weight: normal;
+    }
+
     .dm-compose {
         font-size: 24px;
         cursor: pointer;
@@ -115,24 +128,41 @@
     /* One conversation row: avatar, name, preview and unread dot. */
     .dm-conversation {
         display: flex;
+        width: 100%;
         align-items: center;
         gap: 12px;
         padding: 8px 20px;
+        border: 0;
+        background: transparent;
+        color: inherit;
+        text-align: left;
+        font: inherit;
         cursor: pointer;
     }
 
-    .dm-conversation:hover {
+    .dm-conversation:hover,
+    .dm-conversation.selected {
         background: #1a1a1a;
     }
 
     .dm-avatar {
         position: relative;
+        display: flex;
         width: 48px;
         height: 48px;
+        align-items: center;
+        justify-content: center;
         flex-shrink: 0;
         border-radius: 50%;
         background: #343a44;
         border: 1px solid #555d69;
+        color: #fff;
+        font-size: 13px;
+        font-weight: 600;
+    }
+
+    .sofia-avatar {
+        background: linear-gradient(135deg, #a776b8, #eaa590);
     }
 
     /* Gradient-style ring for conversations with an unseen story. */
@@ -181,53 +211,163 @@
         background: #0095f6;
     }
 
-    /* Right column: empty state shown when no chat is selected. */
-    .dm-empty {
+    .dm-chat {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+        height: 100vh;
+    }
+
+    .dm-chat-header {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        min-height: 76px;
+        padding: 12px 20px;
+        border-bottom: 1px solid #262626;
+    }
+
+    .dm-chat-header .dm-avatar {
+        width: 40px;
+        height: 40px;
+    }
+
+    .dm-chat-header strong,
+    .dm-profile strong {
+        display: block;
+        font-size: 14px;
+    }
+
+    .dm-chat-header p,
+    .dm-profile p {
+        margin-top: 4px;
+        color: #a8a8a8;
+        font-size: 12px;
+    }
+
+    .dm-messages {
+        flex: 1;
+        overflow-y: auto;
+        padding: 28px 24px;
+    }
+
+    .dm-profile {
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: center;
-        gap: 10px;
-        min-height: 100vh;
-        text-align: center;
+        gap: 6px;
+        margin: 0 auto 28px;
     }
 
-    .dm-empty-icon {
-        width: 96px;
-        height: 96px;
-        border: 2px solid #f5f5f5;
-        border-radius: 50%;
+    .dm-profile .dm-avatar {
+        width: 80px;
+        height: 80px;
+        margin-bottom: 6px;
+        font-size: 20px;
+    }
+
+    .dm-message-day {
+        display: flex;
+        flex-direction: column;
+        gap: 8px;
+        margin: 24px 0;
+    }
+
+    .dm-date {
+        align-self: center;
+        margin-bottom: 8px;
+        color: #a8a8a8;
+        font-size: 12px;
+    }
+
+    .dm-message {
+        max-width: min(72%, 440px);
+        padding: 10px 14px;
+        border: 1px solid #363636;
+        border-radius: 20px;
+        color: #f5f5f5;
+        font-size: 14px;
+        line-height: 1.4;
+        overflow-wrap: anywhere;
+    }
+
+    .dm-message.jamie {
+        align-self: flex-start;
+        background: #262626;
+    }
+
+    .dm-message.sofia {
+        align-self: flex-end;
+        background: #3797f0;
+        border-color: #3797f0;
+    }
+
+    .dm-attachment {
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 10px;
     }
 
-    .dm-empty-icon svg {
-        font-size: 44px;
-    }
-
-    .dm-empty h2 {
-        font-size: 20px;
-        font-weight: 500;
-    }
-
-    .dm-empty p {
-        color: #a8a8a8;
-    }
-
-    .dm-send {
-        margin-top: 8px;
-        background: #0095f6;
-        color: #fff;
-        border: none;
+    .dm-attachment-icon {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        flex-shrink: 0;
+        place-items: center;
         border-radius: 8px;
-        padding: 8px 16px;
-        font-size: 14px;
-        font-weight: bold;
-        cursor: pointer;
+        background: #fff;
+        color: #d93025;
+        font-size: 10px;
+        font-weight: 700;
     }
 
-    .dm-send:hover {
-        background: #1877f2;
+    .dm-reply {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin: 12px 20px 20px;
+        padding: 12px 16px;
+        border: 1px solid #363636;
+        border-radius: 24px;
+        color: #a8a8a8;
+        font-size: 14px;
+    }
+
+    .dm-reply svg {
+        color: #f5f5f5;
+        font-size: 20px;
+    }
+
+    @media (max-width: 900px) {
+        .dm-layout {
+            grid-template-columns: 72px minmax(260px, 320px) 1fr;
+        }
+
+        .dm-layout:has(.sidebar.sidebar-open) {
+            grid-template-columns: 240px minmax(260px, 320px) 1fr;
+        }
+    }
+
+    @media (max-width: 680px) {
+        .dm-layout,
+        .dm-layout:has(.sidebar.sidebar-open) {
+            grid-template-columns: 1fr;
+        }
+
+        .dm-list {
+            display: none;
+        }
+
+        .dm-chat {
+            height: 100vh;
+        }
+
+        .dm-messages {
+            padding: 20px 14px;
+        }
+
+        .dm-message {
+            max-width: 86%;
+        }
     }
 }
