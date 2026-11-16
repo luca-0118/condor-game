@@ -18,7 +18,7 @@ function AdminKnop() {
   const checkPassword = (event: SubmitEvent<HTMLFormElement>) => {
     event.preventDefault()
 
-    const adminPassword = import.meta.env.VITE_ADMIN_PASSWORD
+    const adminPassword = 'admin' //TIJDELIJKE WACHTWOORD lol
     if (!adminPassword) {
       setError('Admin access is not configured.')
       return
