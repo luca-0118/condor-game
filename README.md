@@ -1,5 +1,16 @@
 # React + TypeScript + Vite
 
+## Instagram conversations
+
+Add a conversation to the `conversations` array in
+[`dm-conversations.ts`](./src/Pages/Sandbox/Insta/dm-conversations.ts). Give it
+a unique `id`, the contact's `name`, `username` (without `@`), `initials` and
+inbox `preview`, plus a `days` array containing dated messages. Use
+`sender: 'contact'` for incoming messages and `sender: 'self'` for Sofia's
+messages. Set `attachment: true` to display a message's text as a filename.
+The first conversation is selected by default; selecting another in the inbox
+opens it. The composer and attachments are display-only.
+
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
 Currently, two official plugins are available:
