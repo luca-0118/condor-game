@@ -23,7 +23,7 @@ function ProductKaart({ item }: { item: Product }) {
       </Link>
       {!ontgrendeld && (
         <button type="button" className="ws-ontgrendel" onClick={() => zetPopup(true)}>
-          Ontgrendel de wholesaleprijs <span aria-hidden="true">→</span>
+          Unlock the wholesale price <span aria-hidden="true">→</span>
         </button>
       )}
     </article>

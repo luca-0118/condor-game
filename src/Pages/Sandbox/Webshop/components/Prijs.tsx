@@ -14,7 +14,7 @@ function Slot() {
 /* Toont de prijs, of een slotje zolang de speler zich niet heeft geregistreerd. */
 function Prijs({ item }: { item: Product }) {
   const { ontgrendeld } = useWinkel()
-  if (!ontgrendeld) return <p className="ws-prijs ws-prijs-dicht"><Slot /> Prijs na registratie</p>
+  if (!ontgrendeld) return <p className="ws-prijs ws-prijs-dicht"><Slot /> Register to see the price</p>
   return <p className="ws-prijs">{euro(item.prijs)} <s>{euro(item.oudePrijs)}</s></p>
 }
 

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { googleLogo } from '../Google search/imageAssets'
 import ImageDropzone from './components/ImageDropzone'
-import ImageResultCard from './components/ImageResultCard'
+import ImageResultCard from './components/ImageResult'
 import { findSimilarImages, type ImageMatch } from './imageSimilarity'
 import './reverseImageSearch.css'
 

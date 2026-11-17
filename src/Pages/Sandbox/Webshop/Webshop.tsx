@@ -36,9 +36,9 @@ function Webshop() {
             <Route index element={<Home />} />
             {categorieen.map((c) => <Route key={c.pad} path={c.pad} element={<CategoriePagina pad={c.pad} />} />)}
             <Route path="product/:id" element={<ProductPagina />} />
-            <Route path="winkelmandje" element={<Winkelmandje />} />
-            <Route path="afrekenen" element={<Afrekenen />} />
-            <Route path="klantenservice" element={<Klantenservice />} />
+            <Route path="cart" element={<Winkelmandje />} />
+            <Route path="checkout" element={<Afrekenen />} />
+            <Route path="customer-service" element={<Klantenservice />} />
             <Route path="*" element={<Home />} />
           </Routes>
         </main>

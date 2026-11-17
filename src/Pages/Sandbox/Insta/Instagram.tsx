@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useSearchParams } from 'react-router-dom'
+import { useNavigate, useSearchParams } from 'react-router-dom'
 import BookmarkIcon from '@mui/icons-material/Bookmark'
 import FavoriteBorderOutlinedIcon from '@mui/icons-material/FavoriteBorderOutlined'
 import ModeCommentOutlinedIcon from '@mui/icons-material/ModeCommentOutlined'
@@ -7,28 +7,10 @@ import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import SendIcon from '@mui/icons-material/Send'
 import SearchBar from '../../../components/SearchBar'
 import type { SocialUser } from '../../../data/socialUser'
+import Avatar from './Avatar'
 import InstaSidebar from './InstaSidebar'
 import { loadInstagramUsers } from '../Databases/instagramDatabase'
 import './instagram.css'
-
-// Initials shown inside avatar placeholders.
-function initials(name: string) {
-  return name
-    .split(' ')
-    .map((part) => part[0])
-    .join('')
-    .slice(0, 2)
-    .toUpperCase()
-}
-
-// Round avatar: the user's picture when available, otherwise their initials.
-function Avatar({ user, className = 'avatar' }: { user: SocialUser; className?: string }) {
-  return (
-    <div className={className}>
-      {user.avatar ? <img src={user.avatar} alt={user.name} /> : initials(user.name)}
-    </div>
-  )
-}
 
 // A single feed post from a mock user.
 function Post({ user }: { user: SocialUser }) {
@@ -84,6 +66,7 @@ function Suggestion({ user }: { user: SocialUser }) {
 function Instagram() {
   // The search view is driven by the URL (?search=true) so other pages can link to it.
   const [searchParams, setSearchParams] = useSearchParams()
+  const navigate = useNavigate()
   const searchOpen = searchParams.get('search') === 'true'
   const [exploreTab, setExploreTab] = useState<'foryou' | 'unpersonalized'>('foryou')
   const [users, setUsers] = useState<SocialUser[]>([])
@@ -128,7 +111,13 @@ function Instagram() {
             {usersLoading && <p role="status">Loading Instagram data…</p>}
             {databaseError && <p role="alert">Could not load Instagram data: {databaseError}</p>}
             <div className="explore-search">
-              <SearchBar users={users} placeholder="Zoeken" />
+              <SearchBar
+                users={users}
+                placeholder="Zoeken"
+                onSelect={(user) => {
+                  void navigate(`/sandbox/instagram/profile/${user.username}`)
+                }}
+              />
             </div>
 
             <div className="explore-tabs">

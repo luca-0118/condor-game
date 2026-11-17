@@ -11,7 +11,7 @@ function Aftelklok() {
   }, [])
 
   const tijd = `${String(Math.floor(rest / 60)).padStart(2, '0')}:${String(rest % 60).padStart(2, '0')}`
-  return <p className="ws-actie">Aanbieding eindigt over <strong>{tijd}</strong></p>
+  return <p className="ws-actie">Offer ends in <strong>{tijd}</strong></p>
 }
 
 export default Aftelklok
