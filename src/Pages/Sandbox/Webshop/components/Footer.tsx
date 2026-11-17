@@ -10,18 +10,18 @@ function Footer() {
     <footer className="ws-footer">
       <div>
         <strong>Mona Jewelry</strong>
-        <p>Al ruim 60 jaar uw juwelier.</p>
+        <p>Your jeweler for over 60 years.</p>
       </div>
       <div>
         <strong>Service</strong>
-        <Link to="/sandbox/monajewelry/klantenservice">Klantenservice</Link>
-        <Link to="/sandbox/monajewelry/klantenservice">Verzenden en retourneren</Link>
+        <Link to="/sandbox/monajewelry/customer-service">Customer service</Link>
+        <Link to="/sandbox/monajewelry/customer-service">Shipping and returns</Link>
       </div>
       <div>
         <strong>Contact</strong>
         <p>{CONTACT_MAIL}</p>
       </div>
-      <p className="ws-copyright">© 2026 Mona Jewelry. Alle rechten voorbehouden.</p>
+      <p className="ws-copyright">© 2026 Mona Jewelry. All rights reserved.</p>
     </footer>
   )
 }

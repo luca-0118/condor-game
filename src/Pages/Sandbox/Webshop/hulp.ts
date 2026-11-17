@@ -10,7 +10,7 @@ const bestanden = import.meta.glob<string>('./assets/*.{webp,svg}', { eager: tru
 export const foto = (naam: string) => bestanden[`./assets/${naam}.webp`]
 // icoon('mand') geeft de url van assets/icon-mand.svg
 export const icoon = (naam: string) => bestanden[`./assets/icon-${naam}.svg`]
-// euro(39.95) geeft '€ 39,95'
-export const euro = (bedrag: number) => `€ ${bedrag.toFixed(2).replace('.', ',')}`
+// euro(39.95) geeft '€39.95' (Engelse schrijfwijze, met punt)
+export const euro = (bedrag: number) => `€${bedrag.toFixed(2)}`
 // Zoekt een product op id, geeft undefined als het niet bestaat
 export const zoekProduct = (id: string) => producten.find((p) => p.id === id)

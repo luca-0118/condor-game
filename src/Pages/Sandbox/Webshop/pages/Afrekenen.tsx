@@ -26,13 +26,13 @@ function Afrekenen() {
 
   if (besteld !== null) {
     return (
-      <Pagina kruimel="Bestelling">
-        <h1>Bedankt voor je bestelling!</h1>
-        <p>Maak {euro(besteld)} binnen 24 uur over, anders vervalt je korting.</p>
+      <Pagina kruimel="Order">
+        <h1>Thank you for your order!</h1>
+        <p>Transfer {euro(besteld)} within 24 hours, or your discount expires.</p>
         <dl className="ws-rekening">
           <dt>IBAN</dt><dd>{REKENING.iban}</dd>
-          <dt>Ten name van</dt><dd>{REKENING.naam}</dd>
-          <dt>Omschrijving</dt><dd>Bestelling MJ-48213</dd>
+          <dt>Account holder</dt><dd>{REKENING.naam}</dd>
+          <dt>Reference</dt><dd>Order MJ-48213</dd>
         </dl>
       </Pagina>
     )
@@ -42,23 +42,23 @@ function Afrekenen() {
   if (regels.length === 0) return <Winkelmandje />
 
   return (
-    <Pagina kruimel="Afrekenen">
-      <h1>Afrekenen</h1>
+    <Pagina kruimel="Checkout">
+      <h1>Checkout</h1>
       {/* Velden hebben expres geen name: er wordt niets verstuurd of bewaard. */}
       <form className="ws-afrekenen" onSubmit={bestellen} autoComplete="off">
-        <label>Naam<input required /></label>
-        <label>E-mailadres<input type="email" required /></label>
-        <label>Adres<input required /></label>
-        <label>Postcode en plaats<input required /></label>
+        <label>Name<input required /></label>
+        <label>Email address<input type="email" required /></label>
+        <label>Address<input required /></label>
+        <label>Postal code and city<input required /></label>
         <fieldset>
-          <legend>Betaalmethode</legend>
-          <label><input type="radio" checked={methode === 'overboeking'} onChange={() => zetMethode('overboeking')} /> Overboeking</label>
-          <label><input type="radio" checked={methode === 'crypto'} onChange={() => zetMethode('crypto')} /> Crypto (10% extra korting)</label>
-          <label className="ws-uit"><input type="radio" disabled /> iDEAL (tijdelijk niet beschikbaar)</label>
-          <label className="ws-uit"><input type="radio" disabled /> Creditcard (tijdelijk niet beschikbaar)</label>
+          <legend>Payment method</legend>
+          <label><input type="radio" checked={methode === 'overboeking'} onChange={() => zetMethode('overboeking')} /> Bank transfer</label>
+          <label><input type="radio" checked={methode === 'crypto'} onChange={() => zetMethode('crypto')} /> Crypto (10% extra discount)</label>
+          <label className="ws-uit"><input type="radio" disabled /> iDEAL (temporarily unavailable)</label>
+          <label className="ws-uit"><input type="radio" disabled /> Credit card (temporarily unavailable)</label>
         </fieldset>
-        <p className="ws-totaal">Totaal <strong>{euro(totaal)}</strong></p>
-        <button type="submit" className="ws-knop">Bestelling plaatsen</button>
+        <p className="ws-totaal">Total <strong>{euro(totaal)}</strong></p>
+        <button type="submit" className="ws-knop">Place order</button>
       </form>
     </Pagina>
   )

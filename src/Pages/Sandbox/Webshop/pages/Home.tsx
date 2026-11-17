@@ -13,17 +13,17 @@ function Home() {
     <>
       <section className="ws-hero">
         <div>
-          <p className="ws-oog">Al ruim 60 jaar uw juwelier</p>
-          <h1>Bekijk de hele collectie</h1>
-          <Link to="/sandbox/monajewelry/alle-sieraden" className="ws-hero-knop">HIER <span aria-hidden="true">→</span></Link>
+          <p className="ws-oog">Your jeweler for over 60 years</p>
+          <h1>View the full collection</h1>
+          <Link to="/sandbox/monajewelry/all-jewelry" className="ws-hero-knop">HERE <span aria-hidden="true">→</span></Link>
         </div>
-        <img src={foto('hero')} alt="Vitrine met gouden sieraden" />
+        <img src={foto('hero')} alt="Display case with gold jewelry" />
       </section>
 
       <section className="ws-sectie">
         <div className="ws-sectiekop">
-          <h2>Topproducten in sieraden</h2>
-          <Link to="/sandbox/monajewelry/alle-sieraden">Alles bekijken <span aria-hidden="true">→</span></Link>
+          <h2>Top jewelry picks</h2>
+          <Link to="/sandbox/monajewelry/all-jewelry">View all <span aria-hidden="true">→</span></Link>
         </div>
         <ProductRaster items={top} />
       </section>
@@ -39,9 +39,9 @@ function Home() {
 
       <section className="ws-over">
         <div>
-          <h2>Mona Jewelry, al ruim 60 jaar uw juwelier</h2>
-          <p>Al ruim 60 jaar staat Mona Jewelry voor kwaliteit, vakmanschap en passie. Ontdek onze ruime collectie sieraden en accessoires, zorgvuldig geselecteerd volgens de nieuwste trends.</p>
-          <p>Of u nu op zoek bent naar een ring, armband of ketting, bij Mona Jewelry vindt u altijd iets bijzonders.</p>
+          <h2>Mona Jewelry, your jeweler for over 60 years</h2>
+          <p>For over 60 years, Mona Jewelry has stood for quality, craftsmanship and passion. Discover our wide collection of jewelry and accessories, carefully selected to follow the latest trends.</p>
+          <p>Whether you are looking for a ring, bracelet or necklace, at Mona Jewelry you will always find something special.</p>
         </div>
         <ul>{voordelen.map((v) => <li key={v}>{v}</li>)}</ul>
       </section>
