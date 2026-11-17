@@ -18,31 +18,31 @@ type PostsView = 'list' | 'grid'
 
 // Placeholder profile data.
 const PROFILE = {
-  name: 'Voornaam Achternaam',
+  name: 'First Last',
   friendCount: 1,
-  birthday: '1 januari 2000',
-  gender: 'Geslacht',
+  birthday: 'January 1, 2000',
+  gender: 'Gender',
 }
 
 // "People you may know" cards.
 const SUGGESTIONS: Suggestion[] = [1, 2, 3, 4, 5].map((n) => ({
   id: n,
-  name: `Voorbeeldnaam ${n}`,
-  mutual: n === 1 ? 'Gevolgd door 12' : '1 gemeenschappelijke vriend',
+  name: `Example name ${n}`,
+  mutual: n === 1 ? 'Followed by 12' : '1 mutual friend',
 }))
 
 // Tabs under the profile header.
-const PROFILE_TABS: string[] = ['Alles', 'Info', 'Vrienden', "Foto's", 'Reels', 'Meer ▾']
+const PROFILE_TABS: string[] = ['All', 'About', 'Friends', 'Photos', 'Reels', 'More ▾']
 
 // Placeholder posts; `link` adds a link preview under the post.
 const PROFILE_POSTS: ProfilePostData[] = [
   {
     id: 1,
-    date: '2 oktober 2022',
+    date: 'October 2, 2022',
     text: '',
-    link: { domain: 'VOORBEELD.COM', title: 'Titel van een gedeelde link' },
+    link: { domain: 'EXAMPLE.COM', title: 'Title of a shared link' },
   },
-  { id: 2, date: '2 februari 2021', text: 'Dit is een placeholder-bericht.', link: null },
+  { id: 2, date: 'February 2, 2021', text: 'This is a placeholder post.', link: null },
 ]
 
 // Header: large avatar, name, friend count and action buttons.
@@ -52,12 +52,12 @@ function ProfileHeader({ name, friendCount }: { name: string; friendCount: numbe
       <span className="avatar profile__avatar" />
       <div className="profile__id">
         <h1 className="profile__name">{name}</h1>
-        <span className="profile__friends">{friendCount} vriend</span>
+        <span className="profile__friends">{friendCount} {friendCount === 1 ? 'friend' : 'friends'}</span>
       </div>
       <div className="profile__actions">
-        <button className="btn btn--primary">+ Toevoegen aan verhaal</button>
-        <button className="btn">✎ Profiel bewerken</button>
-        <button className="btn" aria-label="Meer">⌃</button>
+        <button className="btn btn--primary">+ Add to story</button>
+        <button className="btn">✎ Edit profile</button>
+        <button className="btn" aria-label="More">⌃</button>
       </div>
     </section>
   )
@@ -75,7 +75,7 @@ function PersonCard({
     <div className="person-card">
       <button
         className="person-card__close"
-        aria-label="Verwijderen"
+        aria-label="Remove"
         onClick={() => onDismiss(person.id)}
       >
         ✕
@@ -84,7 +84,7 @@ function PersonCard({
       <div className="person-card__body">
         <strong>{person.name}</strong>
         <span>{person.mutual}</span>
-        <button className="btn btn--soft">👤 Vriend toevoegen</button>
+        <button className="btn btn--soft">👤 Add friend</button>
       </div>
     </div>
   )
@@ -100,8 +100,8 @@ function PeopleYouMayKnow() {
   return (
     <section className="card people">
       <header className="people__header">
-        <strong>Mensen die je misschien kent</strong>
-        <a href="#">Alles weergeven</a>
+        <strong>People you may know</strong>
+        <a href="#">See all</a>
       </header>
       <div className="people__row">
         {people.map((person) => (
@@ -115,7 +115,7 @@ function PeopleYouMayKnow() {
 // Tab bar under the header; the active tab is controlled by the parent.
 function ProfileTabs({ active, onChange }: { active: string; onChange: (tab: string) => void }) {
   return (
-    <nav className="profile__tabs" aria-label="Profiel">
+    <nav className="profile__tabs" aria-label="Profile">
       {PROFILE_TABS.map((tab) => (
         <button
           key={tab}
@@ -125,7 +125,7 @@ function ProfileTabs({ active, onChange }: { active: string; onChange: (tab: str
           {tab}
         </button>
       ))}
-      <button className="btn profile__more" aria-label="Meer opties">•••</button>
+      <button className="btn profile__more" aria-label="More options">•••</button>
     </nav>
   )
 }
@@ -159,11 +159,11 @@ function ProfileSidebar() {
     <div className="profile__side">
       {showTip && (
         <SideCard
-          title="Haal meer uit Facebook"
+          title="Get more out of Facebook"
           action={
             <button
               className="icon-btn icon-btn--plain"
-              aria-label="Sluiten"
+              aria-label="Close"
               onClick={() => setShowTip(false)}
             >
               ✕
@@ -171,39 +171,38 @@ function ProfileSidebar() {
           }
         >
           <p className="muted">
-            We hebben het makkelijker gemaakt om de dingen waarin je geïnteresseerd bent toe te
-            voegen.
+            We have made it easier to add the things you are interested in.
           </p>
-          <button className="btn btn--soft btn--block">Je profiel bijwerken</button>
+          <button className="btn btn--soft btn--block">Update your profile</button>
         </SideCard>
       )}
 
-      <SideCard title="Persoonlijke gegevens" action={<span className="muted">✎</span>}>
+      <SideCard title="Personal details" action={<span className="muted">✎</span>}>
         <p className="side-card__row">🎂 {PROFILE.birthday}</p>
         <p className="side-card__row">⚥ {PROFILE.gender}</p>
       </SideCard>
 
-      <SideCard title="Hoogtepunten">
-        <button className="btn btn--block">Hoogtepunten toevoegen</button>
+      <SideCard title="Highlights">
+        <button className="btn btn--block">Add highlights</button>
       </SideCard>
 
       <SideCard
-        title="Vrienden"
-        action={<a className="link" href="#">Alle vrienden weergeven</a>}
+        title="Friends"
+        action={<a className="link" href="#">See all friends</a>}
       >
-        <p className="muted">{PROFILE.friendCount} vriend</p>
+        <p className="muted">{PROFILE.friendCount} {PROFILE.friendCount === 1 ? 'friend' : 'friends'}</p>
         <div className="friend-tile">
           <div className="friend-tile__photo" />
-          <span>Vriendnaam</span>
+          <span>Friend name</span>
         </div>
       </SideCard>
 
       <SideCard
-        title="Foto's"
-        action={<a className="link" href="#">Alle foto's weergeven</a>}
+        title="Photos"
+        action={<a className="link" href="#">See all photos</a>}
       />
 
-      <footer className="profile__footer">Privacy · Voorwaarden · Adverteren · Cookies · Meer</footer>
+      <footer className="profile__footer">Privacy · Terms · Advertising · Cookies · More</footer>
     </div>
   )
 }
@@ -213,10 +212,10 @@ function PostsHeader({ view, onChange }: { view: PostsView; onChange: (view: Pos
   return (
     <section className="card posts-head">
       <div className="side-card__head">
-        <strong>Berichten</strong>
+        <strong>Posts</strong>
         <div className="posts-head__buttons">
           <button className="btn">⇅ Filters</button>
-          <button className="btn">⚙ Berichten beheren</button>
+          <button className="btn">⚙ Manage posts</button>
         </div>
       </div>
       <div className="view-toggle">
@@ -224,13 +223,13 @@ function PostsHeader({ view, onChange }: { view: PostsView; onChange: (view: Pos
           className={`view-toggle__btn${view === 'list' ? ' view-toggle__btn--active' : ''}`}
           onClick={() => onChange('list')}
         >
-          Lijstweergave
+          List view
         </button>
         <button
           className={`view-toggle__btn${view === 'grid' ? ' view-toggle__btn--active' : ''}`}
           onClick={() => onChange('grid')}
         >
-          Rasterweergave
+          Grid view
         </button>
       </div>
     </section>
@@ -247,7 +246,7 @@ function ProfilePost({ post }: { post: ProfilePostData }) {
           <strong>{PROFILE.name}</strong>
           <span className="post__time">{post.date}</span>
         </div>
-        <button className="icon-btn icon-btn--plain" aria-label="Meer opties">•••</button>
+        <button className="icon-btn icon-btn--plain" aria-label="More options">•••</button>
       </header>
 
       {post.text && <p className="post__text">{post.text}</p>}
@@ -263,14 +262,14 @@ function ProfilePost({ post }: { post: ProfilePostData }) {
       )}
 
       <div className="post__actions">
-        <button>👍 Vind ik leuk</button>
-        <button>💬 Reageren</button>
-        <button>↪ Delen</button>
+        <button>👍 Like</button>
+        <button>💬 Comment</button>
+        <button>↪ Share</button>
       </div>
 
       <div className="post__comment">
         <span className="avatar avatar--sm" />
-        <button className="composer__input">Schrijf een opmerking…</button>
+        <button className="composer__input">Write a comment…</button>
       </div>
     </article>
   )
@@ -284,7 +283,7 @@ function ProfileMain() {
     <div className="profile__main">
       <section className="card composer">
         <span className="avatar avatar--md" />
-        <button className="composer__input">Wat ben je aan het doen?</button>
+        <button className="composer__input">What&apos;s on your mind?</button>
       </section>
 
       <PostsHeader view={view} onChange={setView} />
@@ -300,7 +299,7 @@ function ProfileMain() {
 
 // The top bar comes from Facebook.tsx, so this page only renders the profile itself.
 function FacebookProfiel() {
-  const [tab, setTab] = useState('Alles')
+  const [tab, setTab] = useState('All')
 
   return (
     <div className="profile">
