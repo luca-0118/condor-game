@@ -131,6 +131,28 @@
         min-width: 0;
     }
 
+    .topbar__left {
+        position: relative;
+    }
+
+    .facebook-search {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 0;
+        z-index: 20;
+        width: min(360px, calc(100vw - 32px));
+        padding: 12px;
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        background: var(--surface);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, .4);
+    }
+
+    .facebook-search p {
+        margin-bottom: 8px;
+        color: var(--text-muted);
+    }
+
     .topbar__right {
         justify-content: flex-end;
     }
@@ -440,10 +462,6 @@
         .topbar__left,
         .topbar__right {
             gap: 4px;
-        }
-
-        .topbar__left .icon-btn {
-            display: none;
         }
 
         .topbar__nav {
