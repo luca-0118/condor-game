@@ -1,10 +1,11 @@
-import { useState } from 'react'
-import { Link } from 'react-router-dom'
+import { useState, type MouseEvent } from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import type { SocialProfile } from '../../../../data/socialPost'
 import { getSearchUrl } from '../../../../utils/search'
+import { findBrowserSiteByDomain } from '../../Databases/googleDatabase'
 import Avatar from '../Avatar'
 import ProfileStats from './ProfileStats'
 
@@ -19,7 +20,41 @@ type ProfileHeaderProps = {
 // the "Gevolgd door ..." row and the action buttons below.
 function ProfileHeader({ profile, isOwnProfile = false }: ProfileHeaderProps) {
   const [following, setFollowing] = useState(false)
+  const [websiteError, setWebsiteError] = useState<string | null>(null)
+  const navigate = useNavigate()
   const [firstFollower, secondFollower] = profile.followedBy
+
+  const handleWebsiteClick = async (event: MouseEvent<HTMLAnchorElement>) => {
+    const website = profile.website
+    if (!website) return
+
+    event.preventDefault()
+    setWebsiteError(null)
+
+    let url: URL
+    try {
+      url = new URL(
+        /^https?:\/\//i.test(website) ? website : `https://${website}`,
+      )
+    } catch {
+      void navigate(getSearchUrl(website))
+      return
+    }
+
+    try {
+      const site = await findBrowserSiteByDomain(url.hostname)
+      if (site?.route.startsWith('/')) {
+        const path = url.pathname === '/' ? '' : url.pathname
+        void navigate(`${site.route}${path}${url.search}${url.hash}`)
+        return
+      }
+
+      void navigate(getSearchUrl(website))
+    } catch (error) {
+      console.error('Failed to resolve the profile website in the sandbox.', error)
+      setWebsiteError('Could not open this website in the sandbox.')
+    }
+  }
 
   return (
     <header className="profile-header">
@@ -46,10 +81,14 @@ function ProfileHeader({ profile, isOwnProfile = false }: ProfileHeaderProps) {
           {profile.category && <p className="profile-category">{profile.category}</p>}
           <p>{profile.bio}</p>
           {profile.website && (
-            <Link to={getSearchUrl(profile.website)}>
+            <Link
+              to={getSearchUrl(profile.website)}
+              onClick={(event) => void handleWebsiteClick(event)}
+            >
               🔗 {profile.website}
             </Link>
           )}
+          {websiteError && <p role="alert">{websiteError}</p>}
         </div>
 
         {firstFollower && (

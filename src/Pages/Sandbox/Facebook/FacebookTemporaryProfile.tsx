@@ -1,10 +1,9 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import type { SocialUser } from '../../../data/socialUser'
+import { loadFacebookPosts, type FacebookPost } from '../Databases/facebookDatabase'
 import './facebook-profiel.css'
 
 const PROFILE_TABS = ['All', 'About', 'Friends', 'Photos', 'Reels', 'More ▾']
-
-const SUGGESTIONS = ['Emma de Vries', 'Liam Jansen', 'Mila van Dijk', 'Noah Bakker']
 
 function FacebookTemporaryProfile({
   user,
@@ -14,6 +13,9 @@ function FacebookTemporaryProfile({
   onBack: () => void
 }) {
   const [activeTab, setActiveTab] = useState('All')
+  const [posts, setPosts] = useState<FacebookPost[]>([])
+  const [postsLoading, setPostsLoading] = useState(true)
+  const [postsError, setPostsError] = useState<string | null>(null)
   const avatarStyle = user.avatar
     ? {
         backgroundImage: `url("${user.avatar}")`,
@@ -22,6 +24,39 @@ function FacebookTemporaryProfile({
       }
     : undefined
 
+  useEffect(() => {
+    let active = true
+
+    loadFacebookPosts(user.id).then(
+      (loadedPosts) => {
+        if (active) {
+          setPosts(loadedPosts)
+          setPostsLoading(false)
+        }
+      },
+      (error: unknown) => {
+        if (active) {
+          setPostsError(error instanceof Error ? error.message : 'An unknown database error occurred.')
+          setPostsLoading(false)
+        }
+      },
+    )
+
+    return () => {
+      active = false
+    }
+  }, [user.id])
+
+  const displayPosts: FacebookPost[] = posts.length > 0 ? posts : [{
+    id: 0,
+    userId: user.id,
+    text: user.bio || `${user.name} joined Facebook.`,
+    postedAt: '',
+    reactionCount: 0,
+    shareCount: 0,
+    media: [],
+  }]
+
   return (
     <div className="profile">
       <section className="profile__header">
@@ -29,7 +64,9 @@ function FacebookTemporaryProfile({
           {!user.avatar && user.name.slice(0, 1)}
         </span>
         <div className="profile__id">
-          <h1 className="profile__name">{user.name}</h1>
+          <h1 className="profile__name">
+            {user.name} {user.verified && <span aria-label="Verified">✔</span>}
+          </h1>
           <span className="profile__friends">@{user.username} · {user.followers.toLocaleString()} followers</span>
         </div>
         <div className="profile__actions">
@@ -38,7 +75,7 @@ function FacebookTemporaryProfile({
           <button className="btn" type="button" onClick={onBack}>Back to feed</button>
         </div>
       </section>
-
+      {/*
       <section className="card people">
         <header className="people__header">
           <strong>People you may know</strong>
@@ -56,7 +93,7 @@ function FacebookTemporaryProfile({
             </div>
           ))}
         </div>
-      </section>
+      </section> */}
 
       <nav className="profile__tabs" aria-label="Profile">
         {PROFILE_TABS.map((tab) => (
@@ -76,6 +113,9 @@ function FacebookTemporaryProfile({
           <section className="card">
             <div className="side-card__head"><strong>Intro</strong></div>
             <p className="muted">{user.bio || 'No bio available.'}</p>
+            {user.category && <p className="muted">{user.category}</p>}
+            {user.location && <p className="muted">Lives in {user.location}</p>}
+            {user.website && <p className="muted">{user.website}</p>}
             <button className="btn btn--block" type="button">Edit details</button>
           </section>
 
@@ -120,26 +160,45 @@ function FacebookTemporaryProfile({
             </div>
           </section>
 
-          <article className="card post">
-            <header className="post__header">
-              <span className="avatar avatar--sm" style={avatarStyle} />
-              <div className="post__meta">
-                <strong>{user.name}</strong>
-                <span className="post__time">Profile</span>
+          {postsLoading && <p role="status">Loading posts…</p>}
+          {postsError && <p role="alert">Could not load Facebook posts: {postsError}</p>}
+          {!postsLoading && !postsError && displayPosts.map((post) => (
+            <article className="card post" key={post.id}>
+              <header className="post__header">
+                <span className="avatar avatar--sm" style={avatarStyle} />
+                <div className="post__meta">
+                  <strong>{user.name}</strong>
+                  <span className="post__time">
+                    {post.postedAt
+                      ? new Date(`${post.postedAt.replace(' ', 'T')}Z`).toLocaleString('en-US')
+                      : 'Profile'}
+                  </span>
+                </div>
+                <button className="icon-btn icon-btn--plain" aria-label="More options">•••</button>
+              </header>
+              <p className="post__text">{post.text}</p>
+              {post.location && <p className="post__text">📍 {post.location}</p>}
+              {post.media.map((media) => (
+                media.mediaType === 'image' && (
+                  <img
+                    className="post__media post__media--image"
+                    key={media.id}
+                    src={media.url}
+                    alt={media.alt ?? post.text}
+                  />
+                )
+              ))}
+              <div className="post__actions">
+                <button type="button">👍 Like · {post.reactionCount.toLocaleString()}</button>
+                <button type="button">💬 Comment</button>
+                <button type="button">↪ Share · {post.shareCount.toLocaleString()}</button>
               </div>
-              <button className="icon-btn icon-btn--plain" aria-label="More options">•••</button>
-            </header>
-            <p className="post__text">{user.bio || `${user.name} joined Facebook.`}</p>
-            <div className="post__actions">
-              <button type="button">👍 Like</button>
-              <button type="button">💬 Comment</button>
-              <button type="button">↪ Share</button>
-            </div>
-            <div className="post__comment">
-              <span className="avatar avatar--sm" />
-              <button className="composer__input">Write a comment…</button>
-            </div>
-          </article>
+              <div className="post__comment">
+                <span className="avatar avatar--sm" />
+                <button className="composer__input">Write a comment…</button>
+              </div>
+            </article>
+          ))}
         </main>
       </div>
     </div>
