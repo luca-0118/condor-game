@@ -1,8 +1,12 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
+import SearchBar from '../../../components/SearchBar'
+import type { SocialUser } from '../../../data/socialUser'
+import { loadInstagramUsers } from '../Databases/instagramDatabase'
 import FacebookProfiel from './facebook-profiel'
+import FacebookTemporaryProfile from './FacebookTemporaryProfile'
 import './Facebook.css'
 
-type Page = 'home' | 'profile'
+type Page = 'home' | 'profile' | 'search-profile'
 
 interface PostData {
   id: number
@@ -12,7 +16,7 @@ interface PostData {
 }
 
 // Placeholder user shown in the left menu and the composer.
-const USER = { firstName: 'Voornaam', fullName: 'Voornaam Achternaam' }
+const USER = { firstName: 'First', fullName: 'First Last' }
 
 // Number on the notification badge; the badge is hidden when it is 0.
 const NOTIFICATION_COUNT = 0
@@ -21,7 +25,7 @@ const NOTIFICATION_COUNT = 0
 const NAV_TABS: { id: string; label: string; icon: string; page?: Page }[] = [
   { id: 'home', label: 'Home', icon: '🏠', page: 'home' },
   { id: 'video', label: 'Video', icon: '🎬' },
-  { id: 'friends', label: 'Vrienden', icon: '👥' },
+  { id: 'friends', label: 'Friends', icon: '👥' },
   { id: 'marketplace', label: 'Marketplace', icon: '🏪' },
   { id: 'gaming', label: 'Gaming', icon: '🎮' },
 ]
@@ -29,37 +33,37 @@ const NAV_TABS: { id: string; label: string; icon: string; page?: Page }[] = [
 // Entries in the left menu.
 const SIDEBAR_ITEMS: { label: string; icon: string }[] = [
   { label: 'Meta AI', icon: '✨' },
-  { label: 'Vrienden', icon: '👥' },
-  { label: 'Herinneringen', icon: '🕒' },
-  { label: 'Opgeslagen', icon: '🔖' },
-  { label: 'Groepen', icon: '🫂' },
+  { label: 'Friends', icon: '👥' },
+  { label: 'Memories', icon: '🕒' },
+  { label: 'Saved', icon: '🔖' },
+  { label: 'Groups', icon: '🫂' },
   { label: 'Reels', icon: '🎞️' },
   { label: 'Marketplace', icon: '🏪' },
-  { label: 'Overzichten', icon: '📊' },
+  { label: 'Feeds', icon: '📊' },
 ]
 
 // Tabs above the feed.
 const FEED_TABS: { id: string; label: string }[] = [
-  { id: 'foryou', label: 'Voor jou' },
-  { id: 'following', label: 'Volgend' },
+  { id: 'foryou', label: 'For you' },
+  { id: 'following', label: 'Following' },
 ]
 
 // Placeholder posts for the feed.
 const INITIAL_POSTS: PostData[] = [
   {
     id: 1,
-    author: 'Paginanaam',
-    time: '1 u',
-    text: 'Dit is een placeholder-bericht. Vervang deze tekst door je eigen content.',
+    author: 'Page name',
+    time: '1h',
+    text: 'This is a placeholder post. Replace this text with your own content.',
   },
 ]
 
 // Placeholder ads and contacts for the right column.
 const ADS: { id: number; title: string; domain: string }[] = [
-  { id: 1, title: 'Advertentietitel', domain: 'voorbeeld.com' },
-  { id: 2, title: 'Advertentietitel', domain: 'voorbeeld.com' },
+  { id: 1, title: 'Ad title', domain: 'example.com' },
+  { id: 2, title: 'Ad title', domain: 'example.com' },
 ]
-const CONTACTS: string[] = ['Meta AI', 'Contactnaam']
+const CONTACTS: string[] = ['Meta AI', 'Contact name']
 
 // One tab in the top bar.
 function NavTab({
@@ -85,7 +89,23 @@ function NavTab({
 }
 
 // Top bar with logo, tabs and account buttons; `onNavigate` switches between the feed and the profile.
-function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
+function TopBar({
+  onNavigate,
+  searchOpen,
+  onSearchClick,
+  users,
+  usersLoading,
+  databaseError,
+  onSelectUser,
+}: {
+  onNavigate: (page: Page) => void
+  searchOpen: boolean
+  onSearchClick: () => void
+  users: SocialUser[]
+  usersLoading: boolean
+  databaseError: string | null
+  onSelectUser: (user: SocialUser) => void
+}) {
   const [activeTab, setActiveTab] = useState('home')
 
   return (
@@ -102,10 +122,24 @@ function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
         >
           f
         </a>
-        <button className="icon-btn" aria-label="Zoeken">🔍</button>
+        <button
+          className="icon-btn"
+          aria-label="Search"
+          aria-expanded={searchOpen}
+          onClick={onSearchClick}
+        >
+          🔍
+        </button>
+        {searchOpen && (
+          <div className="facebook-search">
+            {usersLoading && <p role="status">Loading search data…</p>}
+            {databaseError && <p role="alert">Could not load search data: {databaseError}</p>}
+            <SearchBar users={users} placeholder="Search Facebook" onSelect={onSelectUser} />
+          </div>
+        )}
       </div>
 
-      <nav className="topbar__nav" aria-label="Hoofdnavigatie">
+      <nav className="topbar__nav" aria-label="Main navigation">
         {NAV_TABS.map((tab) => (
           <NavTab
             key={tab.id}
@@ -123,13 +157,13 @@ function TopBar({ onNavigate }: { onNavigate: (page: Page) => void }) {
       <div className="topbar__right">
         <button className="icon-btn" aria-label="Menu">⋮⋮⋮</button>
         <button className="icon-btn" aria-label="Messenger">💬</button>
-        <button className="icon-btn icon-btn--badge" aria-label="Meldingen">
+        <button className="icon-btn icon-btn--badge" aria-label="Notifications">
           🔔
           {NOTIFICATION_COUNT > 0 && <span className="badge">{NOTIFICATION_COUNT}</span>}
         </button>
         <button
           className="avatar avatar--md"
-          aria-label="Profiel"
+          aria-label="Profile"
           onClick={() => onNavigate('profile')}
         />
       </div>
@@ -170,13 +204,13 @@ function Post({ post, onDismiss }: { post: PostData; onDismiss: (id: number) => 
         <span className="avatar avatar--md" />
         <div className="post__meta">
           <strong className="post__author">{post.author}</strong>
-          <a className="post__follow" href="#">Volgen</a>
+          <a className="post__follow" href="#">Follow</a>
           <span className="post__time">{post.time}</span>
         </div>
-        <button className="icon-btn icon-btn--plain" aria-label="Meer opties">•••</button>
+        <button className="icon-btn icon-btn--plain" aria-label="More options">•••</button>
         <button
           className="icon-btn icon-btn--plain"
-          aria-label="Sluiten"
+          aria-label="Close"
           onClick={() => onDismiss(post.id)}
         >
           ✕
@@ -212,15 +246,15 @@ function Feed() {
 
       <section className="card composer">
         <span className="avatar avatar--md" />
-        <button className="composer__input">Wat ben je aan het doen, {USER.firstName}?</button>
+        <button className="composer__input">What&apos;s on your mind, {USER.firstName}?</button>
         <span className="composer__actions">🎥 🖼️ 😊</span>
       </section>
 
       <section className="card story-prompt">
         <button className="story-prompt__add">+</button>
         <div>
-          <strong>Verhaal maken</strong>
-          <p>Deel een foto of video, of schrijf iets</p>
+          <strong>Create story</strong>
+          <p>Share a photo or video, or write something</p>
         </div>
       </section>
 
@@ -258,7 +292,7 @@ function Contact({ name }: { name: string }) {
 function RightSidebar() {
   return (
     <aside className="sidebar sidebar--right">
-      <h3 className="sidebar__title">Gesponsord</h3>
+      <h3 className="sidebar__title">Sponsored</h3>
       {ADS.map((ad) => (
         <Ad key={ad.id} title={ad.title} domain={ad.domain} />
       ))}
@@ -266,14 +300,14 @@ function RightSidebar() {
       <hr className="divider" />
 
       <div className="contacts__header">
-        <h3 className="sidebar__title">Contacten</h3>
+        <h3 className="sidebar__title">Contacts</h3>
         <span>🔍 •••</span>
       </div>
       {CONTACTS.map((name) => (
         <Contact key={name} name={name} />
       ))}
 
-      <button className="fab" aria-label="Nieuw bericht">✎</button>
+      <button className="fab" aria-label="New message">✎</button>
     </aside>
   )
 }
@@ -281,11 +315,45 @@ function RightSidebar() {
 // The page switches between the feed and the profile without a router.
 function Facebook() {
   const [page, setPage] = useState<Page>('home')
+  const [searchOpen, setSearchOpen] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<SocialUser | null>(null)
+  const [users, setUsers] = useState<SocialUser[]>([])
+  const [usersLoading, setUsersLoading] = useState(true)
+  const [databaseError, setDatabaseError] = useState<string | null>(null)
+
+  useEffect(() => {
+    loadInstagramUsers().then(
+      (loadedUsers) => {
+        setUsers(loadedUsers)
+        setUsersLoading(false)
+      },
+      (error: unknown) => {
+        setDatabaseError(
+          error instanceof Error ? error.message : 'An unknown database error occurred.',
+        )
+        setUsersLoading(false)
+      },
+    )
+  }, [])
 
   return (
     <div className="facebook">
-      <TopBar onNavigate={setPage} />
-      {page === 'profile' ? (
+      <TopBar
+        onNavigate={setPage}
+        searchOpen={searchOpen}
+        onSearchClick={() => setSearchOpen((open) => !open)}
+        users={users}
+        usersLoading={usersLoading}
+        databaseError={databaseError}
+        onSelectUser={(user) => {
+          setSelectedUser(user)
+          setPage('search-profile')
+          setSearchOpen(false)
+        }}
+      />
+      {page === 'search-profile' && selectedUser ? (
+        <FacebookTemporaryProfile user={selectedUser} onBack={() => setPage('home')} />
+      ) : page === 'profile' ? (
         <FacebookProfiel />
       ) : (
         <div className="layout">
