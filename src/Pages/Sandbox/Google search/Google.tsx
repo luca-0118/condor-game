@@ -65,11 +65,15 @@ function App() {
             <SearchIcon className="search-icon" aria-hidden="true" />
             <label htmlFor="search">Search</label>
             <input type="text" name="q" id="search" autoComplete="off" />
-            <img
-              className="camera-icon"
-              src={googleLensIcon}
-              alt="Search by image"
-            />
+            <button
+              className="camera-button"
+              type="button"
+              aria-label="Search by image"
+              title="Search by image"
+              onClick={() => navigate('/sandbox/images')}
+            >
+              <img className="camera-icon" src={googleLensIcon} alt="" />
+            </button>
           </div>
 
           <div className="search-form-buttons">

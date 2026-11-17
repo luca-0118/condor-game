@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import SearchBar from '../../../components/SearchBar'
 import type { SocialUser } from '../../../data/socialUser'
-import { loadInstagramUsers } from '../Databases/instagramDatabase'
+import { loadFacebookUsers } from '../Databases/facebookDatabase'
 import FacebookProfiel from './facebook-profiel'
 import FacebookTemporaryProfile from './FacebookTemporaryProfile'
 import './Facebook.css'
@@ -322,7 +322,7 @@ function Facebook() {
   const [databaseError, setDatabaseError] = useState<string | null>(null)
 
   useEffect(() => {
-    loadInstagramUsers().then(
+    loadFacebookUsers().then(
       (loadedUsers) => {
         setUsers(loadedUsers)
         setUsersLoading(false)
@@ -352,7 +352,11 @@ function Facebook() {
         }}
       />
       {page === 'search-profile' && selectedUser ? (
-        <FacebookTemporaryProfile user={selectedUser} onBack={() => setPage('home')} />
+        <FacebookTemporaryProfile
+          key={selectedUser.id}
+          user={selectedUser}
+          onBack={() => setPage('home')}
+        />
       ) : page === 'profile' ? (
         <FacebookProfiel />
       ) : (

@@ -20,6 +20,7 @@ type SearchBoxProps = {
 
 function SearchBox({ query, onSearch }: SearchBoxProps) {
   const [value, setValue] = useState(query)
+  const navigate = useNavigate()
 
   const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault()
@@ -39,7 +40,13 @@ function SearchBox({ query, onSearch }: SearchBoxProps) {
         value={value}
         onChange={(event) => setValue(event.target.value)}
       />
-      <button className="results-icon-button" type="button" aria-label="Search by image">
+      <button
+        className="results-icon-button"
+        type="button"
+        aria-label="Search by image"
+        title="Search by image"
+        onClick={() => navigate('/sandbox/images')}
+      >
         <img src={googleLensIcon} alt="" />
       </button>
       <button className="results-search-button" type="submit" aria-label="Search">
