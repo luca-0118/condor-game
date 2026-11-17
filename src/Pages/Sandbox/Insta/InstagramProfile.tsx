@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import type { SocialPost, SocialProfile } from '../../../data/socialPost'
 import InstaSidebar from './InstaSidebar'
+import PostDetail from './PostDetail'
 import PostGrid from './Profile/PostGrid'
 import ProfileHeader from './Profile/ProfileHeader'
 import ProfileHighlights from './Profile/ProfileHighlights'
@@ -11,7 +12,7 @@ import './instagram.css'
 // Profile page for any Instagram user; defaults to Sofia Vale.
 // Reuse it for another user by visiting /sandbox/instagram/profile/<username>.
 function InstagramProfile() {
-  const { username = 'sofia.vale' } = useParams()
+  const { username = 'sofia.vale', postId } = useParams()
   const [profile, setProfile] = useState<SocialProfile | null>(null)
   const [posts, setPosts] = useState<SocialPost[]>([])
   const [loading, setLoading] = useState(true)
@@ -71,7 +72,15 @@ function InstagramProfile() {
             <>
               <ProfileHeader profile={profile} />
               <ProfileHighlights highlights={profile.highlights} />
-              <PostGrid posts={posts} />
+              <PostGrid posts={posts} username={profile.username} />
+              {postId && (
+                <PostDetail
+                  key={postId}
+                  post={posts.find((post) => post.id === Number(postId))}
+                  profile={profile}
+                  username={profile.username}
+                />
+              )}
             </>
           )}
         </main>

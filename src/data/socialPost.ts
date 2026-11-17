@@ -19,6 +19,13 @@ export type SocialPost = {
   media: SocialPostMedia[]
 }
 
+export type SocialComment = {
+  id: number
+  text: string
+  postedAt: string
+  user: SocialUser
+}
+
 export type SocialHighlight = {
   id: number
   title: string

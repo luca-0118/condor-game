@@ -1,8 +1,10 @@
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
 import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import VerifiedIcon from '@mui/icons-material/Verified'
 import type { SocialProfile } from '../../../../data/socialPost'
+import { getSearchUrl } from '../../../../utils/search'
 import Avatar from '../Avatar'
 import ProfileStats from './ProfileStats'
 
@@ -44,9 +46,9 @@ function ProfileHeader({ profile, isOwnProfile = false }: ProfileHeaderProps) {
           {profile.category && <p className="profile-category">{profile.category}</p>}
           <p>{profile.bio}</p>
           {profile.website && (
-            <a href={`https://${profile.website}`} target="_blank" rel="noreferrer">
+            <Link to={getSearchUrl(profile.website)}>
               🔗 {profile.website}
-            </a>
+            </Link>
           )}
         </div>
 

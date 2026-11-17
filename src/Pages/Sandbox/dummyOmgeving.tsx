@@ -14,6 +14,7 @@ function DummyOmgeving() {
         <Route path="search" element={<GoogleResults />} />
         <Route path="instagram" element={<Instagram />} />
         <Route path="instagram/messages" element={<InstaDM />} />
+        <Route path="instagram/profile/:username/post/:postId" element={<InstagramProfile />} />
         <Route path="instagram/profile" element={<InstagramProfile />} />
         <Route path="instagram/profile/:username" element={<InstagramProfile />} />
         <Route path="facebook" element={<Facebook />} />

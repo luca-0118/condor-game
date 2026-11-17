@@ -3,6 +3,7 @@ import sqlWasmUrl from 'sql.js/dist/sql-wasm.wasm?url'
 import instagramSql from './Instagram.sql?raw'
 import type { SocialUser } from '../../../data/socialUser'
 import type {
+  SocialComment,
   SocialHighlight,
   SocialPost,
   SocialPostMedia,
@@ -292,4 +293,42 @@ export function loadInstagramPosts(userId: number): Promise<SocialPost[]> {
 
   postsPromises.set(userId, promise)
   return promise
+}
+
+export async function loadInstagramPostComments(postId: number): Promise<SocialComment[]> {
+  const database = await openDatabase()
+
+  try {
+    const statement = database.prepare(`
+      SELECT
+        c.id, c.text, c.posted_at,
+        u.id, u.username, u.full_name, u.bio, u.profile_pic_filename, u.is_verified, u.followers_count
+      FROM comments c
+      JOIN users u ON u.id = c.user_id
+      WHERE c.post_id = ?
+      ORDER BY c.posted_at, c.id
+    `)
+    statement.bind([postId])
+    const comments: SocialComment[] = []
+
+    while (statement.step()) {
+      const [id, text, postedAt, ...userRow] = statement.get()
+
+      if (typeof id !== 'number' || typeof text !== 'string' || typeof postedAt !== 'string') {
+        throw new Error('Instagram database contains an invalid comment record.')
+      }
+
+      comments.push({
+        id,
+        text,
+        postedAt,
+        user: mapUserRow(userRow, comments.length),
+      })
+    }
+
+    statement.free()
+    return comments
+  } finally {
+    database.close()
+  }
 }
