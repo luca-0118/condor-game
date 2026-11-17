@@ -3,7 +3,7 @@ import SearchBar from '../../../components/SearchBar'
 import type { SocialUser } from '../../../data/socialUser'
 import { loadInstagramUsers } from '../Databases/instagramDatabase'
 import FacebookProfiel from './facebook-profiel'
-import FacebookTemporaryProfile from './facebook-temporary-profile'
+import FacebookTemporaryProfile from './FacebookTemporaryProfile'
 import './Facebook.css'
 
 type Page = 'home' | 'profile' | 'search-profile'
