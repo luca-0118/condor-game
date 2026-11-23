@@ -36,8 +36,7 @@ INSERT INTO "users" (
 ) VALUES
 	(1, 'sofia.vale', 'Sofia Vale', 'Fotograaf 📸 | Reisliefhebber ✈️
 42 landen en tellen 🌍
-📍 Amsterdam
-Collabs: hello@sofiavale.com', 'sofiavale.com', NULL, NULL, 'sofia-vale.png', 0, 1, 0, 'Digitale creator', 'Amsterdam', NULL, 12840),
+📍 Amsterdam', 'monajewelry.com', NULL, NULL, 'sofia-vale.png', 0, 1, 0, 'Digitale creator', 'Amsterdam', NULL, 12840),
 	(2, 'sofianovak', 'Sofia Novak', 'Coffee first ☕', NULL, NULL, NULL, 'sofia-novak.png', 0, 0, 0, NULL, NULL, NULL, 863),
 	(3, 'liamj', 'Liam Jansen', 'Football & fitness', NULL, NULL, NULL, 'liam-jansen.png', 0, 0, 0, NULL, NULL, NULL, 2310),
 	(4, 'emma.devries', 'Emma de Vries', 'Art student 🎨', NULL, NULL, NULL, 'emma-de-vries.png', 0, 0, 0, NULL, NULL, NULL, 5421),
@@ -180,7 +179,8 @@ INSERT INTO "posts" ("id", "user_id", "caption", "location_name", "latitude", "l
 	(6, 1, 'Skógafoss met een regenboog 🌈 IJsland is onwerkelijk mooi. #iceland #waterfall #rainbow', 'Skógafoss, Iceland', 63.5321, -19.5114, 0, '2025-07-03 14:20:00'),
 	(7, 1, 'Kamelenkaravaan door de Sahara 🐪 Zonsondergang in de duinen. #sahara #morocco #desert', 'Merzouga, Morocco', 31.0801, -4.0134, 0, '2025-06-11 19:55:00'),
 	(8, 1, 'Thuisbasis blijft ook mooi 🧡 Gouden uur aan de grachten. #amsterdam #canals #goldenhour', 'Amsterdam, Netherlands', 52.3676, 4.9041, 0, '2025-05-20 20:31:00'),
-	(9, 1, 'Nieuwe camera, nieuwe avonturen 📸 Blij dat jullie meereizen! #photographer #selfportrait #travel', 'Amalfi Coast, Italy', 40.6281, 14.4850, 0, '2025-05-02 17:12:00')
+	(9, 1, 'Nieuwe camera, nieuwe avonturen 📸 Blij dat jullie meereizen! #photographer #selfportrait #travel', 'Amalfi Coast, Italy', 40.6281, 14.4850, 0, '2025-05-02 17:12:00'),
+	(10, 1, 'THE ONLY JEWELRY SHOP YOU WILL EVER NEED!!! Timeless elegance, unbeatable prices, and jewelry guaranteed to make you the most stylish person on earth!!! Shop now at monajewelry.com before everyone else finds it!!! 💎✨ #monajewelry #musthave', NULL, NULL, NULL, 0, '2026-11-17 03:55:00')
 ON CONFLICT("id") DO UPDATE SET
 	"user_id" = excluded."user_id",
 	"caption" = excluded."caption",
@@ -199,7 +199,8 @@ INSERT INTO "post_media" ("id", "post_id", "position", "media_type", "filename",
 	(6, 6, 1, 'image', 'posts/iceland-waterfall.png', 'Skógafoss waterval met een regenboog'),
 	(7, 7, 1, 'image', 'posts/morocco-desert.png', 'Kamelenkaravaan door de duinen van de Sahara'),
 	(8, 8, 1, 'image', 'posts/amsterdam-canals.png', 'Amsterdamse gracht tijdens het gouden uur'),
-	(9, 9, 1, 'image', 'posts/sofia-portrait.png', 'Portret van Sofia met haar camera bij zonsondergang')
+	(9, 9, 1, 'image', 'posts/sofia-portrait.png', 'Portret van Sofia met haar camera bij zonsondergang'),
+	(10, 10, 1, 'image', 'posts/monajewelry.png', 'Mona Jewelry ad promising timeless elegance, unbeatable prices, and secure checkout')
 ON CONFLICT("id") DO UPDATE SET
 	"post_id" = excluded."post_id",
 	"position" = excluded."position",
@@ -225,7 +226,8 @@ targets(post_id, like_count) AS (
 		(6, 2451),
 		(7, 1932),
 		(8, 987),
-		(9, 3120)
+		(9, 3120),
+		(10, 1884)
 )
 INSERT OR IGNORE INTO "likes" ("post_id", "user_id", "liked_at")
 SELECT t.post_id, 1000 + seq.n, datetime('now', '-' || ((t.post_id * 7 + seq.n) % 720) || ' hours')

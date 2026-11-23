@@ -6,4 +6,7 @@ export type SocialUser = {
   followers: number
   verified?: boolean
   avatar?: string
+  website?: string
+  category?: string
+  location?: string
 }
