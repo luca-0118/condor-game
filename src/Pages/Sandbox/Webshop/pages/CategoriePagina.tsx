@@ -6,7 +6,7 @@ import ProductRaster from '../components/ProductRaster'
 /* Eén pagina voor alle categorieën. Welke het is, bepaalt het pad. */
 function CategoriePagina({ pad }: { pad: string }) {
   const [params] = useSearchParams()
-  const zoek = (params.get('zoek') ?? '').toLowerCase()
+  const zoek = (params.get('search') ?? '').toLowerCase()
   const categorie = categorieen.find((c) => c.pad === pad) ?? categorieen[0]
   // Een product komt op de pagina als het in deze categorie valt (Alle sieraden heeft geen filter)
   // en, als er gezocht is, de zoekterm in de naam of categorie staat.
@@ -20,12 +20,12 @@ function CategoriePagina({ pad }: { pad: string }) {
       <section className="ws-banner">
         <div>
           <h1>{categorie.naam}</h1>
-          <p>{items.length} sieraden</p>
+          <p>{items.length} {items.length === 1 ? 'item' : 'items'}</p>
         </div>
         <img src={foto(categorie.banner)} alt="" />
       </section>
       <section className="ws-sectie">
-        {items.length > 0 ? <ProductRaster items={items} /> : <p>Geen producten gevonden voor "{zoek}".</p>}
+        {items.length > 0 ? <ProductRaster items={items} /> : <p>No products found for "{zoek}".</p>}
       </section>
     </>
   )

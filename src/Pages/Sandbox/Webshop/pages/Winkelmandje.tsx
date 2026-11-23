@@ -11,33 +11,33 @@ function Winkelmandje() {
 
   if (regels.length === 0) {
     return (
-      <Pagina kruimel="Winkelmandje">
-        <h1>Winkelmandje</h1>
-        <p>Je winkelmandje is leeg.</p>
-        <Link to="/sandbox/monajewelry/alle-sieraden" className="ws-knop">Verder winkelen</Link>
+      <Pagina kruimel="Cart">
+        <h1>Cart</h1>
+        <p>Your cart is empty.</p>
+        <Link to="/sandbox/monajewelry/all-jewelry" className="ws-knop">Continue shopping</Link>
       </Pagina>
     )
   }
 
   return (
-    <Pagina kruimel="Winkelmandje">
-      <h1>Winkelmandje</h1>
+    <Pagina kruimel="Cart">
+      <h1>Cart</h1>
       <ul className="ws-regels">
         {regels.map(({ item, aantal }) => (
           <li key={item.id}>
             <img src={foto(item.foto)} alt="" />
             <Link to={`/sandbox/monajewelry/product/${item.id}`}>{item.naam}</Link>
             <span className="ws-aantal">
-              <button type="button" onClick={() => zetAantal(item.id, aantal - 1)} aria-label={`Eén ${item.naam} minder`}>−</button>
+              <button type="button" onClick={() => zetAantal(item.id, aantal - 1)} aria-label={`Remove one ${item.naam}`}>−</button>
               {aantal}
-              <button type="button" onClick={() => zetAantal(item.id, aantal + 1)} aria-label={`Eén ${item.naam} meer`}>+</button>
+              <button type="button" onClick={() => zetAantal(item.id, aantal + 1)} aria-label={`Add one ${item.naam}`}>+</button>
             </span>
             <span>{euro(item.prijs * aantal)}</span>
           </li>
         ))}
       </ul>
-      <p className="ws-totaal">Totaal <strong>{euro(totaal)}</strong></p>
-      <Link to="/sandbox/monajewelry/afrekenen" className="ws-knop">Afrekenen</Link>
+      <p className="ws-totaal">Total <strong>{euro(totaal)}</strong></p>
+      <Link to="/sandbox/monajewelry/checkout" className="ws-knop">Checkout</Link>
     </Pagina>
   )
 }

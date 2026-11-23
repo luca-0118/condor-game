@@ -17,13 +17,13 @@ function ProductPagina() {
   const navigate = useNavigate()
   const item = zoekProduct(id ?? '')
 
-  if (!item) return <Pagina kruimel="Niet gevonden"><p>Dit product bestaat niet meer.</p></Pagina>
+  if (!item) return <Pagina kruimel="Not found"><p>This product no longer exists.</p></Pagina>
 
   // Zonder registratie kun je niets kopen: dan gaat eerst de popup open.
   const toevoegen = () => {
     if (!ontgrendeld) return zetPopup(true)
     zetAantal(item.id, (mandje[item.id] ?? 0) + 1)
-    navigate('/sandbox/monajewelry/winkelmandje')
+    navigate('/sandbox/monajewelry/cart')
   }
 
   return (
@@ -36,16 +36,16 @@ function ProductPagina() {
           <Score />
           <Prijs item={item} />
           <Aftelklok />
-          <p className="ws-voorraad">Let op: nog maar {VOORRAAD} op voorraad</p>
+          <p className="ws-voorraad">Hurry, only {VOORRAAD} left in stock!</p>
           <button type="button" className="ws-knop" onClick={toevoegen}>
-            {ontgrendeld ? 'In winkelmandje' : 'Ontgrendel de wholesaleprijs'}
+            {ontgrendeld ? 'Add to cart' : 'Unlock the wholesale price'}
           </button>
           <ul>{voordelen.slice(0, 3).map((v) => <li key={v}>{v}</li>)}</ul>
-          <p>Tijdloos sieraad van hoogwaardig materiaal, met zorg afgewerkt. Perfect als cadeau of om uzelf te verwennen.</p>
+          <p>Timeless jewelry made from high-quality materials, carefully finished. Perfect as a gift or to treat yourself.</p>
         </div>
       </div>
       <section className="ws-reviews">
-        <h2>Wat klanten zeggen</h2>
+        <h2>What customers say</h2>
         {reviews.map((r) => (
           <article key={r.naam}>
             <p><strong>{r.naam}</strong> <span>{r.datum}</span></p>
