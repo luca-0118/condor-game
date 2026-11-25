@@ -23,6 +23,7 @@ export type Sessie = {
   // Percentage van 0 tot 100
   voortgang: number
   hoofdstuk: number
+  zetHoofdstuk: (hoofdstuk: number) => void
   // Per vraag-id het goede antwoord dat het team invulde. Staat een vraag er niet in, dan is hij nog open.
   // We bewaren de tekst zelf, zodat het antwoord blijft staan als je terugkomt (en teamgenoten het later ook zien).
   goed: Record<string, string>

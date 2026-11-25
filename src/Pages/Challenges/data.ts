@@ -72,7 +72,45 @@ export const huidigeCase: Case = {
           antwoorden: ['sieraden', 'jewelry', 'jewellery'],
           punten: 10,
         },
-      ],
+      ]
+    },
+    {
+      nummer: 2,
+      vragen: [
+        {
+          id: 'instagram-account',
+          vraag: 'Van welk Instagram-account ontving Sofia het verdachte bestand?',
+          hint: 'Controleer het account waar het verdachte bestand vandaan kwam.',
+          antwoorden: ['NoobMasters69', 'NoobMasters 69', 'Noob Masters 69'],
+          punten: 10,
+        },
+        {
+          id: 'ontvangstdatum',
+          vraag: 'Op welke datum ontving Sofia het bestand?',
+          hint: 'Zoek de datum in het gesprek of het rapport.',
+          antwoorden: ['[nullen]'],
+          punten: 10,
+        },
+        {
+          id: 'verdachte-naam',
+          vraag: 'Hoe noemt de verdachte zichzelf in de gesprektekst?',
+          hint: 'Let op de naam die aan het einde van het gesprek wordt genoemd.',
+          antwoorden: ['Jamie Cole'],
+          punten: 10,
+        },
+        {
+          id: 'dreigende-uitspraak',
+          vraag: 'Welke bedreigende uitspraak doet Jamie wanneer iemand zijn identiteit zou trekken?',
+          hint: 'Zoek in het gesprek naar de uitdrukking met "Jamie".',
+          antwoorden: [
+            'I’m Jamie fucking Cole',
+            "I'm Jamie fucking Cole",
+            'Jamie fucking Cole',
+            'I am Jamie fucking Cole',
+          ],
+          punten: 10,
+        },
+      ]
     },
   ],
 }

@@ -1,6 +1,6 @@
 import { useCallback, useMemo, useState } from 'react'
 import type { ReactNode } from 'react'
-import { alleVragen, huidigeCase } from '../data'
+import { alleVragen } from '../data'
 import { SessieContext } from './sessieContext'
 import type { Sessie } from './sessieContext'
 
@@ -14,6 +14,7 @@ function SessieProvider({ children }: { children: ReactNode }) {
   const [startTijd, zetStartTijd] = useState<number | null>(null)
   const [timerDuur, zetTimerDuur] = useState(60*60)
   const [goed, zetGoed] = useState<Record<string, string>>({})
+  const [hoofdstuk, zetHoofdstuk] = useState(1)
 
   // Starten doet maar één keer: wie terugkomt op het startscherm reset de timer niet.
   const startSessie = useCallback(() => zetStartTijd((t) => t ?? Date.now()), [])
@@ -33,8 +34,6 @@ function SessieProvider({ children }: { children: ReactNode }) {
   const waarde = useMemo<Sessie>(() => {
     const aantalGoed = Object.keys(goed).length
     const score = alleVragen.filter((v) => v.id in goed).reduce((som, v) => som + v.punten, 0)
-    // Het hoofdstuk is het eerste hoofdstuk waarin nog een vraag openstaat
-    const open = huidigeCase.hoofdstukken.find((h) => h.vragen.some((v) => !(v.id in goed)))
     return {
       // Tijdelijke vaste waarden tot de backend sessies uitdeelt
       sessieId: 'lokaal',
@@ -45,12 +44,13 @@ function SessieProvider({ children }: { children: ReactNode }) {
       voegTimerTijdToe,
       score,
       voortgang: Math.round((aantalGoed / alleVragen.length) * 100),
-      hoofdstuk: open?.nummer ?? huidigeCase.hoofdstukken.length,
+      hoofdstuk,
+      zetHoofdstuk,
       goed,
       startSessie,
       vraagGoed,
     }
-  }, [startTijd, timerDuur, voegTimerTijdToe, goed, startSessie, vraagGoed])
+  }, [startTijd, timerDuur, voegTimerTijdToe, hoofdstuk, goed, startSessie, vraagGoed])
 
   return <SessieContext.Provider value={waarde}>{children}</SessieContext.Provider>
 }

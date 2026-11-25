@@ -10,10 +10,15 @@ import { useSessie } from '../sessie/sessieContext'
   Welke vragen er staan komt uit data.ts, dus voor een nieuw hoofdstuk hoef je hier niets te veranderen.
 */
 function Vragen() {
-  const { hoofdstuk, goed } = useSessie()
-  const vragen = huidigeCase.hoofdstukken.find((h) => h.nummer === hoofdstuk)?.vragen ?? []
+  const { hoofdstuk, zetHoofdstuk, goed } = useSessie()
+  const hoofdstukIndex = huidigeCase.hoofdstukken.findIndex((h) => h.nummer === hoofdstuk)
+  const vragen = huidigeCase.hoofdstukken[hoofdstukIndex]?.vragen ?? []
+  const startNummer = huidigeCase.hoofdstukken
+    .slice(0, hoofdstukIndex)
+    .reduce((totaal, h) => totaal + h.vragen.length, 0)
   const aantalGoed = vragen.filter((v) => v.id in goed).length
   const allesGoed = aantalGoed === vragen.length
+  const volgendHoofdstuk = huidigeCase.hoofdstukken[hoofdstukIndex + 1]
   const rapport = plaatje('politierapport.webp')
 
   return (
@@ -36,13 +41,19 @@ function Vragen() {
                 HOOFDSTUK {hoofdstuk} · {aantalGoed} VAN {vragen.length} OPGELOST
               </p>
               {vragen.map((v, i) => (
-                <VraagVeld key={v.id} vraag={v} nummer={i + 1} />
+                <VraagVeld key={v.id} vraag={v} nummer={startNummer + i + 1} />
               ))}
             </div>
             <div className="ch-onderbalk">
-              {allesGoed && <p className="ch-goed">Alle vragen goed. Het volgende hoofdstuk komt nog.</p>}
-              {/* Het volgende scherm bestaat nog niet, daarom staat NEXT voorlopig uit */}
-              <button type="button" className="ch-volgende" disabled title="Volgende hoofdstuk komt nog">
+              {allesGoed && volgendHoofdstuk && <p className="ch-goed">Alle vragen goed.</p>}
+              <button
+                type="button"
+                className="ch-volgende"
+                disabled={!allesGoed || !volgendHoofdstuk}
+                onClick={() => {
+                  if (volgendHoofdstuk) zetHoofdstuk(volgendHoofdstuk.nummer)
+                }}
+              >
                 NEXT
               </button>
             </div>
